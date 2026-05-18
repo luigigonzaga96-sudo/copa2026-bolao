@@ -186,6 +186,7 @@ select option{background:#111}
     <div><div class="ht">🏆 BOLÃO<br><span>COPA 2026</span></div><div class="hs">USA · Canada · México · 48 seleções · 104 jogos</div></div>
     <div class="hd"><div class="hdv">11 Jun</div><div class="hdl">Abertura</div><div style="margin-top:8px"><div class="hdv">19 Jul</div><div class="hdl">Final · NY/NJ</div></div></div>
   </div>
+  <div id="janela-banner" style="margin-bottom:16px"></div>
   <div class="sg">
     <div class="si"><div class="sin">3</div><div class="sid">pts · Resultado certo (V/E/D)</div></div>
     <div class="si"><div class="sin" style="color:var(--gold2)">5</div><div class="sid">pts · Placar exato 🎯 jackpot!</div></div>
@@ -257,6 +258,8 @@ select option{background:#111}
     <div class="fi"><div class="fq" onclick="TF(this)">Posso mudar meu palpite depois de salvar? <span class="fqi">+</span></div><div class="fa">Sim! Quantas vezes quiser, até 5 min antes do jogo. O <strong>último palpite salvo</strong> é o que vale.</div></div>
     <div class="fi"><div class="fq" onclick="TF(this)">Posso usar IA para escolher meu palpite? <span class="fqi">+</span></div><div class="fa">Pode! Mas IA não prevê o futuro — só analisa probabilidades históricas. Faz parte da estratégia 😄</div></div>
     <div class="fi"><div class="fq" onclick="TF(this)">Usei celular e PC — qual palpite vale? <span class="fqi">+</span></div><div class="fa">O <strong>último salvo</strong>, em qualquer dispositivo. Não é possível ter dois palpites diferentes por jogo.</div></div>
+    <div class="fi"><div class="fq" onclick="TF(this)">Qual o horário para palpitar? <span class="fqi">+</span></div><div class="fa">A janela de palpites é das <strong>05:00h às 12:30h</strong> todos os dias. Fora desse horário os palpites ficam bloqueados.<br><br>💡 <strong>Dica de ouro:</strong> antecipe já os palpites da <strong>próxima rodada inteira</strong> assim que a janela abrir — você pode alterar à vontade até às 12:30h. Assim nunca perde um jogo por falta de tempo!</div></div>
+    <div class="fi"><div class="fq" onclick="TF(this)">Posso alterar meu palpite depois de salvar? <span class="fqi">+</span></div><div class="fa">Sim! Quantas vezes quiser, <strong>desde que a janela esteja aberta</strong> (05:00h–12:30h). O último palpite salvo dentro da janela é o que vale.</div></div>
   </div>
   <div id="fr" class="fs">
     <div class="fi"><div class="fq" onclick="TF(this)">Como funciona a pontuação? <span class="fqi">+</span></div><div class="fa"><strong>5 pontos</strong> — Placar exato 🎯<br><br><strong>3 pontos</strong> — Resultado certo (V/E/D) mas errou o placar<br><br><strong>0 pontos</strong> — Errou</div></div>
@@ -367,81 +370,81 @@ const GRP={
 };
 
 const MX=[
-  {id:1,g:"A",rod:"R1",h:"México 🇲🇽",a:"África Sul 🇿🇦",ko:"2026-06-11T18:00:00Z"},
-  {id:2,g:"A",rod:"R1",h:"Coreia Sul 🇰🇷",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
-  {id:3,g:"A",rod:"R2",h:"México 🇲🇽",a:"Coreia Sul 🇰🇷",ko:"2026-06-11T18:00:00Z"},
-  {id:4,g:"A",rod:"R2",h:"África Sul 🇿🇦",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
-  {id:5,g:"A",rod:"R3",h:"México 🇲🇽",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
-  {id:6,g:"A",rod:"R3",h:"África Sul 🇿🇦",a:"Coreia Sul 🇰🇷",ko:"2026-06-12T18:00:00Z"},
-  {id:7,g:"B",rod:"R1",h:"Canadá 🇨🇦",a:"Bósnia 🇧🇦",ko:"2026-06-12T18:00:00Z"},
-  {id:8,g:"B",rod:"R1",h:"Catar 🇶🇦",a:"Suíça 🇨🇭",ko:"2026-06-12T18:00:00Z"},
-  {id:9,g:"B",rod:"R2",h:"Canadá 🇨🇦",a:"Catar 🇶🇦",ko:"2026-06-12T18:00:00Z"},
-  {id:10,g:"B",rod:"R2",h:"Bósnia 🇧🇦",a:"Suíça 🇨🇭",ko:"2026-06-12T18:00:00Z"},
-  {id:11,g:"B",rod:"R3",h:"Canadá 🇨🇦",a:"Suíça 🇨🇭",ko:"2026-06-12T18:00:00Z"},
-  {id:12,g:"B",rod:"R3",h:"Bósnia 🇧🇦",a:"Catar 🇶🇦",ko:"2026-06-13T18:00:00Z"},
-  {id:13,g:"C",rod:"R1",h:"Brasil 🇧🇷",a:"Marrocos 🇲🇦",ko:"2026-06-13T18:00:00Z"},
-  {id:14,g:"C",rod:"R1",h:"Haiti 🇭🇹",a:"Escócia 🏴󠁧󠁢󠁳󠁣󠁴󠁿",ko:"2026-06-13T18:00:00Z"},
-  {id:15,g:"C",rod:"R2",h:"Brasil 🇧🇷",a:"Haiti 🇭🇹",ko:"2026-06-13T18:00:00Z"},
-  {id:16,g:"C",rod:"R2",h:"Marrocos 🇲🇦",a:"Escócia 🏴󠁧󠁢󠁳󠁣󠁴󠁿",ko:"2026-06-13T18:00:00Z"},
-  {id:17,g:"C",rod:"R3",h:"Brasil 🇧🇷",a:"Escócia 🏴󠁧󠁢󠁳󠁣󠁴󠁿",ko:"2026-06-13T18:00:00Z"},
-  {id:18,g:"C",rod:"R3",h:"Marrocos 🇲🇦",a:"Haiti 🇭🇹",ko:"2026-06-14T18:00:00Z"},
-  {id:19,g:"D",rod:"R1",h:"EUA 🇺🇸",a:"Paraguai 🇵🇾",ko:"2026-06-14T18:00:00Z"},
-  {id:20,g:"D",rod:"R1",h:"Austrália 🇦🇺",a:"Turquia 🇹🇷",ko:"2026-06-14T18:00:00Z"},
-  {id:21,g:"D",rod:"R2",h:"EUA 🇺🇸",a:"Austrália 🇦🇺",ko:"2026-06-14T18:00:00Z"},
-  {id:22,g:"D",rod:"R2",h:"Paraguai 🇵🇾",a:"Turquia 🇹🇷",ko:"2026-06-14T18:00:00Z"},
-  {id:23,g:"D",rod:"R3",h:"EUA 🇺🇸",a:"Turquia 🇹🇷",ko:"2026-06-14T18:00:00Z"},
-  {id:24,g:"D",rod:"R3",h:"Paraguai 🇵🇾",a:"Austrália 🇦🇺",ko:"2026-06-15T18:00:00Z"},
-  {id:25,g:"E",rod:"R1",h:"Alemanha 🇩🇪",a:"Curaçao 🇨🇼",ko:"2026-06-15T18:00:00Z"},
-  {id:26,g:"E",rod:"R1",h:"C. Marfim 🇨🇮",a:"Equador 🇪🇨",ko:"2026-06-15T18:00:00Z"},
-  {id:27,g:"E",rod:"R2",h:"Alemanha 🇩🇪",a:"C. Marfim 🇨🇮",ko:"2026-06-15T18:00:00Z"},
-  {id:28,g:"E",rod:"R2",h:"Curaçao 🇨🇼",a:"Equador 🇪🇨",ko:"2026-06-15T18:00:00Z"},
-  {id:29,g:"E",rod:"R3",h:"Alemanha 🇩🇪",a:"Equador 🇪🇨",ko:"2026-06-15T18:00:00Z"},
-  {id:30,g:"E",rod:"R3",h:"Curaçao 🇨🇼",a:"C. Marfim 🇨🇮",ko:"2026-06-16T18:00:00Z"},
-  {id:31,g:"F",rod:"R1",h:"Holanda 🇳🇱",a:"Japão 🇯🇵",ko:"2026-06-16T18:00:00Z"},
-  {id:32,g:"F",rod:"R1",h:"Suécia 🇸🇪",a:"Tunísia 🇹🇳",ko:"2026-06-16T18:00:00Z"},
-  {id:33,g:"F",rod:"R2",h:"Holanda 🇳🇱",a:"Suécia 🇸🇪",ko:"2026-06-16T18:00:00Z"},
-  {id:34,g:"F",rod:"R2",h:"Japão 🇯🇵",a:"Tunísia 🇹🇳",ko:"2026-06-16T18:00:00Z"},
-  {id:35,g:"F",rod:"R3",h:"Holanda 🇳🇱",a:"Tunísia 🇹🇳",ko:"2026-06-16T18:00:00Z"},
-  {id:36,g:"F",rod:"R3",h:"Japão 🇯🇵",a:"Suécia 🇸🇪",ko:"2026-06-17T18:00:00Z"},
-  {id:37,g:"G",rod:"R1",h:"Bélgica 🇧🇪",a:"Egito 🇪🇬",ko:"2026-06-17T18:00:00Z"},
-  {id:38,g:"G",rod:"R1",h:"Irã 🇮🇷",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
-  {id:39,g:"G",rod:"R2",h:"Bélgica 🇧🇪",a:"Irã 🇮🇷",ko:"2026-06-17T18:00:00Z"},
-  {id:40,g:"G",rod:"R2",h:"Egito 🇪🇬",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
-  {id:41,g:"G",rod:"R3",h:"Bélgica 🇧🇪",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
-  {id:42,g:"G",rod:"R3",h:"Egito 🇪🇬",a:"Irã 🇮🇷",ko:"2026-06-18T18:00:00Z"},
-  {id:43,g:"H",rod:"R1",h:"Espanha 🇪🇸",a:"Cabo Verde 🇨🇻",ko:"2026-06-18T18:00:00Z"},
-  {id:44,g:"H",rod:"R1",h:"Ar. Saudita 🇸🇦",a:"Uruguai 🇺🇾",ko:"2026-06-18T18:00:00Z"},
-  {id:45,g:"H",rod:"R2",h:"Espanha 🇪🇸",a:"Ar. Saudita 🇸🇦",ko:"2026-06-18T18:00:00Z"},
-  {id:46,g:"H",rod:"R2",h:"Cabo Verde 🇨🇻",a:"Uruguai 🇺🇾",ko:"2026-06-18T18:00:00Z"},
-  {id:47,g:"H",rod:"R3",h:"Espanha 🇪🇸",a:"Uruguai 🇺🇾",ko:"2026-06-18T18:00:00Z"},
-  {id:48,g:"H",rod:"R3",h:"Cabo Verde 🇨🇻",a:"Ar. Saudita 🇸🇦",ko:"2026-06-19T18:00:00Z"},
-  {id:49,g:"I",rod:"R1",h:"França 🇫🇷",a:"Senegal 🇸🇳",ko:"2026-06-19T18:00:00Z"},
-  {id:50,g:"I",rod:"R1",h:"Iraque 🇮🇶",a:"Noruega 🇳🇴",ko:"2026-06-19T18:00:00Z"},
-  {id:51,g:"I",rod:"R2",h:"França 🇫🇷",a:"Iraque 🇮🇶",ko:"2026-06-19T18:00:00Z"},
-  {id:52,g:"I",rod:"R2",h:"Senegal 🇸🇳",a:"Noruega 🇳🇴",ko:"2026-06-19T18:00:00Z"},
-  {id:53,g:"I",rod:"R3",h:"França 🇫🇷",a:"Noruega 🇳🇴",ko:"2026-06-19T18:00:00Z"},
-  {id:54,g:"I",rod:"R3",h:"Senegal 🇸🇳",a:"Iraque 🇮🇶",ko:"2026-06-20T18:00:00Z"},
-  {id:55,g:"J",rod:"R1",h:"Argentina 🇦🇷",a:"Argélia 🇩🇿",ko:"2026-06-20T18:00:00Z"},
-  {id:56,g:"J",rod:"R1",h:"Áustria 🇦🇹",a:"Jordânia 🇯🇴",ko:"2026-06-20T18:00:00Z"},
-  {id:57,g:"J",rod:"R2",h:"Argentina 🇦🇷",a:"Áustria 🇦🇹",ko:"2026-06-20T18:00:00Z"},
-  {id:58,g:"J",rod:"R2",h:"Argélia 🇩🇿",a:"Jordânia 🇯🇴",ko:"2026-06-20T18:00:00Z"},
-  {id:59,g:"J",rod:"R3",h:"Argentina 🇦🇷",a:"Jordânia 🇯🇴",ko:"2026-06-20T18:00:00Z"},
-  {id:60,g:"J",rod:"R3",h:"Argélia 🇩🇿",a:"Áustria 🇦🇹",ko:"2026-06-21T18:00:00Z"},
-  {id:61,g:"K",rod:"R1",h:"Portugal 🇵🇹",a:"R.D. Congo 🇨🇩",ko:"2026-06-21T18:00:00Z"},
-  {id:62,g:"K",rod:"R1",h:"Uzbequistão 🇺🇿",a:"Colômbia 🇨🇴",ko:"2026-06-21T18:00:00Z"},
-  {id:63,g:"K",rod:"R2",h:"Portugal 🇵🇹",a:"Uzbequistão 🇺🇿",ko:"2026-06-21T18:00:00Z"},
-  {id:64,g:"K",rod:"R2",h:"R.D. Congo 🇨🇩",a:"Colômbia 🇨🇴",ko:"2026-06-21T18:00:00Z"},
-  {id:65,g:"K",rod:"R3",h:"Portugal 🇵🇹",a:"Colômbia 🇨🇴",ko:"2026-06-21T18:00:00Z"},
-  {id:66,g:"K",rod:"R3",h:"R.D. Congo 🇨🇩",a:"Uzbequistão 🇺🇿",ko:"2026-06-22T18:00:00Z"},
-  {id:67,g:"L",rod:"R1",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Croácia 🇭🇷",ko:"2026-06-22T18:00:00Z"},
-  {id:68,g:"L",rod:"R1",h:"Gana 🇬🇭",a:"Panamá 🇵🇦",ko:"2026-06-22T18:00:00Z"},
-  {id:69,g:"L",rod:"R2",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Gana 🇬🇭",ko:"2026-06-22T18:00:00Z"},
-  {id:70,g:"L",rod:"R2",h:"Croácia 🇭🇷",a:"Panamá 🇵🇦",ko:"2026-06-22T18:00:00Z"},
-  {id:71,g:"L",rod:"R3",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Panamá 🇵🇦",ko:"2026-06-22T18:00:00Z"},
-  {id:72,g:"L",rod:"R3",h:"Croácia 🇭🇷",a:"Gana 🇬🇭",ko:"2026-06-23T18:00:00Z"},
+  {id:1,g:"A",rod:"R1",h:"México 🇲🇽",a:"África Sul 🇿🇦",ko:"2026-06-11T15:35:00Z"},
+  {id:2,g:"A",rod:"R1",h:"Coreia Sul 🇰🇷",a:"Tchéquia 🇨🇿",ko:"2026-06-11T15:35:00Z"},
+  {id:3,g:"A",rod:"R2",h:"México 🇲🇽",a:"Coreia Sul 🇰🇷",ko:"2026-06-11T15:35:00Z"},
+  {id:4,g:"A",rod:"R2",h:"África Sul 🇿🇦",a:"Tchéquia 🇨🇿",ko:"2026-06-11T15:35:00Z"},
+  {id:5,g:"A",rod:"R3",h:"México 🇲🇽",a:"Tchéquia 🇨🇿",ko:"2026-06-11T15:35:00Z"},
+  {id:6,g:"A",rod:"R3",h:"África Sul 🇿🇦",a:"Coreia Sul 🇰🇷",ko:"2026-06-12T15:35:00Z"},
+  {id:7,g:"B",rod:"R1",h:"Canadá 🇨🇦",a:"Bósnia 🇧🇦",ko:"2026-06-12T15:35:00Z"},
+  {id:8,g:"B",rod:"R1",h:"Catar 🇶🇦",a:"Suíça 🇨🇭",ko:"2026-06-12T15:35:00Z"},
+  {id:9,g:"B",rod:"R2",h:"Canadá 🇨🇦",a:"Catar 🇶🇦",ko:"2026-06-12T15:35:00Z"},
+  {id:10,g:"B",rod:"R2",h:"Bósnia 🇧🇦",a:"Suíça 🇨🇭",ko:"2026-06-12T15:35:00Z"},
+  {id:11,g:"B",rod:"R3",h:"Canadá 🇨🇦",a:"Suíça 🇨🇭",ko:"2026-06-12T15:35:00Z"},
+  {id:12,g:"B",rod:"R3",h:"Bósnia 🇧🇦",a:"Catar 🇶🇦",ko:"2026-06-13T15:35:00Z"},
+  {id:13,g:"C",rod:"R1",h:"Brasil 🇧🇷",a:"Marrocos 🇲🇦",ko:"2026-06-13T15:35:00Z"},
+  {id:14,g:"C",rod:"R1",h:"Haiti 🇭🇹",a:"Escócia 🏴󠁧󠁢󠁳󠁣󠁴󠁿",ko:"2026-06-13T15:35:00Z"},
+  {id:15,g:"C",rod:"R2",h:"Brasil 🇧🇷",a:"Haiti 🇭🇹",ko:"2026-06-13T15:35:00Z"},
+  {id:16,g:"C",rod:"R2",h:"Marrocos 🇲🇦",a:"Escócia 🏴󠁧󠁢󠁳󠁣󠁴󠁿",ko:"2026-06-13T15:35:00Z"},
+  {id:17,g:"C",rod:"R3",h:"Brasil 🇧🇷",a:"Escócia 🏴󠁧󠁢󠁳󠁣󠁴󠁿",ko:"2026-06-13T15:35:00Z"},
+  {id:18,g:"C",rod:"R3",h:"Marrocos 🇲🇦",a:"Haiti 🇭🇹",ko:"2026-06-14T15:35:00Z"},
+  {id:19,g:"D",rod:"R1",h:"EUA 🇺🇸",a:"Paraguai 🇵🇾",ko:"2026-06-14T15:35:00Z"},
+  {id:20,g:"D",rod:"R1",h:"Austrália 🇦🇺",a:"Turquia 🇹🇷",ko:"2026-06-14T15:35:00Z"},
+  {id:21,g:"D",rod:"R2",h:"EUA 🇺🇸",a:"Austrália 🇦🇺",ko:"2026-06-14T15:35:00Z"},
+  {id:22,g:"D",rod:"R2",h:"Paraguai 🇵🇾",a:"Turquia 🇹🇷",ko:"2026-06-14T15:35:00Z"},
+  {id:23,g:"D",rod:"R3",h:"EUA 🇺🇸",a:"Turquia 🇹🇷",ko:"2026-06-14T15:35:00Z"},
+  {id:24,g:"D",rod:"R3",h:"Paraguai 🇵🇾",a:"Austrália 🇦🇺",ko:"2026-06-15T15:35:00Z"},
+  {id:25,g:"E",rod:"R1",h:"Alemanha 🇩🇪",a:"Curaçao 🇨🇼",ko:"2026-06-15T15:35:00Z"},
+  {id:26,g:"E",rod:"R1",h:"C. Marfim 🇨🇮",a:"Equador 🇪🇨",ko:"2026-06-15T15:35:00Z"},
+  {id:27,g:"E",rod:"R2",h:"Alemanha 🇩🇪",a:"C. Marfim 🇨🇮",ko:"2026-06-15T15:35:00Z"},
+  {id:28,g:"E",rod:"R2",h:"Curaçao 🇨🇼",a:"Equador 🇪🇨",ko:"2026-06-15T15:35:00Z"},
+  {id:29,g:"E",rod:"R3",h:"Alemanha 🇩🇪",a:"Equador 🇪🇨",ko:"2026-06-15T15:35:00Z"},
+  {id:30,g:"E",rod:"R3",h:"Curaçao 🇨🇼",a:"C. Marfim 🇨🇮",ko:"2026-06-16T15:35:00Z"},
+  {id:31,g:"F",rod:"R1",h:"Holanda 🇳🇱",a:"Japão 🇯🇵",ko:"2026-06-16T15:35:00Z"},
+  {id:32,g:"F",rod:"R1",h:"Suécia 🇸🇪",a:"Tunísia 🇹🇳",ko:"2026-06-16T15:35:00Z"},
+  {id:33,g:"F",rod:"R2",h:"Holanda 🇳🇱",a:"Suécia 🇸🇪",ko:"2026-06-16T15:35:00Z"},
+  {id:34,g:"F",rod:"R2",h:"Japão 🇯🇵",a:"Tunísia 🇹🇳",ko:"2026-06-16T15:35:00Z"},
+  {id:35,g:"F",rod:"R3",h:"Holanda 🇳🇱",a:"Tunísia 🇹🇳",ko:"2026-06-16T15:35:00Z"},
+  {id:36,g:"F",rod:"R3",h:"Japão 🇯🇵",a:"Suécia 🇸🇪",ko:"2026-06-17T15:35:00Z"},
+  {id:37,g:"G",rod:"R1",h:"Bélgica 🇧🇪",a:"Egito 🇪🇬",ko:"2026-06-17T15:35:00Z"},
+  {id:38,g:"G",rod:"R1",h:"Irã 🇮🇷",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T15:35:00Z"},
+  {id:39,g:"G",rod:"R2",h:"Bélgica 🇧🇪",a:"Irã 🇮🇷",ko:"2026-06-17T15:35:00Z"},
+  {id:40,g:"G",rod:"R2",h:"Egito 🇪🇬",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T15:35:00Z"},
+  {id:41,g:"G",rod:"R3",h:"Bélgica 🇧🇪",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T15:35:00Z"},
+  {id:42,g:"G",rod:"R3",h:"Egito 🇪🇬",a:"Irã 🇮🇷",ko:"2026-06-18T15:35:00Z"},
+  {id:43,g:"H",rod:"R1",h:"Espanha 🇪🇸",a:"Cabo Verde 🇨🇻",ko:"2026-06-18T15:35:00Z"},
+  {id:44,g:"H",rod:"R1",h:"Ar. Saudita 🇸🇦",a:"Uruguai 🇺🇾",ko:"2026-06-18T15:35:00Z"},
+  {id:45,g:"H",rod:"R2",h:"Espanha 🇪🇸",a:"Ar. Saudita 🇸🇦",ko:"2026-06-18T15:35:00Z"},
+  {id:46,g:"H",rod:"R2",h:"Cabo Verde 🇨🇻",a:"Uruguai 🇺🇾",ko:"2026-06-18T15:35:00Z"},
+  {id:47,g:"H",rod:"R3",h:"Espanha 🇪🇸",a:"Uruguai 🇺🇾",ko:"2026-06-18T15:35:00Z"},
+  {id:48,g:"H",rod:"R3",h:"Cabo Verde 🇨🇻",a:"Ar. Saudita 🇸🇦",ko:"2026-06-19T15:35:00Z"},
+  {id:49,g:"I",rod:"R1",h:"França 🇫🇷",a:"Senegal 🇸🇳",ko:"2026-06-19T15:35:00Z"},
+  {id:50,g:"I",rod:"R1",h:"Iraque 🇮🇶",a:"Noruega 🇳🇴",ko:"2026-06-19T15:35:00Z"},
+  {id:51,g:"I",rod:"R2",h:"França 🇫🇷",a:"Iraque 🇮🇶",ko:"2026-06-19T15:35:00Z"},
+  {id:52,g:"I",rod:"R2",h:"Senegal 🇸🇳",a:"Noruega 🇳🇴",ko:"2026-06-19T15:35:00Z"},
+  {id:53,g:"I",rod:"R3",h:"França 🇫🇷",a:"Noruega 🇳🇴",ko:"2026-06-19T15:35:00Z"},
+  {id:54,g:"I",rod:"R3",h:"Senegal 🇸🇳",a:"Iraque 🇮🇶",ko:"2026-06-20T15:35:00Z"},
+  {id:55,g:"J",rod:"R1",h:"Argentina 🇦🇷",a:"Argélia 🇩🇿",ko:"2026-06-20T15:35:00Z"},
+  {id:56,g:"J",rod:"R1",h:"Áustria 🇦🇹",a:"Jordânia 🇯🇴",ko:"2026-06-20T15:35:00Z"},
+  {id:57,g:"J",rod:"R2",h:"Argentina 🇦🇷",a:"Áustria 🇦🇹",ko:"2026-06-20T15:35:00Z"},
+  {id:58,g:"J",rod:"R2",h:"Argélia 🇩🇿",a:"Jordânia 🇯🇴",ko:"2026-06-20T15:35:00Z"},
+  {id:59,g:"J",rod:"R3",h:"Argentina 🇦🇷",a:"Jordânia 🇯🇴",ko:"2026-06-20T15:35:00Z"},
+  {id:60,g:"J",rod:"R3",h:"Argélia 🇩🇿",a:"Áustria 🇦🇹",ko:"2026-06-21T15:35:00Z"},
+  {id:61,g:"K",rod:"R1",h:"Portugal 🇵🇹",a:"R.D. Congo 🇨🇩",ko:"2026-06-21T15:35:00Z"},
+  {id:62,g:"K",rod:"R1",h:"Uzbequistão 🇺🇿",a:"Colômbia 🇨🇴",ko:"2026-06-21T15:35:00Z"},
+  {id:63,g:"K",rod:"R2",h:"Portugal 🇵🇹",a:"Uzbequistão 🇺🇿",ko:"2026-06-21T15:35:00Z"},
+  {id:64,g:"K",rod:"R2",h:"R.D. Congo 🇨🇩",a:"Colômbia 🇨🇴",ko:"2026-06-21T15:35:00Z"},
+  {id:65,g:"K",rod:"R3",h:"Portugal 🇵🇹",a:"Colômbia 🇨🇴",ko:"2026-06-21T15:35:00Z"},
+  {id:66,g:"K",rod:"R3",h:"R.D. Congo 🇨🇩",a:"Uzbequistão 🇺🇿",ko:"2026-06-22T15:35:00Z"},
+  {id:67,g:"L",rod:"R1",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Croácia 🇭🇷",ko:"2026-06-22T15:35:00Z"},
+  {id:68,g:"L",rod:"R1",h:"Gana 🇬🇭",a:"Panamá 🇵🇦",ko:"2026-06-22T15:35:00Z"},
+  {id:69,g:"L",rod:"R2",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Gana 🇬🇭",ko:"2026-06-22T15:35:00Z"},
+  {id:70,g:"L",rod:"R2",h:"Croácia 🇭🇷",a:"Panamá 🇵🇦",ko:"2026-06-22T15:35:00Z"},
+  {id:71,g:"L",rod:"R3",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Panamá 🇵🇦",ko:"2026-06-22T15:35:00Z"},
+  {id:72,g:"L",rod:"R3",h:"Croácia 🇭🇷",a:"Gana 🇬🇭",ko:"2026-06-23T15:35:00Z"},
   // RODADAS TESTE
-  {id:101,g:"T",rod:"T1",h:"Brasil 🇧🇷",a:"Panamá 🇵🇦",ko:"2026-05-27T21:00:00Z",test:true,round:"Teste 1"},
-  {id:102,g:"T",rod:"T2",h:"Brasil 🇧🇷",a:"Egito 🇪🇬",ko:"2026-05-31T21:00:00Z",test:true,round:"Teste 2"},
+  {id:101,g:"T",rod:"T1",h:"Brasil 🇧🇷",a:"Panamá 🇵🇦",ko:"2026-05-31T21:30:00Z",test:true,round:"Teste 1"},
+  {id:102,g:"T",rod:"T2",h:"Brasil 🇧🇷",a:"Egito 🇪🇬",ko:"2026-06-06T22:00:00Z",test:true,round:"Teste 2"},
 ];
 
 // STATE
@@ -1037,6 +1040,24 @@ window.saveMM=async()=>{
   SM("✅ Mata-mata salvo!",null);
 };
 
+
+// JANELA DE PALPITES
+function renderJanela(){
+  const el=document.getElementById("janela-banner");if(!el)return;
+  const now=new Date();
+  const utcH=now.getUTCHours(),utcM=now.getUTCMinutes();
+  const minUTC=utcH*60+utcM;
+  const abre=8*60,fecha=15*60+30; // 08:00-15:30 UTC = 05:00-12:30 BRT
+  const aberta=minUTC>=abre&&minUTC<fecha;
+  const hAbre="05:00",hFecha="12:30";
+  if(aberta){
+    el.innerHTML='<div class="alert ao" style="display:flex;align-items:center;gap:10px;margin-bottom:0"><span style="font-size:1.1rem">🟢</span><div><strong>Janela de palpites ABERTA</strong> — até as 12:30h você pode palpitar e alterar livremente.<br><span style="font-size:.75rem;opacity:.8">💡 Dica: antecipe já os palpites da próxima rodada!</span></div></div>';
+  }else{
+    const proximaAbertura=minUTC>=fecha?"amanhã às 05:00h":"hoje às 05:00h";
+    el.innerHTML='<div class="alert ae" style="display:flex;align-items:center;gap:10px;margin-bottom:0"><span style="font-size:1.1rem">🔴</span><div><strong>Janela de palpites FECHADA</strong> — abre '+proximaAbertura+'.<br><span style="font-size:.75rem;opacity:.8">Palpites são aceitos das 05:00h às 12:30h todos os dias.</span></div></div>';
+  }
+}
+
 // NAV
 window.GT=function(name){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
@@ -1065,6 +1086,8 @@ window.TF=function(el){
 
 // INIT
 renderMatches();
+renderJanela();
+setInterval(renderJanela,60000);
 if(getTE())GT("conta");
 </script>
 </body>
