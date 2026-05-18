@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WE ARE ANYTOOLS — Bolão Copa 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -91,10 +90,12 @@ main{max-width:1100px;margin:0 auto;padding:22px 20px;position:relative;z-index:
 .pb-w{background:#0d2818;color:#4ade80}
 .pb-l{background:#1c0808;color:#fca5a5}
 .pb-p{background:#12141a;color:#93c5fd}
-.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:10px}
-.gt{width:100%;border-collapse:collapse;font-size:.78rem}
-.gt th{text-align:left;padding:4px 7px;color:var(--muted);font-size:.62rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)}
-.gt td{padding:6px 7px;border-bottom:1px solid rgba(36,36,36,.6)}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.gt{width:100%;border-collapse:collapse;font-size:.72rem;table-layout:fixed}
+.gt th{text-align:center;padding:3px 2px;color:var(--muted);font-size:.55rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+.gt th:first-child{text-align:left;width:38%}
+.gt td{padding:4px 2px;border-bottom:1px solid rgba(36,36,36,.6);text-align:center}
+.gt td:first-child{text-align:left}
 .gt tr:last-child td{border-bottom:none}
 .gl{font-family:'Unbounded',sans-serif;font-size:.85rem;font-weight:900;color:var(--gold);margin-bottom:9px;letter-spacing:1px}
 .pr-row{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:.78rem;color:var(--muted);flex-wrap:wrap}
@@ -225,8 +226,6 @@ select option{background:#111}
   <div id="t-matamata" class="ts"></div>
 </div>
 
-<!-- PALPITES
-
 <!-- PALPITES -->
 <div id="tab-palpites" class="tab">
   <div class="st">Meus Palpites</div>
@@ -353,27 +352,27 @@ const UNITS={
 };
 
 const GRP={
-  A:["México 🇲🇽","África do Sul 🇿🇦","Coreia do Sul 🇰🇷","Tchéquia 🇨🇿"],
+  A:["México 🇲🇽","África Sul 🇿🇦","Coreia Sul 🇰🇷","Tchéquia 🇨🇿"],
   B:["Canadá 🇨🇦","Bósnia 🇧🇦","Catar 🇶🇦","Suíça 🇨🇭"],
   C:["Brasil 🇧🇷","Marrocos 🇲🇦","Haiti 🇭🇹","Escócia 🏴󠁧󠁢󠁳󠁣󠁴󠁿"],
   D:["EUA 🇺🇸","Paraguai 🇵🇾","Austrália 🇦🇺","Turquia 🇹🇷"],
-  E:["Alemanha 🇩🇪","Curaçao 🇨🇼","Costa do Marfim 🇨🇮","Equador 🇪🇨"],
+  E:["Alemanha 🇩🇪","Curaçao 🇨🇼","C. Marfim 🇨🇮","Equador 🇪🇨"],
   F:["Holanda 🇳🇱","Japão 🇯🇵","Suécia 🇸🇪","Tunísia 🇹🇳"],
-  G:["Bélgica 🇧🇪","Egito 🇪🇬","Irã 🇮🇷","Nova Zelândia 🇳🇿"],
-  H:["Espanha 🇪🇸","Cabo Verde 🇨🇻","Arábia Saudita 🇸🇦","Uruguai 🇺🇾"],
+  G:["Bélgica 🇧🇪","Egito 🇪🇬","Irã 🇮🇷","N. Zelândia 🇳🇿"],
+  H:["Espanha 🇪🇸","Cabo Verde 🇨🇻","Ar. Saudita 🇸🇦","Uruguai 🇺🇾"],
   I:["França 🇫🇷","Senegal 🇸🇳","Iraque 🇮🇶","Noruega 🇳🇴"],
   J:["Argentina 🇦🇷","Argélia 🇩🇿","Áustria 🇦🇹","Jordânia 🇯🇴"],
-  K:["Portugal 🇵🇹","Rep. Dem. Congo 🇨🇩","Uzbequistão 🇺🇿","Colômbia 🇨🇴"],
+  K:["Portugal 🇵🇹","R.D. Congo 🇨🇩","Uzbequistão 🇺🇿","Colômbia 🇨🇴"],
   L:["Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿","Croácia 🇭🇷","Gana 🇬🇭","Panamá 🇵🇦"],
 };
 
 const MX=[
-  {id:1,g:"A",rod:"R1",h:"México 🇲🇽",a:"África do Sul 🇿🇦",ko:"2026-06-11T18:00:00Z"},
-  {id:2,g:"A",rod:"R1",h:"Coreia do Sul 🇰🇷",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
-  {id:3,g:"A",rod:"R2",h:"México 🇲🇽",a:"Coreia do Sul 🇰🇷",ko:"2026-06-11T18:00:00Z"},
-  {id:4,g:"A",rod:"R2",h:"África do Sul 🇿🇦",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
+  {id:1,g:"A",rod:"R1",h:"México 🇲🇽",a:"África Sul 🇿🇦",ko:"2026-06-11T18:00:00Z"},
+  {id:2,g:"A",rod:"R1",h:"Coreia Sul 🇰🇷",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
+  {id:3,g:"A",rod:"R2",h:"México 🇲🇽",a:"Coreia Sul 🇰🇷",ko:"2026-06-11T18:00:00Z"},
+  {id:4,g:"A",rod:"R2",h:"África Sul 🇿🇦",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
   {id:5,g:"A",rod:"R3",h:"México 🇲🇽",a:"Tchéquia 🇨🇿",ko:"2026-06-11T18:00:00Z"},
-  {id:6,g:"A",rod:"R3",h:"África do Sul 🇿🇦",a:"Coreia do Sul 🇰🇷",ko:"2026-06-12T18:00:00Z"},
+  {id:6,g:"A",rod:"R3",h:"África Sul 🇿🇦",a:"Coreia Sul 🇰🇷",ko:"2026-06-12T18:00:00Z"},
   {id:7,g:"B",rod:"R1",h:"Canadá 🇨🇦",a:"Bósnia 🇧🇦",ko:"2026-06-12T18:00:00Z"},
   {id:8,g:"B",rod:"R1",h:"Catar 🇶🇦",a:"Suíça 🇨🇭",ko:"2026-06-12T18:00:00Z"},
   {id:9,g:"B",rod:"R2",h:"Canadá 🇨🇦",a:"Catar 🇶🇦",ko:"2026-06-12T18:00:00Z"},
@@ -393,11 +392,11 @@ const MX=[
   {id:23,g:"D",rod:"R3",h:"EUA 🇺🇸",a:"Turquia 🇹🇷",ko:"2026-06-14T18:00:00Z"},
   {id:24,g:"D",rod:"R3",h:"Paraguai 🇵🇾",a:"Austrália 🇦🇺",ko:"2026-06-15T18:00:00Z"},
   {id:25,g:"E",rod:"R1",h:"Alemanha 🇩🇪",a:"Curaçao 🇨🇼",ko:"2026-06-15T18:00:00Z"},
-  {id:26,g:"E",rod:"R1",h:"Costa do Marfim 🇨🇮",a:"Equador 🇪🇨",ko:"2026-06-15T18:00:00Z"},
-  {id:27,g:"E",rod:"R2",h:"Alemanha 🇩🇪",a:"Costa do Marfim 🇨🇮",ko:"2026-06-15T18:00:00Z"},
+  {id:26,g:"E",rod:"R1",h:"C. Marfim 🇨🇮",a:"Equador 🇪🇨",ko:"2026-06-15T18:00:00Z"},
+  {id:27,g:"E",rod:"R2",h:"Alemanha 🇩🇪",a:"C. Marfim 🇨🇮",ko:"2026-06-15T18:00:00Z"},
   {id:28,g:"E",rod:"R2",h:"Curaçao 🇨🇼",a:"Equador 🇪🇨",ko:"2026-06-15T18:00:00Z"},
   {id:29,g:"E",rod:"R3",h:"Alemanha 🇩🇪",a:"Equador 🇪🇨",ko:"2026-06-15T18:00:00Z"},
-  {id:30,g:"E",rod:"R3",h:"Curaçao 🇨🇼",a:"Costa do Marfim 🇨🇮",ko:"2026-06-16T18:00:00Z"},
+  {id:30,g:"E",rod:"R3",h:"Curaçao 🇨🇼",a:"C. Marfim 🇨🇮",ko:"2026-06-16T18:00:00Z"},
   {id:31,g:"F",rod:"R1",h:"Holanda 🇳🇱",a:"Japão 🇯🇵",ko:"2026-06-16T18:00:00Z"},
   {id:32,g:"F",rod:"R1",h:"Suécia 🇸🇪",a:"Tunísia 🇹🇳",ko:"2026-06-16T18:00:00Z"},
   {id:33,g:"F",rod:"R2",h:"Holanda 🇳🇱",a:"Suécia 🇸🇪",ko:"2026-06-16T18:00:00Z"},
@@ -405,17 +404,17 @@ const MX=[
   {id:35,g:"F",rod:"R3",h:"Holanda 🇳🇱",a:"Tunísia 🇹🇳",ko:"2026-06-16T18:00:00Z"},
   {id:36,g:"F",rod:"R3",h:"Japão 🇯🇵",a:"Suécia 🇸🇪",ko:"2026-06-17T18:00:00Z"},
   {id:37,g:"G",rod:"R1",h:"Bélgica 🇧🇪",a:"Egito 🇪🇬",ko:"2026-06-17T18:00:00Z"},
-  {id:38,g:"G",rod:"R1",h:"Irã 🇮🇷",a:"Nova Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
+  {id:38,g:"G",rod:"R1",h:"Irã 🇮🇷",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
   {id:39,g:"G",rod:"R2",h:"Bélgica 🇧🇪",a:"Irã 🇮🇷",ko:"2026-06-17T18:00:00Z"},
-  {id:40,g:"G",rod:"R2",h:"Egito 🇪🇬",a:"Nova Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
-  {id:41,g:"G",rod:"R3",h:"Bélgica 🇧🇪",a:"Nova Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
+  {id:40,g:"G",rod:"R2",h:"Egito 🇪🇬",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
+  {id:41,g:"G",rod:"R3",h:"Bélgica 🇧🇪",a:"N. Zelândia 🇳🇿",ko:"2026-06-17T18:00:00Z"},
   {id:42,g:"G",rod:"R3",h:"Egito 🇪🇬",a:"Irã 🇮🇷",ko:"2026-06-18T18:00:00Z"},
   {id:43,g:"H",rod:"R1",h:"Espanha 🇪🇸",a:"Cabo Verde 🇨🇻",ko:"2026-06-18T18:00:00Z"},
-  {id:44,g:"H",rod:"R1",h:"Arábia Saudita 🇸🇦",a:"Uruguai 🇺🇾",ko:"2026-06-18T18:00:00Z"},
-  {id:45,g:"H",rod:"R2",h:"Espanha 🇪🇸",a:"Arábia Saudita 🇸🇦",ko:"2026-06-18T18:00:00Z"},
+  {id:44,g:"H",rod:"R1",h:"Ar. Saudita 🇸🇦",a:"Uruguai 🇺🇾",ko:"2026-06-18T18:00:00Z"},
+  {id:45,g:"H",rod:"R2",h:"Espanha 🇪🇸",a:"Ar. Saudita 🇸🇦",ko:"2026-06-18T18:00:00Z"},
   {id:46,g:"H",rod:"R2",h:"Cabo Verde 🇨🇻",a:"Uruguai 🇺🇾",ko:"2026-06-18T18:00:00Z"},
   {id:47,g:"H",rod:"R3",h:"Espanha 🇪🇸",a:"Uruguai 🇺🇾",ko:"2026-06-18T18:00:00Z"},
-  {id:48,g:"H",rod:"R3",h:"Cabo Verde 🇨🇻",a:"Arábia Saudita 🇸🇦",ko:"2026-06-19T18:00:00Z"},
+  {id:48,g:"H",rod:"R3",h:"Cabo Verde 🇨🇻",a:"Ar. Saudita 🇸🇦",ko:"2026-06-19T18:00:00Z"},
   {id:49,g:"I",rod:"R1",h:"França 🇫🇷",a:"Senegal 🇸🇳",ko:"2026-06-19T18:00:00Z"},
   {id:50,g:"I",rod:"R1",h:"Iraque 🇮🇶",a:"Noruega 🇳🇴",ko:"2026-06-19T18:00:00Z"},
   {id:51,g:"I",rod:"R2",h:"França 🇫🇷",a:"Iraque 🇮🇶",ko:"2026-06-19T18:00:00Z"},
@@ -428,12 +427,12 @@ const MX=[
   {id:58,g:"J",rod:"R2",h:"Argélia 🇩🇿",a:"Jordânia 🇯🇴",ko:"2026-06-20T18:00:00Z"},
   {id:59,g:"J",rod:"R3",h:"Argentina 🇦🇷",a:"Jordânia 🇯🇴",ko:"2026-06-20T18:00:00Z"},
   {id:60,g:"J",rod:"R3",h:"Argélia 🇩🇿",a:"Áustria 🇦🇹",ko:"2026-06-21T18:00:00Z"},
-  {id:61,g:"K",rod:"R1",h:"Portugal 🇵🇹",a:"Rep. Dem. Congo 🇨🇩",ko:"2026-06-21T18:00:00Z"},
+  {id:61,g:"K",rod:"R1",h:"Portugal 🇵🇹",a:"R.D. Congo 🇨🇩",ko:"2026-06-21T18:00:00Z"},
   {id:62,g:"K",rod:"R1",h:"Uzbequistão 🇺🇿",a:"Colômbia 🇨🇴",ko:"2026-06-21T18:00:00Z"},
   {id:63,g:"K",rod:"R2",h:"Portugal 🇵🇹",a:"Uzbequistão 🇺🇿",ko:"2026-06-21T18:00:00Z"},
-  {id:64,g:"K",rod:"R2",h:"Rep. Dem. Congo 🇨🇩",a:"Colômbia 🇨🇴",ko:"2026-06-21T18:00:00Z"},
+  {id:64,g:"K",rod:"R2",h:"R.D. Congo 🇨🇩",a:"Colômbia 🇨🇴",ko:"2026-06-21T18:00:00Z"},
   {id:65,g:"K",rod:"R3",h:"Portugal 🇵🇹",a:"Colômbia 🇨🇴",ko:"2026-06-21T18:00:00Z"},
-  {id:66,g:"K",rod:"R3",h:"Rep. Dem. Congo 🇨🇩",a:"Uzbequistão 🇺🇿",ko:"2026-06-22T18:00:00Z"},
+  {id:66,g:"K",rod:"R3",h:"R.D. Congo 🇨🇩",a:"Uzbequistão 🇺🇿",ko:"2026-06-22T18:00:00Z"},
   {id:67,g:"L",rod:"R1",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Croácia 🇭🇷",ko:"2026-06-22T18:00:00Z"},
   {id:68,g:"L",rod:"R1",h:"Gana 🇬🇭",a:"Panamá 🇵🇦",ko:"2026-06-22T18:00:00Z"},
   {id:69,g:"L",rod:"R2",h:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿",a:"Gana 🇬🇭",ko:"2026-06-22T18:00:00Z"},
@@ -490,7 +489,7 @@ function pSt(mid){
 const RI=i=>i===0?"🥇":i===1?"🥈":i===2?"🥉":`#${i+1}`;
 const RC=i=>i===0?"g":i===1?"s":i===2?"b":"";
 function TN(s){return s.replace(/[\u{1F1E6}-\u{1F1FF}]{2}|\uD83C\uDFF4[\uDB40\uDC00-\uDB40\uDC7F]+/gu,"").trim();}
-const _FM={"México":"mx","Africa do Sul":"za","África do Sul":"za","Coreia do Sul":"kr","Tchéquia":"cz","Canadá":"ca","Bósnia":"ba","Catar":"qa","Suíça":"ch","Brasil":"br","Marrocos":"ma","Haiti":"ht","Escócia":"gb-sct","EUA":"us","Paraguai":"py","Austrália":"au","Turquia":"tr","Alemanha":"de","Curaçao":"cw","Costa do Marfim":"ci","Equador":"ec","Holanda":"nl","Japão":"jp","Suécia":"se","Tunísia":"tn","Bélgica":"be","Egito":"eg","Irã":"ir","Nova Zelândia":"nz","Espanha":"es","Cabo Verde":"cv","Arábia Saudita":"sa","Uruguai":"uy","França":"fr","Senegal":"sn","Iraque":"iq","Noruega":"no","Argentina":"ar","Argélia":"dz","Áustria":"at","Jordânia":"jo","Portugal":"pt","Rep. Dem. Congo":"cd","Uzbequistão":"uz","Colômbia":"co","Inglaterra":"gb-eng","Croácia":"hr","Gana":"gh","Panamá":"pa"};function FL(s){const n=TN(s);const c=_FM[n];return c?'<span class="fi fi-'+c+'" style="border-radius:2px;font-size:1rem;vertical-align:middle"></span>':""}-\u{1F1FF}]{2}/gu);return m?m[0]:"";}
+const _FM={"México":"mx","Africa do Sul":"za","África do Sul":"za","África Sul":"za","Coreia do Sul":"kr","Coreia Sul":"kr","Tchéquia":"cz","Canadá":"ca","Bósnia":"ba","Catar":"qa","Suíça":"ch","Brasil":"br","Marrocos":"ma","Haiti":"ht","Escócia":"gb-sct","EUA":"us","Paraguai":"py","Austrália":"au","Turquia":"tr","Alemanha":"de","Curaçao":"cw","Costa do Marfim":"ci","C. Marfim":"ci","Equador":"ec","Holanda":"nl","Japão":"jp","Suécia":"se","Tunísia":"tn","Bélgica":"be","Egito":"eg","Irã":"ir","Nova Zelândia":"nz","N. Zelândia":"nz","Espanha":"es","Cabo Verde":"cv","Arábia Saudita":"sa","Ar. Saudita":"sa","Uruguai":"uy","França":"fr","Senegal":"sn","Iraque":"iq","Noruega":"no","Argentina":"ar","Argélia":"dz","Áustria":"at","Jordânia":"jo","Portugal":"pt","Rep. Dem. Congo":"cd","R.D. Congo":"cd","Uzbequistão":"uz","Colômbia":"co","Inglaterra":"gb-eng","Croácia":"hr","Gana":"gh","Panamá":"pa"};function FL(s){const n=TN(s).trim();const c=_FM[n]||Object.entries(_FM).find(([k])=>n.includes(k)||k.includes(n))?.[1];return c?'<img src="https://flagcdn.com/w20/'+c.replace('gb-sct','gb').replace('gb-eng','gb')+'.png" width="20" height="14" style="border-radius:2px;vertical-align:middle;margin:0 2px">':""}
 function UB(k){const u=UNITS[k];if(!u)return"";return`<span class="ubadge" style="background:${u.bg};color:${u.text};border-color:${u.color}">${u.label}</span>`;}
 const $=id=>document.getElementById(id);
 
@@ -704,7 +703,7 @@ function renderGrupos(){
   let html='<div class="gg">';
   grps.forEach(g=>{
     const tab=calcGrupo(g);
-    html+='<div class="card" style="padding:14px"><div class="gl">GRUPO '+g+'</div>';
+    html+='<div class="card" style="padding:10px 8px"><div class="gl">GRUPO '+g+'</div>';
     html+='<table class="gt"><thead><tr><th>Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th><th>Pts</th></tr></thead><tbody>';
     tab.forEach((t,i)=>{
       const cls=i<2?'style="color:#4ade80"':i===2?'style="color:var(--gold)"':'';
@@ -712,7 +711,7 @@ function renderGrupos(){
       html+='<tr '+cls+'><td>'+fl+' '+nm+'</td><td>'+t.j+'</td><td>'+t.v+'</td><td>'+t.e+'</td><td>'+t.d+'</td><td>'+t.gp+'</td><td>'+t.gc+'</td><td>'+(t.sg>0?'+':'')+t.sg+'</td><td style="font-weight:900">'+t.pts+'</td></tr>';
     });
     html+='</tbody></table>';
-    html+='<div style="font-size:.6rem;color:var(--muted);margin-top:6px">🟢 Classificado direto &nbsp; 🟡 Possível melhor 3º</div>';
+    html+='<div style="font-size:.55rem;color:var(--muted);margin-top:4px">🟢 Classificado &nbsp; 🟡 Melhor 3º</div>';
     html+='</div>';
   });
   html+='</div>';
