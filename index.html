@@ -1187,9 +1187,6 @@ function renderMatches(){
   });
   if(lastG!=="")html+="</div>";
   el.innerHTML=html;
-}×${pred.away}</span>`;
-    return`<div class="mc"><div class="mteam ml"><span class="mfl">${fh}</span> ${nh}</div><div class="msc">${live?`<span class="ld"></span>`:""}${hs} × ${as}</div><div class="mteam mr">${na} <span class="mfl">${fa}</span></div><div class="mi"><div class="mst ${done&&!live?"done":live?"live":""}">${live?"🔴 AO VIVO":done?"✅ Encerrado":m.d+" · "+m.t}</div><div class="mv">${m.v} · Grupo ${m.g}</div><div>${badge}</div></div></div>`;
-  }).join("");
 }
 
 // TORNEIO
@@ -1279,7 +1276,6 @@ function renderTorneio(){
   $("t-matamata")?.classList.remove("on");
   document.querySelectorAll("#tab-torneio .fcat")[0]?.classList.add("on");
   document.querySelectorAll("#tab-torneio .fcat")[1]?.classList.remove("on");
-}</div><table class="gt"><thead><tr><th>Seleção</th><th>J</th><th>V</th><th>E</th><th>Pts</th></tr></thead><tbody>${ts.map(t=>`<tr><td>${t}</td><td style="color:var(--muted)">0</td><td style="color:var(--muted)">0</td><td style="color:var(--muted)">0</td><td style="font-weight:700;color:var(--gold)">0</td></tr>`).join("")}</tbody></table></div>`).join("");
 }
 
 // PALPITES
