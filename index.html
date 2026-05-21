@@ -11,7 +11,7 @@
   --bg:#080808;--card:#111;--card2:#161616;--border:#242424;
   --gold:#c9a84c;--gold2:#e8c96a;--text:#ede9df;--muted:#585858;
   --red:#c1121f;--green:#1a7c3e;
-  --kc:#1a7c3e;--am:#f47c20;--pr:#c8c8c8;--wb:#6b3fa0;--ms:#1a3a8a;
+  --kc:#1a7c3e;--am:#f47c20;--pr:#c8c8c8;--wb:#6b3fa0;--ms:#1a3a8a;--hd:#06b6d4;
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 #wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:340px;height:auto;opacity:.055;pointer-events:none;z-index:0;filter:grayscale(20%)}
@@ -74,6 +74,7 @@ main{max-width:1100px;margin:0 auto;padding:22px 20px;position:relative;z-index:
 .utb.pr.on,.utb.pr:hover{background:var(--pr);border-color:var(--pr);color:#111}
 .utb.wb.on,.utb.wb:hover{background:var(--wb);border-color:var(--wb)}
 .utb.ms.on,.utb.ms:hover{background:var(--ms);border-color:var(--ms)}
+.utb.hd.on,.utb.hd:hover{background:var(--hd);border-color:var(--hd)}
 .mc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 15px;display:grid;grid-template-columns:1fr auto 1fr auto;align-items:center;gap:8px;margin-bottom:6px;transition:border-color .2s}
 .mc:hover{border-color:#333}
 .mteam{font-weight:600;font-size:.83rem}
@@ -198,13 +199,7 @@ select option{background:#111}
   <div class="alert ai" style="margin-bottom:12px">Calculado por <strong>média de pontos por participante</strong> — fair play entre unidades de tamanhos diferentes.</div>
   <div id="lb-u" class="lb"></div>
   <div class="st" style="margin-top:28px">Por Unidade</div>
-  <div class="uts">
-    <button class="utb kc" onclick="showUR('koncili',this)">Koncili</button>
-    <button class="utb am" onclick="showUR('anymarket',this)">Anymarket</button>
-    <button class="utb pr" onclick="showUR('predize',this)">Predize</button>
-    <button class="utb wb" onclick="showUR('winnerbox',this)">Winnerbox</button>
-    <button class="utb ms" onclick="showUR('marcaseleta',this)">Marca Seleta</button>
-  </div>
+  <div class="uts" id="uts-container"></div>
   <div id="lb-ut" style="font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px"></div>
   <div id="lb-ul" class="lb"></div>
 </div>
@@ -338,21 +333,14 @@ select option{background:#111}
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getFirestore,doc,setDoc,getDoc,getDocs,deleteDoc,collection,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { UNITS } from "./units.js";
 
 const FB={apiKey:"AIzaSyB_L5FN0Br845x2Wzv_hc0dG5LR4f38uKM",authDomain:"copa2026-bolao-d6e2a.firebaseapp.com",projectId:"copa2026-bolao-d6e2a",storageBucket:"copa2026-bolao-d6e2a.firebasestorage.app",messagingSenderId:"899241944443",appId:"1:899241944443:web:59316ebb6fe94552b389de"};
 const app=initializeApp(FB),auth=getAuth(app),db=getFirestore(app);
 const APIKEY="f94a4cd5d9aa247a17505718db07f559";
 
 // ── EDITE AQUI para adicionar admins (máx 3) ──
-const ADMINS=["luigigonzaga96@gmail.com","bruno.rossmann@db1.com.br","jocimar.huss@db1.com.br,""].filter(Boolean);
-
-const UNITS={
-  koncili:{label:"Koncili",color:"#1a7c3e",bg:"rgba(26,124,62,.15)",text:"#4dda7e"},
-  anymarket:{label:"Anymarket",color:"#f47c20",bg:"rgba(244,124,32,.15)",text:"#f9a55c"},
-  predize:{label:"Predize",color:"#c8c8c8",bg:"rgba(200,200,200,.12)",text:"#c8c8c8"},
-  winnerbox:{label:"Winnerbox",color:"#6b3fa0",bg:"rgba(107,63,160,.15)",text:"#c49de8"},
-  marcaseleta:{label:"Marca Seleta",color:"#1a3a8a",bg:"rgba(26,58,138,.18)",text:"#7ba4f0"},
-};
+const ADMINS=["luigigonzaga96@gmail.com","bruno.rossmann@db1.com.br","jocimar.huss@db1.com.br"].filter(Boolean);
 
 const GRP={
   A:["México 🇲🇽","África Sul 🇿🇦","Coreia Sul 🇰🇷","Tchéquia 🇨🇿"],
@@ -534,9 +522,35 @@ async function fetchAPI(){
   ftimer=setTimeout(fetchAPI,Math.max(msToNextHour,60000));
 }
 // FIRESTORE LISTENERS
-onSnapshot(collection(db,"results"),snap=>{RES={};snap.forEach(d=>{RES[d.id]=d.data();});renderMatches();renderPalpites();renderLB();if(ME&&isAdm(ME.email))renderAR();});
-onSnapshot(collection(db,"users"),snap=>{USERS=[];snap.forEach(d=>{USERS.push({uid:d.id,...d.data()});});renderLB();if(ME&&isAdm(ME.email))renderAS();});
-onSnapshot(collection(db,"results"),()=>{if($("t-grupos")?.classList.contains("on"))renderGrupos();});
+let unsubResults = null, unsubUsers = null;
+function startListeners() {
+  if(unsubResults) unsubResults();
+  if(unsubUsers) unsubUsers();
+  unsubResults = onSnapshot(collection(db,"results"),snap=>{
+    RES={};
+    snap.forEach(d=>{RES[d.id]=d.data();});
+    renderMatches();
+    renderPalpites();
+    renderLB();
+    if(ME&&isAdm(ME.email))renderAR();
+    if($("t-grupos")?.classList.contains("on"))renderGrupos();
+  },err=>console.warn("Erro no listener de resultados:",err));
+  
+  unsubUsers = onSnapshot(collection(db,"users"),snap=>{
+    USERS=[];
+    snap.forEach(d=>{USERS.push({uid:d.id,...d.data()});});
+    renderLB();
+    if(ME&&isAdm(ME.email))renderAS();
+  },err=>console.warn("Erro no listener de usuários:",err));
+}
+function stopListeners() {
+  if(unsubResults) { unsubResults(); unsubResults = null; }
+  if(unsubUsers) { unsubUsers(); unsubUsers = null; }
+  RES={};
+  USERS=[];
+  renderMatches();
+  renderLB();
+}
 
 // AUTH
 onAuthStateChanged(auth,async u=>{
@@ -546,7 +560,12 @@ onAuthStateChanged(auth,async u=>{
     MU=s.exists()?(s.data().unit||""):"";
     await loadPRD();
     await setDoc(doc(db,"users",u.uid),{name:u.displayName||u.email,email:u.email,emoji:u.photoURL||"⚽"},{merge:true});
-  }else{MU="";PRD={};}
+    startListeners();
+  }else{
+    MU="";
+    PRD={};
+    stopListeners();
+  }
   UH();renderConta();renderPalpites();if(ME)fetchAPI();
 });
 
@@ -836,7 +855,7 @@ function renderLogin(){
 }
 window.showReg=function(pre=""){
   const te=pre||getTE();
-  $("af").innerHTML=`<div class="card"><div id="aa"></div><div class="alert ai" style="margin-bottom:12px;font-size:.76rem">🏆 Bolão exclusivo para colaboradores Anytools.</div><div class="fg"><label>Nome completo</label><input id="rn" type="text" placeholder="Seu nome"></div><div class="fg"><label>E-mail</label><input id="re" type="email" placeholder="seu@email.com" value="${te}" ${te?'readonly style="opacity:.65"':""}>${te?`<div style="font-size:.65rem;color:#4ade80;margin-top:3px">✅ E-mail confirmado pelo convite</div>`:""}</div><div class="fg"><label>Senha</label><input id="rp" type="password" placeholder="mínimo 6 caracteres"></div><div class="fg"><label>Unidade</label><select id="ru"><option value="">Selecione sua unidade</option><option value="koncili">Koncili</option><option value="anymarket">Anymarket</option><option value="predize">Predize</option><option value="winnerbox">Winnerbox</option><option value="marcaseleta">Marca Seleta</option></select></div><div class="fg"><label>Avatar (emoji)</label><select id="rem"><option>⚽</option><option>🏆</option><option>🎯</option><option>🔥</option><option>💪</option><option>🦁</option><option>🦅</option><option>🐉</option><option>⚡</option><option>🌟</option><option>🐺</option><option>🦊</option><option>🇧🇷</option><option>🇦🇷</option><option>🏴󠁧󠁢󠁥󠁮󠁧󠁿</option><option>🇫🇷</option></select></div><button class="btn" style="width:100%" onclick="doReg()">Criar Conta 🎉</button><div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">Dados usados exclusivamente para o bolão interno Anytools.</div></div><div class="atog">Já tem conta? <a onclick="renderLogin()">Entrar</a></div>`;
+  $("af").innerHTML=`<div class="card"><div id="aa"></div><div class="alert ai" style="margin-bottom:12px;font-size:.76rem">🏆 Bolão exclusivo para colaboradores Anytools.</div><div class="fg"><label>Nome completo</label><input id="rn" type="text" placeholder="Seu nome"></div><div class="fg"><label>E-mail</label><input id="re" type="email" placeholder="seu@email.com" value="${te}" ${te?'readonly style="opacity:.65"':""}>${te?`<div style="font-size:.65rem;color:#4ade80;margin-top:3px">✅ E-mail confirmado pelo convite</div>`:""}</div><div class="fg"><label>Senha</label><input id="rp" type="password" placeholder="mínimo 6 caracteres"></div><div class="fg"><label>Unidade</label><select id="ru"><option value="">Selecione sua unidade</option>${Object.entries(UNITS).sort((a,b)=>a[1].label.localeCompare(b[1].label)).map(([k,u])=>`<option value="${k}">${u.label}</option>`).join("")}</select></div><div class="fg"><label>Avatar (emoji)</label><select id="rem"><option>⚽</option><option>🏆</option><option>🎯</option><option>🔥</option><option>💪</option><option>🦁</option><option>🦅</option><option>🐉</option><option>⚡</option><option>🌟</option><option>🐺</option><option>🦊</option><option>🇧🇷</option><option>🇦🇷</option><option>🏴󠁧󠁢󠁥󠁮󠁧󠁿</option><option>🇫🇷</option></select></div><button class="btn" style="width:100%" onclick="doReg()">Criar Conta 🎉</button><div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">Dados usados exclusivamente para o bolão interno Anytools.</div></div><div class="atog">Já tem conta? <a onclick="renderLogin()">Entrar</a></div>`;
 };
 window.renderLogin=renderLogin;
 function getTE(){
@@ -1084,7 +1103,15 @@ window.TF=function(el){
   a.style.display=op?"none":"block";el.querySelector(".fqi").textContent=op?"+":"−";
 };
 
+function renderUnitFilters(){
+  const container=$("uts-container");
+  if(!container)return;
+  const sorted=Object.entries(UNITS).sort((a,b)=>a[1].label.localeCompare(b[1].label));
+  container.innerHTML=sorted.map(([k,u])=>`<button class="utb ${u.cls}" onclick="showUR('${k}',this)">${u.label}</button>`).join("");
+}
+
 // INIT
+renderUnitFilters();
 renderMatches();
 renderJanela();
 setInterval(renderJanela,60000);
