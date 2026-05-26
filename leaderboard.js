@@ -43,5 +43,8 @@ export function renderUnitFilters() {
   const container = $("uts-container");
   if (!container) return;
   const sorted = Object.entries(UNITS).sort((a, b) => a[1].label.localeCompare(b[1].label));
-  container.innerHTML = sorted.map(([k, u]) => `<button class="unit-filters__btn ${u.cls}" onclick="showUR('${k}',this)">${u.label}</button>`).join("");
+  container.innerHTML = sorted.map(([k, u]) => {
+    const txt = u.color === "#c8c8c8" ? "#111" : "#fff";
+    return `<button class="unit-filters__btn" style="--unit-color:${u.color};--unit-text:${txt}" onclick="showUR('${k}',this)">${u.label}</button>`;
+  }).join("");
 }

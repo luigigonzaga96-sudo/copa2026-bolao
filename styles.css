@@ -162,13 +162,11 @@ main { max-width:1100px; margin:0 auto; padding:22px 20px; position:relative; z-
   font-family:'Inter',sans-serif; font-size:.65rem; font-weight:700; padding:5px 12px;
   cursor:pointer; text-transform:uppercase; letter-spacing:.4px; transition:all .15s;
 }
-.unit-filters__btn.is-active, .unit-filters__btn:hover { color:#fff; }
-.unit-filters__btn--kc.is-active, .unit-filters__btn--kc:hover { background:var(--kc); border-color:var(--kc); }
-.unit-filters__btn--am.is-active, .unit-filters__btn--am:hover { background:var(--am); border-color:var(--am); }
-.unit-filters__btn--pr.is-active, .unit-filters__btn--pr:hover { background:var(--pr); border-color:var(--pr); color:#111; }
-.unit-filters__btn--wb.is-active, .unit-filters__btn--wb:hover { background:var(--wb); border-color:var(--wb); }
-.unit-filters__btn--ms.is-active, .unit-filters__btn--ms:hover { background:var(--ms); border-color:var(--ms); }
-.unit-filters__btn--hd.is-active, .unit-filters__btn--hd:hover { background:var(--hd); border-color:var(--hd); }
+.unit-filters__btn.is-active, .unit-filters__btn:hover {
+  background: var(--unit-color, var(--muted));
+  border-color: var(--unit-color, var(--muted));
+  color: var(--unit-text, #fff);
+}
 
 /* ══════════════ MATCH CARD ══════════════ */
 .match-card {

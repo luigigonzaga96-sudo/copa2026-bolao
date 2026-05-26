@@ -92,7 +92,9 @@ window.doCompleteProfile = async () => {
     if (!user) return;
     const m = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
     await m.updateProfile(user, { displayName: n, photoURL: em || "⚽" });
-    await setDoc(doc(db, "users", user.uid), { name: n, emoji: em || "⚽", unit: un, pts: 0 }, { merge: true });
+    const localUser = state.USERS.find(u => u.uid === user.uid);
+    const points = (localUser && localUser.pts !== undefined) ? localUser.pts : 0;
+    await setDoc(doc(db, "users", user.uid), { name: n, emoji: em || "⚽", unit: un, pts: points }, { merge: true });
     state.MU = un;
     window.GT("ranking");
   } catch (err) {
