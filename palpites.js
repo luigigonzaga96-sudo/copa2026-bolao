@@ -59,6 +59,12 @@ export function cardPalpite(m) {
   let inp = "";
   if (done) {
     inp = '<div style="font-size:.78rem;color:var(--muted)">Resultado: <strong style="color:var(--text)">' + r.home + ' × ' + r.away + '</strong></div>';
+  } else if (!state.ME) {
+    if (op) {
+      inp = '<div style="font-size:.76rem;color:var(--muted)">🔒 <a onclick="GT(\'conta\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">Faça login</a> para registrar seu palpite</div>';
+    } else {
+      inp = '<div style="font-size:.75rem;color:var(--red);font-weight:600">🔒 Palpite encerrado</div>';
+    }
   } else if (op) {
     const pv = pred ? pred.home : "", pa2 = pred ? pred.away : "";
     const btn = pred ? "✏️ Atualizar" : "💾 Salvar";
@@ -79,11 +85,15 @@ export function cardPalpite(m) {
 
 export function renderPalpites() {
   const el = $("pc"); if (!el) return;
-  if (!state.ME) { el.innerHTML = '<div class="alert alert--info">Entra na tua conta pra fazer palpites! <a onclick="GT(\'conta\')" style="color:var(--gold);cursor:pointer">→ Entrar</a></div>'; return; }
-  const p = pts(state.PRD, state.RES);
+  const p = state.ME ? pts(state.PRD, state.RES) : 0;
   const mxTest = [...MX].filter(m => m.test).sort((a, b) => new Date(a.ko) - new Date(b.ko));
   const mxCopa = [...MX].filter(m => !m.test).sort((a, b) => new Date(a.ko) - new Date(b.ko));
-  let html = '<div class="alert alert--info" style="margin-bottom:16px">Seus pontos: <strong style="color:var(--gold);font-size:1rem">' + p + ' pts</strong> — bora chutar! ⚽</div>';
+  let html = "";
+  if (state.ME) {
+    html += '<div class="alert alert--info" style="margin-bottom:16px">Seus pontos: <strong style="color:var(--gold);font-size:1rem">' + p + ' pts</strong> — bora chutar! ⚽</div>';
+  } else {
+    html += '<div class="alert alert--info" style="margin-bottom:16px">Você não está logado. <a onclick="GT(\'conta\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">Entre na sua conta</a> para registrar seus palpites e participar do ranking! ⚽</div>';
+  }
   if (mxTest.length) {
     html += '<div class="section-title" style="color:#c49de8;margin-bottom:10px">🧪 Rodadas Teste <span style="font-size:.6rem;color:var(--muted);font-family:Inter,sans-serif;font-weight:400;text-transform:none;letter-spacing:0">— não contam no ranking geral</span></div>';
     html += '<div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">';
@@ -98,6 +108,7 @@ export function renderPalpites() {
 }
 
 window.SP = async (mid) => {
+  if (!state.ME) { alert("Você precisa estar logado para palpitar!"); return; }
   const m = MX.find(x => x.id === mid); if (m && !isOpen(m)) { alert("⏱ Palpite encerrado!"); return; }
   const h = parseInt($(`ph${mid}`)?.value), a = parseInt($(`pa${mid}`)?.value);
   if (isNaN(h) || isNaN(a) || h < 0 || a < 0) { alert("Placar inválido!"); return; }

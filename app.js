@@ -87,13 +87,11 @@ onAuthStateChanged(auth, async u => {
       email: email,
       emoji: u.photoURL || "⚽"
     }, { merge: true });
-
-    startListeners();
   } else {
     state.MU = "";
     state.PRD = {};
-    stopListeners();
   }
+  startListeners();
   UH();
   renderConta();
   renderPalpites();
