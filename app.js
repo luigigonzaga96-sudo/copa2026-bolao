@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, getDocs, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, getDocs, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import { MX } from "./matches.js";
 import { $ } from "./helpers.js";
@@ -73,12 +73,50 @@ function stopListeners() {
 onAuthStateChanged(auth, async u => {
   state.ME = u;
   if (u) {
+    const email = u.email ? u.email.toLowerCase() : "";
     const s = await getDoc(doc(db, "users", u.uid));
+    
+    // Check if user is registered in users collection
+    if (!s.exists()) {
+      // New user (likely logged in via SSO)
+      // Check if they are in the invites list
+      const inv = await getDoc(doc(db, "invites", email));
+      if (!inv.exists()) {
+        // Not invited! Log them out immediately
+        await signOut(auth);
+        state.ME = null;
+        state.MU = "";
+        state.PRD = {};
+        stopListeners();
+        UH();
+        renderConta();
+        setTimeout(() => {
+          const el = document.getElementById("aa");
+          if (el) {
+            el.innerHTML = `<div class="alert alert--error">🔒 Acesso restrito. O e-mail <strong>${email}</strong> não está na lista de convites — fale com o organizador!</div>`;
+          }
+        }, 100);
+        return;
+      }
+      
+      // If invited, update invite status to "joined"
+      if (inv.data().status === "pending") {
+        await setDoc(doc(db, "invites", email), { status: "joined", joinedAt: serverTimestamp() }, { merge: true });
+      }
+    }
+
     state.MU = s.exists() ? (s.data().unit || "") : "";
     const sn = await getDocs(collection(db, "users", u.uid, "predictions"));
     state.PRD = {};
     sn.forEach(d => { state.PRD[d.id] = d.data(); });
-    await setDoc(doc(db, "users", u.uid), { name: u.displayName || u.email, email: u.email, emoji: u.photoURL || "⚽" }, { merge: true });
+    
+    // Set initial user doc in Firestore (merging name/email/emoji, but NOT overwriting unit or pts)
+    await setDoc(doc(db, "users", u.uid), {
+      name: u.displayName || u.email,
+      email: email,
+      emoji: u.photoURL || "⚽"
+    }, { merge: true });
+
     startListeners();
   } else {
     state.MU = "";

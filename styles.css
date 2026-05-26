@@ -162,13 +162,11 @@ main { max-width:1100px; margin:0 auto; padding:22px 20px; position:relative; z-
   font-family:'Inter',sans-serif; font-size:.65rem; font-weight:700; padding:5px 12px;
   cursor:pointer; text-transform:uppercase; letter-spacing:.4px; transition:all .15s;
 }
-.unit-filters__btn.is-active, .unit-filters__btn:hover { color:#fff; }
-.unit-filters__btn--kc.is-active, .unit-filters__btn--kc:hover { background:var(--kc); border-color:var(--kc); }
-.unit-filters__btn--am.is-active, .unit-filters__btn--am:hover { background:var(--am); border-color:var(--am); }
-.unit-filters__btn--pr.is-active, .unit-filters__btn--pr:hover { background:var(--pr); border-color:var(--pr); color:#111; }
-.unit-filters__btn--wb.is-active, .unit-filters__btn--wb:hover { background:var(--wb); border-color:var(--wb); }
-.unit-filters__btn--ms.is-active, .unit-filters__btn--ms:hover { background:var(--ms); border-color:var(--ms); }
-.unit-filters__btn--hd.is-active, .unit-filters__btn--hd:hover { background:var(--hd); border-color:var(--hd); }
+.unit-filters__btn.is-active, .unit-filters__btn:hover {
+  background: var(--unit-color, var(--muted));
+  border-color: var(--unit-color, var(--muted));
+  color: var(--unit-text, #fff);
+}
 
 /* ══════════════ MATCH CARD ══════════════ */
 .match-card {
@@ -349,6 +347,81 @@ select option { background:#111; }
 .security-tools__description { font-size:.73rem; color:var(--muted); line-height:1.6; }
 .security-tools__description strong { color:#93c5fd; }
 
+/* ══════════════ MICROSOFT SSO ══════════════ */
+.btn--microsoft {
+  background: #2f2f2f;
+  color: #fff;
+  border: 1px solid #444;
+  transition: background .2s, border-color .2s;
+}
+.btn--microsoft:hover {
+  background: #3f3f3f;
+  border-color: #555;
+  opacity: 1;
+}
+
+.divider-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--muted);
+  font-size: .75rem;
+  text-transform: uppercase;
+  margin: 16px 0;
+}
+.divider-text::before, .divider-text::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+.divider-text:not(:empty)::before {
+  margin-right: .5em;
+}
+.divider-text:not(:empty)::after {
+  margin-left: .5em;
+}
+
+/* ══════════════ SKELETON LOADING & BUTTON SPINNING ══════════════ */
+.skeleton {
+  background: linear-gradient(90deg, #161616 25%, #242424 50%, #161616 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; }
+.skeleton-avatar { width: 36px; height: 36px; border-radius: 50%; }
+
+.btn--loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.btn--loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: btn-spinner 0.6s linear infinite;
+}
+
+@keyframes btn-spinner {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* ══════════════ RESPONSIVE ══════════════ */
 @media (max-width:580px) {
   .match-card { grid-template-columns:1fr auto 1fr; }
@@ -356,3 +429,4 @@ select option { background:#111; }
   .header__inner { gap:6px; }
   .nav__btn { padding:4px 7px; font-size:.6rem; }
 }
+

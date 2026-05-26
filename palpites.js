@@ -101,10 +101,19 @@ window.SP = async (mid) => {
   const m = MX.find(x => x.id === mid); if (m && !isOpen(m)) { alert("⏱ Palpite encerrado!"); return; }
   const h = parseInt($(`ph${mid}`)?.value), a = parseInt($(`pa${mid}`)?.value);
   if (isNaN(h) || isNaN(a) || h < 0 || a < 0) { alert("Placar inválido!"); return; }
-  await setDoc(doc(db, "users", state.ME.uid, "predictions", String(mid)), { home: h, away: a });
-  state.PRD[mid] = { home: h, away: a };
-  const p = pts(state.PRD, state.RES);
-  await setDoc(doc(db, "users", state.ME.uid), { pts: p }, { merge: true });
-  window.UH();
-  renderPalpites();
+  const btn = document.querySelector(`button[onclick="SP(${mid})"]`);
+  if (btn) { btn.classList.add("btn--loading"); btn.disabled = true; }
+  try {
+    await setDoc(doc(db, "users", state.ME.uid, "predictions", String(mid)), { home: h, away: a });
+    state.PRD[mid] = { home: h, away: a };
+    const p = pts(state.PRD, state.RES);
+    await setDoc(doc(db, "users", state.ME.uid), { pts: p }, { merge: true });
+    window.UH();
+    renderPalpites();
+  } catch (err) {
+    alert("Erro ao salvar palpite: " + err.message);
+  } finally {
+    if (btn) { btn.classList.remove("btn--loading"); btn.disabled = false; }
+  }
 };
+
