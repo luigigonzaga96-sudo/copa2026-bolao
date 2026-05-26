@@ -33,14 +33,9 @@ O projeto é extremamente simplificado e centralizado:
 
 ## 3. Funcionalidades Detalhadas
 
-### 3.1. Controle de Acesso e Convites
-- **Acesso Restrito**: O cadastro é bloqueado para o público geral. Apenas e-mails previamente convidados por administradores podem criar conta.
-- **Fluxo de Convite**:
-  1. O administrador adiciona o e-mail do participante no painel de administração.
-  2. Um registro é criado no Firestore na coleção `invites` com o e-mail, um token único gerado via Base64 (`btoa(email + "|" + timestamp)`) e o status `"pending"`.
-  3. O link de convite (`?convite=TOKEN`) é compartilhado com o participante.
-  4. Ao acessar o link, o sistema decodifica o token, pré-preenche o e-mail no formulário de registro e desbloqueia a criação de conta.
-  5. Após o registro, o status do convite muda para `"joined"`.
+### 3.1. Controle de Acesso
+- **Autenticação Corporativa (SSO)**: O acesso ao Bolão é restrito a colaboradores autenticados por Single Sign-On (SSO) via contas corporativas Microsoft (Entra ID).
+- **Sem Formulários de Cadastro**: Não há fluxo de cadastro manual, esquecimento de senha ou gerenciamento de convites. Qualquer pessoa com uma conta corporativa válida da Microsoft pode realizar login direto e começar a utilizar o aplicativo. No primeiro acesso, os dados do perfil (Nome, E-mail e Avatar) são criados automaticamente a partir do SSO e o usuário é convidado a selecionar sua unidade corporativa na aba de Perfil.
 
 ### 3.2. Janela e Regras de Palpites
 - **Janela Diária**: Os palpites e suas edições são aceitos **exclusivamente das 05:00h às 12:30h (Horário de Brasília - BRT)**, o que equivale a 08:00h às 15:30h UTC. Fora desse intervalo, o sistema bloqueia qualquer modificação ou inserção.
@@ -85,7 +80,7 @@ const ADMINS = ["luigigonzaga96@gmail.com", "bruno.rossmann@db1.com.br", "jocima
 ```
 
 ### Funcionalidades do Administrador:
-1. **Gerenciamento de Convites**: Cadastro de novos e-mails autorizados, visualização de quem já entrou e revogação de convites pendentes.
+1. **Monitoramento Geral**: Visualização de estatísticas gerais do bolão, quantidade de participantes e unidades ativas.
 2. **Resultados Oficiais Manuais**: Permite forçar o resultado de um jogo manualmente ou reiniciar o placar, acionando o recálculo automático de pontuação para todos os usuários.
 3. **Gerenciamento do Mata-Mata**: Cadastro dos confrontos da fase eliminatória.
 4. **Radar de Segurança**: Uma visão geral do status de conformidade do projeto (se o Firebase Auth está ativo, regras do Firestore e avisos sobre chaves de API expostas no código cliente).
@@ -114,14 +109,6 @@ Documento identificado pelo `matchId` (ID do jogo):
 - `live` (boolean): Indica se a partida está ocorrendo no momento.
 - `updatedAt` (timestamp): Data e hora da última sincronização.
 
-### Coleção `invites`
-Documento identificado pelo e-mail (lowercase):
-- `email` (string): E-mail convidado.
-- `token` (string): Token de convite Base64.
-- `status` (string): `"pending"` ou `"joined"`.
-- `invitedAt` (timestamp): Data e hora de envio do convite.
-- `joinedAt` (timestamp/null): Data e hora em que a conta foi criada.
-
 ### Coleção `system`
 Documento `apifetch`:
 - `hora` (string): String da hora da última consulta (formato `YYYY-MM-DDTHH`).
@@ -148,7 +135,7 @@ Documento `apifetch`:
 > **Regras de Segurança do Firestore (Recomendadas)**:
 > Certifique-se de configurar as regras do Firestore no console do Firebase para exigir autenticação. Por exemplo:
 > - Apenas o próprio usuário autenticado pode gravar em `/users/{uid}/predictions/{matchId}` e `/users/{uid}`.
-> - Apenas administradores podem gravar na coleção `results`, `invites` e no documento `torneio/matamata`.
+> - Apenas administradores podem gravar na coleção `results` e no documento `torneio/matamata`.
 
 ---
 

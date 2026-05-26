@@ -10,7 +10,7 @@ import { fetchAPI } from "./api.js";
 import { renderLB, renderUnitFilters } from "./leaderboard.js";
 import { initPalpites, renderMatches, renderPalpites } from "./palpites.js";
 import { initTournament, renderTorneio, renderGrupos } from "./tournament.js";
-import { initAdmin, renderAR, renderAL, renderAS, loadINV, loadMM } from "./admin.js";
+import { initAdmin, renderAR, renderAL, renderAS, loadMM } from "./admin.js";
 import { UH, renderConta, renderLogin, SM, renderJanela, renderHistorico } from "./ui.js";
 
 // ── Firebase ──────────────────────────────────────────────────────────────────
@@ -76,35 +76,6 @@ onAuthStateChanged(auth, async u => {
     const email = u.email ? u.email.toLowerCase() : "";
     const s = await getDoc(doc(db, "users", u.uid));
     
-    // Check if user is registered in users collection
-    if (!s.exists()) {
-      // New user (likely logged in via SSO)
-      // Check if they are in the invites list
-      const inv = await getDoc(doc(db, "invites", email));
-      if (!inv.exists()) {
-        // Not invited! Log them out immediately
-        await signOut(auth);
-        state.ME = null;
-        state.MU = "";
-        state.PRD = {};
-        stopListeners();
-        UH();
-        renderConta();
-        setTimeout(() => {
-          const el = document.getElementById("aa");
-          if (el) {
-            el.innerHTML = `<div class="alert alert--error">🔒 Acesso restrito. O e-mail <strong>${email}</strong> não está na lista de convites — fale com o organizador!</div>`;
-          }
-        }, 100);
-        return;
-      }
-      
-      // If invited, update invite status to "joined"
-      if (inv.data().status === "pending") {
-        await setDoc(doc(db, "invites", email), { status: "joined", joinedAt: serverTimestamp() }, { merge: true });
-      }
-    }
-
     state.MU = s.exists() ? (s.data().unit || "") : "";
     const sn = await getDocs(collection(db, "users", u.uid, "predictions"));
     state.PRD = {};
@@ -116,13 +87,11 @@ onAuthStateChanged(auth, async u => {
       email: email,
       emoji: u.photoURL || "⚽"
     }, { merge: true });
-
-    startListeners();
   } else {
     state.MU = "";
     state.PRD = {};
-    stopListeners();
   }
+  startListeners();
   UH();
   renderConta();
   renderPalpites();
@@ -140,7 +109,7 @@ window.GT = function (name) {
   if (name === "jogos") renderMatches();
   if (name === "palpites") renderPalpites();
   if (name === "conta") renderConta();
-  if (name === "admin" && state.ME && isAdm(state.ME.email)) { renderAR(); renderAL(); renderAS(); loadINV(); loadMM(); }
+  if (name === "admin" && state.ME && isAdm(state.ME.email)) { renderAR(); renderAL(); renderAS(); loadMM(); }
   if (name === "historico") renderHistorico();
 };
 window.UH = UH;

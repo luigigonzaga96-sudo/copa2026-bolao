@@ -169,23 +169,11 @@
     <div class="security-card security-card--ok"><div class="security-card__icon">🗄️</div><div class="security-card__title">Banco de dados</div><div class="security-card__description">Firestore com regras de acesso. Palpites protegidos por autenticação.</div><div class="security-card__tag security-card__tag--ok">✅ Seguro</div></div>
     <div class="security-card security-card--warning"><div class="security-card__icon">🔑</div><div class="security-card__title">Chave API-Sports</div><div class="security-card__description">Visível no código. Risco: esgotamento de cota (100 req/dia). Dados dos usuários não são afetados.</div><div class="security-card__tag security-card__tag--warning">⚠️ Ação futura</div></div>
     <div class="security-card security-card--warning"><div class="security-card__icon">📂</div><div class="security-card__title">GitHub público</div><div class="security-card__description">Código fonte acessível. Tornar privado elimina exposição da chave API.</div><div class="security-card__tag security-card__tag--warning">⚠️ Recomendado</div></div>
-    <div class="security-card security-card--ok"><div class="security-card__icon">✉️</div><div class="security-card__title">Controle de acesso</div><div class="security-card__description">Sistema de convites ativo. Somente e-mails cadastrados por você podem criar conta.</div><div class="security-card__tag security-card__tag--ok">✅ Ativo</div></div>
+    <div class="security-card security-card--ok"><div class="security-card__icon">✉️</div><div class="security-card__title">Controle de acesso</div><div class="security-card__description">Acesso corporativo via SSO habilitado. Livre para todos os colaboradores DB1/Anytools autenticados.</div><div class="security-card__tag security-card__tag--ok">✅ Liberado</div></div>
     <div class="security-card security-card--ok"><div class="security-card__icon">📋</div><div class="security-card__title">LGPD</div><div class="security-card__description">Uso interno. Aviso de coleta exibido no cadastro.</div><div class="security-card__tag security-card__tag--ok">✅ Comunicado</div></div>
   </div>
   <div class="section-title" style="margin-top:26px">📊 Estatísticas</div>
   <div id="as" class="admin-stats"></div>
-  <div class="section-title" style="margin-top:26px">✉️ Gerenciar Convites</div>
-  <div class="card" style="max-width:660px">
-    <div class="alert alert--info" style="margin-bottom:12px">Somente e-mails cadastrados aqui podem criar conta. Após adicionar, copie o link e envie como preferir.</div>
-    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:7px">
-      <input type="email" id="iinput" placeholder="email@participante.com" style="flex:1;min-width:160px" onkeydown="if(event.key==='Enter')AI()">
-      <button class="btn btn--sm" onclick="AI()">📧 Convidar</button>
-    </div>
-    <div id="ist" style="min-height:14px;margin-bottom:10px;font-size:.78rem"></div>
-    <div id="ilb" style="display:none;margin-bottom:12px"></div>
-    <div style="font-family:'Unbounded',sans-serif;font-size:.58rem;font-weight:900;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px">Convidados</div>
-    <div id="il"></div>
-  </div>
   <div class="section-title" style="margin-top:26px">⚽ Resultados Oficiais</div>
   <div class="alert alert--info" style="margin-bottom:12px">Atualizados automaticamente pela API. Use para correções manuais — confirmação necessária antes de salvar.</div>
   <div id="ar"></div>

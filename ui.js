@@ -40,21 +40,28 @@ window.showEditProfile = () => {
   el.innerHTML = `<div class="section-title">👤 Editar Perfil</div><div class="card" style="max-width:460px"><div id="aa"></div><div class="form-group"><label>Nome de exibição</label><input id="cp-name" type="text" placeholder="Seu nome" value="${currentName}"></div><div style="display:flex;gap:12px;margin-bottom:12px"><div class="form-group" style="flex:1;margin-bottom:0"><label>Unidade</label><select id="cp-unit"><option value="">Selecione sua unidade</option>${Object.entries(UNITS).sort((a, b) => a[1].label.localeCompare(b[1].label)).map(([k, u]) => `<option value="${k}" ${currentUnit === k ? "selected" : ""}>${u.label}</option>`).join("")}</select></div><div class="form-group" style="width:125px;margin-bottom:0"><label>Avatar (emoji)</label><select id="cp-emoji">${["⚽", "🏆", "🎯", "🔥", "💪", "🦁", "🦅", "🐉", "⚡", "🌟", "🐺", "🦊", "🇧🇷", "🇦🇷", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "🇫🇷"].map(emoji => `<option ${currentEmoji === emoji ? "selected" : ""}>${emoji}</option>`).join("")}</select></div></div><button class="btn" style="width:100%" onclick="doCompleteProfile()">Salvar Alterações 🚀</button><div style="text-align:center;margin-top:11px"><button class="btn--danger" style="width:100%" onclick="renderConta()">Cancelar</button></div></div>`;
 };
 
-function getTE() {
-  const p = new URLSearchParams(location.search).get("convite"); if (!p) return "";
-  try { const pad = p.padEnd(p.length + (4 - p.length % 4) % 4, "="); const [e] = atob(pad).split("|"); return e || ""; } catch { return ""; }
-}
-
 export function renderLogin() {
-  const te = getTE();
-  $("cc").innerHTML = `<div class="section-title">Entrar no Bolão</div><div style="max-width:410px" id="aw"><div id="af"><div class="card"><div id="aa"></div><div class="form-group"><label>E-mail</label><input id="le" type="email" placeholder="seu@email.com"></div><div class="form-group"><label>Senha</label><input id="lp" type="password" placeholder="••••••"></div><button class="btn" style="width:100%" onclick="doLogin()">Entrar 🚀</button><div class="divider-text"><span>ou</span></div><button class="btn btn--microsoft" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="doSSOLogin()"><svg width="16" height="16" viewBox="0 0 23 23"><path fill="#f35325" d="M0 0h11v11H0z"/><path fill="#81bc06" d="M12 0h11v11H12z"/><path fill="#05a6f0" d="M0 12h11v11H0z"/><path fill="#ffba08" d="M12 12h11v11H12z"/></svg>Entrar com a Microsoft</button><div style="text-align:center;margin-top:11px"><a onclick="doReset()" style="color:var(--muted);font-size:.73rem;cursor:pointer;text-decoration:underline">Esqueci minha senha</a></div></div><div class="auth-toggle">Não tem conta? <a onclick="showReg()">Criar agora</a></div></div></div>`;
-  if (te) window.showReg(te);
+  $("cc").innerHTML = `<div class="section-title">Entrar no Bolão</div>
+<div style="max-width:410px" id="aw">
+  <div id="af">
+    <div class="card">
+      <div id="aa"></div>
+      <div class="alert alert--info" style="margin-bottom:20px;font-size:.76rem;text-align:center">
+        ⚽ <strong>Acesso Restrito:</strong> Este bolão é de uso interno exclusivo. A entrada é permitida somente através de Single Sign-On (SSO).
+      </div>
+      <button class="btn btn--microsoft" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="doSSOLogin()">
+        <svg width="16" height="16" viewBox="0 0 23 23">
+          <path fill="#f35325" d="M0 0h11v11H0z"/>
+          <path fill="#81bc06" d="M12 0h11v11H12z"/>
+          <path fill="#05a6f0" d="M0 12h11v11H0z"/>
+          <path fill="#ffba08" d="M12 12h11v11H12z"/>
+        </svg>
+        Entrar com a Microsoft
+      </button>
+    </div>
+  </div>
+</div>`;
 }
-
-window.showReg = function (pre = "") {
-  const te = pre || getTE();
-  $("af").innerHTML = `<div class="card"><div id="aa"></div><div class="alert alert--info" style="margin-bottom:12px;font-size:.76rem">🏆 Bolão exclusivo para colaboradores Anytools.</div><div class="form-group"><label>Nome completo</label><input id="rn" type="text" placeholder="Seu nome"></div><div class="form-group"><label>E-mail</label><input id="re" type="email" placeholder="seu@email.com" value="${te}" ${te ? 'readonly style="opacity:.65"' : ""}>${te ? `<div style="font-size:.65rem;color:#4ade80;margin-top:3px">✅ E-mail confirmado pelo convite</div>` : ""}</div><div class="form-group"><label>Senha</label><input id="rp" type="password" placeholder="mínimo 6 caracteres"></div><div style="display:flex;gap:12px;margin-bottom:12px"><div class="form-group" style="flex:1;margin-bottom:0"><label>Unidade</label><select id="ru"><option value="">Selecione sua unidade</option>${Object.entries(UNITS).sort((a, b) => a[1].label.localeCompare(b[1].label)).map(([k, u]) => `<option value="${k}">${u.label}</option>`).join("")}</select></div><div class="form-group" style="width:125px;margin-bottom:0"><label>Avatar (emoji)</label><select id="rem"><option>⚽</option><option>🏆</option><option>🎯</option><option>🔥</option><option>💪</option><option>🦁</option><option>🦅</option><option>🐉</option><option>⚡</option><option>🌟</option><option>🐺</option><option>🦊</option><option>🇧🇷</option><option>🇦🇷</option><option>🏴󠁧󠁢󠁥󠁮󠁧󠁿</option><option>🇫🇷</option></select></div></div><button class="btn" style="width:100%" onclick="doReg()">Criar Conta 🎉</button><div class="divider-text"><span>ou</span></div><button class="btn btn--microsoft" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="doSSOLogin()"><svg width="16" height="16" viewBox="0 0 23 23"><path fill="#f35325" d="M0 0h11v11H0z"/><path fill="#81bc06" d="M12 0h11v11H12z"/><path fill="#05a6f0" d="M0 12h11v11H0z"/><path fill="#ffba08" d="M12 12h11v11H12z"/></svg>Entrar com a Microsoft</button><div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">Dados usados exclusivamente para o bolão interno Anytools.</div></div><div class="auth-toggle">Já tem conta? <a onclick="renderLogin()">Entrar</a></div>`;
-};
 window.renderLogin = renderLogin;
 
 // MODAL

@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, getDocs, deleteDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, setDoc, getDoc, getDocs, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { MX } from "./matches.js";
 import { ADMINS } from "./admins.js";
 import { $, TN, FL, isOpen, lockLbl, pts } from "./helpers.js";
@@ -50,43 +50,6 @@ window.AS = id => {
 
 window.AC = async id => {
   await setDoc(doc(db, "results", String(id)), { home: null, away: null, live: false });
-};
-
-// INVITES
-window.AI = async () => {
-  const e = $("iinput")?.value.trim(); if (!e) return;
-  $("iinput").value = ""; $("ist").innerHTML = `<span style="color:var(--muted)">Gerando...</span>`; $("ilb").style.display = "none";
-  const key = e.toLowerCase();
-  const ex = await getDoc(doc(db, "invites", key));
-  if (ex.exists()) { $("ist").innerHTML = `<span style="color:var(--gold)">⚠️ E-mail já convidado.</span>`; return; }
-  const tok = btoa(key + "|" + Date.now()).replace(/=/g, "");
-  await setDoc(doc(db, "invites", key), { email: key, token: tok, status: "pending", invitedAt: serverTimestamp() });
-  const link = `${location.origin}${location.pathname}?convite=${encodeURIComponent(tok)}`;
-  $("ist").innerHTML = `<span style="color:#4ade80">✅ Convite gerado para ${e}</span>`;
-  const box = $("ilb"); box.style.display = "block";
-  box.innerHTML = `<div style="background:#0a1a0d;border:1px solid #2d6a4f;border-radius:8px;padding:11px"><div style="font-size:.7rem;color:var(--muted);margin-bottom:6px">Copie o link e envie como preferir:</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><input readonly value="${link}" onclick="this.select()" style="flex:1;min-width:130px;background:#0f0f0f;border:1px solid var(--border);border-radius:5px;color:var(--gold);font-size:.7rem;padding:5px 8px;font-family:monospace"><button class="btn btn--sm" id="cpb" onclick="navigator.clipboard.writeText('${link}').then(()=>{document.getElementById('cpb').textContent='✅ Copiado!';setTimeout(()=>document.getElementById('cpb').textContent='📋 Copiar',2000)})">📋 Copiar</button></div></div>`;
-  loadINV();
-};
-
-export async function loadINV() {
-  const sn = await getDocs(collection(db, "invites"));
-  state.INVS = []; sn.forEach(d => state.INVS.push({ id: d.id, ...d.data() }));
-  renderINV();
-}
-
-export function renderINV() {
-  const el = $("il"); if (!el) return;
-  if (!state.INVS.length) { el.innerHTML = `<div style="color:var(--muted);font-size:.78rem;padding:8px 0">Nenhum convite ainda.</div>`; return; }
-  const jd = new Set(state.USERS.map(u => (u.email || "").toLowerCase()));
-  el.innerHTML = [...state.INVS].sort((a, b) => (b.invitedAt?.seconds || 0) - (a.invitedAt?.seconds || 0)).map(inv => {
-    const ok = jd.has(inv.email);
-    return `<div class="invite-row"><div style="font-size:1rem">${ok ? "✅" : "📧"}</div><div class="invite-row__email">${inv.email}</div><span class="is ${ok ? "ij" : "ip"}">${ok ? "Entrou" : "Pendente"}</span>${!ok ? `<button class="btn--danger" onclick="RI('${inv.email}')">Revogar</button>` : ""}</div>`;
-  }).join("");
-}
-
-window.RI = async e => {
-  await deleteDoc(doc(db, "invites", e.toLowerCase()));
-  loadINV();
 };
 
 // MATA-MATA ADMIN
