@@ -381,6 +381,47 @@ select option { background:#111; }
   margin-left: .5em;
 }
 
+/* ══════════════ SKELETON LOADING & BUTTON SPINNING ══════════════ */
+.skeleton {
+  background: linear-gradient(90deg, #161616 25%, #242424 50%, #161616 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; }
+.skeleton-avatar { width: 36px; height: 36px; border-radius: 50%; }
+
+.btn--loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.btn--loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: btn-spinner 0.6s linear infinite;
+}
+
+@keyframes btn-spinner {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* ══════════════ RESPONSIVE ══════════════ */
 @media (max-width:580px) {
   .match-card { grid-template-columns:1fr auto 1fr; }
@@ -388,3 +429,4 @@ select option { background:#111; }
   .header__inner { gap:6px; }
   .nav__btn { padding:4px 7px; font-size:.6rem; }
 }
+
