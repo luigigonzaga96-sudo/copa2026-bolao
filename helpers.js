@@ -84,4 +84,14 @@ export function UB(k) {
   return `<span class="unit-badge" style="background:${u.bg};color:${u.text};border-color:${u.color}">${u.label}</span>`;
 }
 
+export function fmtDT(ko) {
+  const d = new Date(ko);
+  if (isNaN(d.getTime())) return { d: "", t: "" };
+  const pad = n => String(n).padStart(2, "0");
+  const dateStr = `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
+  const timeStr = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  return { d: dateStr, t: timeStr };
+}
+
 export const $ = id => document.getElementById(id);
+

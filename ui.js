@@ -1,5 +1,5 @@
 import { UNITS } from "./units.js";
-import { $, UB, pts, ptsRound, sgn, FL, TN } from "./helpers.js";
+import { $, UB, pts, ptsRound, sgn, FL, TN, fmtDT } from "./helpers.js";
 import { state } from "./state.js";
 import { isAdm } from "./auth.js";
 import { renderAR, renderAL, renderAS } from "./admin.js";
@@ -168,7 +168,7 @@ export function renderHistorico() {
         const st = pred.home === r.home && pred.away === r.away ? "e" : sgn(pred.home - pred.away) === sgn(r.home - r.away) ? "w" : "l";
         badge = st === "e" ? `<span class="bet-badge bet-badge--exact">🎯 +5</span>` : st === "w" ? `<span class="bet-badge bet-badge--win">✅ +3</span>` : `<span class="bet-badge bet-badge--loss">❌ 0</span>`;
       } else { badge = `<span class="bet-badge" style="background:#1a1a1a;color:var(--muted)">${getTranslation("history_no_prediction")}</span>`; }
-      html += `<div style="background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:10px 13px;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-size:.83rem;font-weight:600;flex:1">${fh} ${nh} × ${na} ${fa}</span><span style="font-size:.7rem;color:var(--muted)">${m.d} · ${getTranslation("group_short")}${m.g}</span><span style="font-size:.8rem">${sc}</span>${badge}</div>`;
+      html += `<div style="background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:10px 13px;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-size:.83rem;font-weight:600;flex:1">${fh} ${nh} × ${na} ${fa}</span><span style="font-size:.7rem;color:var(--muted)">${fmtDT(m.ko).d} · ${getTranslation("group_short")}${m.g}</span><span style="font-size:.8rem">${sc}</span>${badge}</div>`;
     }
     html += `</div>`;
   }

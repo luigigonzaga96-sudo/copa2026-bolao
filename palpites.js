@@ -1,6 +1,6 @@
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { MX } from "./matches.js";
-import { $, FL, TN, isOpen, lockLbl, pSt, pts } from "./helpers.js";
+import { $, FL, TN, isOpen, lockLbl, pSt, pts, fmtDT } from "./helpers.js";
 import { state } from "./state.js";
 import { getTranslation } from "./i18n.js";
 
@@ -113,7 +113,7 @@ export function cardUnifiedMatch(m) {
         ${predHtml}
       </div>
       <div class="match-card__footer">
-        <span class="match-card__meta">${m.d} · ${m.t} · ${m.v}</span>
+        <span class="match-card__meta">${fmtDT(m.ko).d} · ${fmtDT(m.ko).t}</span>
         <span class="match-card__points">${pointsBadge}</span>
       </div>
     </div>

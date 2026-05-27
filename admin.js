@@ -1,7 +1,7 @@
 import { doc, setDoc, getDoc, getDocs, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { MX } from "./matches.js";
 import { ADMINS } from "./admins.js";
-import { $, TN, FL, isOpen, lockLbl, pts } from "./helpers.js";
+import { $, TN, FL, isOpen, lockLbl, pts, fmtDT } from "./helpers.js";
 import { state } from "./state.js";
 import { getTranslation } from "./i18n.js";
 
@@ -15,7 +15,7 @@ export function renderAR() {
     const fh = FL(m.h), fa = FL(m.a), nh = TN(m.h), na = TN(m.a);
     const op = isOpen(m), lk = lockLbl(m);
     const sl = op ? `<span style="font-size:.62rem;color:#4ade80;font-weight:700">${lk || getTranslation("adm_open")}</span>` : r && r.home !== null ? `<span style="font-size:.62rem;color:var(--muted)">${getTranslation("adm_ended")}</span>` : `<span style="font-size:.62rem;color:var(--red);font-weight:700">${getTranslation("adm_closed")}</span>`;
-    return `<div class="card" style="padding:10px;margin-bottom:6px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="flex:1;font-size:.8rem;font-weight:600">${fh} ${nh} × ${na} ${fa} <span style="color:var(--muted);font-size:.7rem">${m.d}</span></span>${sl}<input class="score-input" type="number" id="rh${m.id}" value="${hs}" placeholder="0" style="width:42px"><span style="color:var(--muted)">×</span><input class="score-input" type="number" id="ra${m.id}" value="${as}" placeholder="0" style="width:42px"><button class="btn btn--sm" onclick="AS(${m.id})">${getTranslation("btn_save")}</button>${r && r.home !== null ? `<button class="btn--danger" onclick="AC(${m.id})">🗑</button>` : ""}</div></div>`;
+    return `<div class="card" style="padding:10px;margin-bottom:6px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="flex:1;font-size:.8rem;font-weight:600">${fh} ${nh} × ${na} ${fa} <span style="color:var(--muted);font-size:.7rem">${fmtDT(m.ko).d} · ${fmtDT(m.ko).t}</span></span>${sl}<input class="score-input" type="number" id="rh${m.id}" value="${hs}" placeholder="0" style="width:42px"><span style="color:var(--muted)">×</span><input class="score-input" type="number" id="ra${m.id}" value="${as}" placeholder="0" style="width:42px"><button class="btn btn--sm" onclick="AS(${m.id})">${getTranslation("btn_save")}</button>${r && r.home !== null ? `<button class="btn--danger" onclick="AC(${m.id})">🗑</button>` : ""}</div></div>`;
   }).join("");
 }
 
