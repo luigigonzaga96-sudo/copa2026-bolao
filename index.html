@@ -26,14 +26,17 @@
         <button class="nav__btn nav__btn--games" onclick="GT('jogos')" data-i18n="nav_games">⚽ Jogos</button>
         <button class="nav__btn nav__btn--predictions" onclick="GT('palpites')" data-i18n="nav_predictions">🎯
           Palpites</button>
-        <button class="nav__btn nav__btn--tournament" onclick="GT('torneio')" data-i18n="nav_tournament">🏆
-          Torneio</button>
-        <button class="nav__btn nav__btn--account" onclick="GT('conta')" data-i18n="nav_account">👤 Conta</button>
-        <button class="nav__btn nav__btn--faq" onclick="GT('duvidas')" data-i18n="nav_faq">❓ Dúvidas</button>
-        <button class="nav__btn nav__btn--history" onclick="GT('historico')" data-i18n="nav_history">📅
-          Histórico</button>
-        <button class="nav__btn nav__btn--admin" id="nav-adm" onclick="GT('admin')" data-i18n="nav_admin">⚙️
-          Admin</button>
+        <div class="nav__dropdown">
+          <button class="nav__btn nav__btn--more" id="nav-more-btn" data-i18n="nav_more">Mais</button>
+          <div class="nav__dropdown-content" id="nav-more-dropdown">
+            <button class="nav__btn nav__btn--account" onclick="GT('conta')" data-i18n="nav_account">👤 Conta</button>
+            <button class="nav__btn nav__btn--faq" onclick="GT('duvidas')" data-i18n="nav_faq">❓ Dúvidas</button>
+            <button class="nav__btn nav__btn--history" onclick="GT('historico')" data-i18n="nav_history">📅
+              Histórico</button>
+            <button class="nav__btn nav__btn--admin" id="nav-adm" onclick="GT('admin')" data-i18n="nav_admin">⚙️
+              Admin</button>
+          </div>
+        </div>
       </nav>
       <div id="us"></div>
       <select id="lang-switcher" onchange="setLanguage(this.value)">

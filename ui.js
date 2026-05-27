@@ -9,7 +9,7 @@ import { getTranslation } from "./i18n.js";
 export function UH() {
   const el = $("us"), btn = $("nav-adm");
   const adm = state.ME && isAdm(state.ME.email);
-  if (btn) { btn.style.display = adm ? "inline-block" : "none"; btn.classList.toggle("show", adm); }
+  if (btn) { btn.classList.toggle("is-visible", adm); }
   if (state.ME) {
     const p = pts(state.PRD, state.RES);
     const pill = adm ? `<span class="admin-pill">ADMIN</span>` : "";

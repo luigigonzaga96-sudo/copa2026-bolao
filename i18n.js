@@ -8,6 +8,7 @@ export const translations = {
     "nav_faq": "❓ Dúvidas",
     "nav_history": "📅 Histórico",
     "nav_admin": "⚙️ Admin",
+    "nav_more": "Mais",
     "hero_title": "🏆 BOLÃO<br><span>COPA 2026</span>",
     "hero_subtitle": "USA · Canada · México · 48 seleções · 104 jogos",
     "hero_opening": "Abertura",
@@ -233,6 +234,7 @@ export const translations = {
     "nav_faq": "❓ Dudas",
     "nav_history": "📅 Historial",
     "nav_admin": "⚙️ Admin",
+    "nav_more": "Más",
     "hero_title": "🏆 PORRA<br><span>COPA 2026</span>",
     "hero_subtitle": "USA · Canadá · México · 48 selecciones · 104 partidos",
     "hero_opening": "Apertura",
@@ -462,12 +464,11 @@ export function setLanguage(lang) {
     localStorage.setItem("app_lang", lang);
     applyTranslations();
     if (window.GT) {
-      const activeBtn = document.querySelector("#nav .nav__btn.is-active");
+      const activeBtn = document.querySelector("#nav .nav__btn.is-active:not(.nav__btn--more)");
       if (activeBtn) {
         let tabName = "ranking";
         if (activeBtn.classList.contains("nav__btn--games")) tabName = "jogos";
         else if (activeBtn.classList.contains("nav__btn--predictions")) tabName = "palpites";
-        else if (activeBtn.classList.contains("nav__btn--tournament")) tabName = "torneio";
         else if (activeBtn.classList.contains("nav__btn--account")) tabName = "conta";
         else if (activeBtn.classList.contains("nav__btn--faq")) tabName = "duvidas";
         else if (activeBtn.classList.contains("nav__btn--history")) tabName = "historico";

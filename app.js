@@ -104,9 +104,28 @@ window.GT = function (name) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("tab--active"));
   document.querySelectorAll("#nav .nav__btn").forEach(b => b.classList.remove("is-active"));
   const tab = $("tab-" + name); if (tab) tab.classList.add("tab--active");
-  const map = { ranking: 0, jogos: 1, palpites: 2, torneio: 3, conta: 4, duvidas: 5, historico: 6, admin: 7 };
-  const idx = map[name]; if (idx !== undefined) document.querySelectorAll("#nav .nav__btn")[idx]?.classList.add("is-active");
-  if (name === "torneio") renderTorneio();
+  
+  const mapClass = {
+    ranking: 'ranking',
+    jogos: 'games',
+    palpites: 'predictions',
+    conta: 'account',
+    duvidas: 'faq',
+    historico: 'history',
+    admin: 'admin'
+  };
+  const cls = mapClass[name];
+  if (cls) {
+    const btn = document.querySelector(`#nav .nav__btn--${cls}`);
+    if (btn) btn.classList.add("is-active");
+  }
+  
+  const inDropdown = ["conta", "duvidas", "historico", "admin"].includes(name);
+  if (inDropdown) {
+    const moreBtn = document.getElementById("nav-more-btn");
+    if (moreBtn) moreBtn.classList.add("is-active");
+  }
+
   if (name === "jogos") renderMatches();
   if (name === "palpites") renderPalpites();
   if (name === "conta") renderConta();
@@ -123,3 +142,16 @@ renderJanela();
 setInterval(renderJanela, 60000);
 const teParam = new URLSearchParams(location.search).get("convite");
 if (teParam) window.GT("conta");
+
+// ── Dropdown Toggle ──────────────────────────────────────────────────────────
+const moreBtn = document.getElementById("nav-more-btn");
+const moreDropdown = document.getElementById("nav-more-dropdown");
+if (moreBtn && moreDropdown) {
+  moreBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    moreDropdown.classList.toggle("is-open");
+  });
+  document.addEventListener("click", () => {
+    moreDropdown.classList.remove("is-open");
+  });
+}
