@@ -1,11 +1,11 @@
-# Contexto do Projeto: Bolão Copa 2026 (Anytools)
+# Contexto do Projeto: Bolão Copa 2026 (DB1 Group)
 
-Este documento reúne todas as especificações técnicas, arquitetura de software, regras de negócio e informações de segurança do aplicativo **Bolão Copa 2026 - Anytools**.
+Este documento reúne todas as especificações técnicas, arquitetura de software, regras de negócio e informações de segurança do aplicativo **Bolão Copa 2026 - DB1 Group**.
 
 ---
 
 ## 1. Visão Geral do Aplicativo
-O aplicativo é um **Bolão interno** exclusivo para colaboradores do grupo **Anytools/DB1** para a Copa do Mundo FIFA de 2026 (sediada nos EUA, Canadá e México).
+O aplicativo é um **Bolão interno** exclusivo para colaboradores do grupo **DB1 Group** para a Copa do Mundo FIFA de 2026 (sediada nos EUA, Canadá e México).
 
 - **Público-alvo**: Colaboradores das unidades de negócio: *Koncili*, *Anymarket*, *Predize*, *Winnerbox* e *Marca Seleta*.
 - **Modelo de Execução**: Single Page Application (SPA) contida em um único arquivo `index.html`.
@@ -51,7 +51,7 @@ O projeto é extremamente simplificado e centralizado:
 ### 3.4. Rankings
 O aplicativo calcula e exibe dois rankings principais:
 1. **Classificação Geral**: Lista de todos os usuários ordenada de forma decrescente pelo total de pontos acumulados.
-2. **Ranking Anytools (Média por Unidade)**: Para manter a disputa justa entre unidades de tamanhos diferentes, calcula a **média de pontos por participante** daquela unidade específica (`soma dos pontos dos membros / total de membros cadastrados da unidade`).
+2. **Ranking DB1 Group (Média por Unidade)**: Para manter a disputa justa entre unidades de tamanhos diferentes, calcula a **média de pontos por participante** daquela unidade específica (`soma dos pontos dos membros / total de membros cadastrados da unidade`).
 
 As unidades são:
 - **Koncili**: Verde (`#1a7c3e`)

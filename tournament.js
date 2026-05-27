@@ -2,6 +2,7 @@ import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase
 import { MX } from "./matches.js";
 import { $, TN, FL } from "./helpers.js";
 import { state } from "./state.js";
+import { getTranslation } from "./i18n.js";
 
 let db;
 export function initTournament(dbInstance) { db = dbInstance; }
@@ -30,15 +31,15 @@ export function renderGrupos() {
   let html = '<div class="groups-grid">';
   grps.forEach(g => {
     const tab = calcGrupo(g);
-    html += '<div class="card" style="padding:10px 8px"><div class="group-table__label">GRUPO ' + g + '</div>';
-    html += '<table class="group-table"><thead><tr><th>Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th><th>Pts</th></tr></thead><tbody>';
+    html += '<div class="card" style="padding:10px 8px"><div class="group-table__label">' + getTranslation("pred_group").toUpperCase() + g + '</div>';
+    html += '<table class="group-table"><thead><tr><th>' + getTranslation("tournament_team") + '</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th><th>Pts</th></tr></thead><tbody>';
     tab.forEach((t, i) => {
       const cls = i < 2 ? 'style="color:#4ade80"' : i === 2 ? 'style="color:var(--gold)"' : '';
       const nm = TN(t.t), fl = FL(t.t);
       html += '<tr ' + cls + '><td>' + fl + ' ' + nm + '</td><td>' + t.j + '</td><td>' + t.v + '</td><td>' + t.e + '</td><td>' + t.d + '</td><td>' + t.gp + '</td><td>' + t.gc + '</td><td>' + (t.sg > 0 ? '+' : '') + t.sg + '</td><td style="font-weight:900">' + t.pts + '</td></tr>';
     });
     html += '</tbody></table>';
-    html += '<div style="font-size:.55rem;color:var(--muted);margin-top:4px">🟢 Classificado &nbsp; 🟡 Melhor 3º</div>';
+    html += '<div style="font-size:.55rem;color:var(--muted);margin-top:4px">' + getTranslation("tournament_legend") + '</div>';
     html += '</div>';
   });
   html += '</div>';
@@ -50,29 +51,32 @@ export function renderMM() {
   getDoc(doc(db, "torneio", "matamata")).then(snap => {
     const mm = snap.exists() ? snap.data() : {};
     const fases = ["oitavas", "quartas", "semis", "final"];
-    const nomes = { "oitavas": "⚔️ Oitavas de Final", "quartas": "🏅 Quartas de Final", "semis": "🥈 Semifinais", "final": "🏆 Final" };
     const slots = { "oitavas": 16, "quartas": 8, "semis": 4, "final": 2 };
     let html = "";
     fases.forEach(fase => {
       const jogos = mm[fase] || [];
       const total = slots[fase] / 2;
-      html += '<div class="section-title" style="margin-top:20px">' + nomes[fase] + '</div>';
+      const emoji = fase === "oitavas" ? "⚔️ " : fase === "quartas" ? "🏅 " : fase === "semis" ? "🥈 " : "🏆 ";
+      const nomeFase = emoji + getTranslation(fase);
+      html += '<div class="section-title" style="margin-top:20px">' + nomeFase + '</div>';
       html += '<div style="display:flex;flex-direction:column;gap:6px">';
       for (let i = 0; i < total; i++) {
         const jogo = jogos[i] || { h: "A definir", a: "A definir", gh: null, ga: null };
         const done = jogo.gh !== null && jogo.ga !== null;
         const sc = done ? jogo.gh + ' × ' + jogo.ga : '× ';
+        const jh = jogo.h === "A definir" ? getTranslation("tournament_tbd") : jogo.h;
+        const ja = jogo.a === "A definir" ? getTranslation("tournament_tbd") : jogo.a;
         html += '<div class="match-card">' +
-          '<div class="match-card__team match-card__team--home">' + jogo.h + '</div>' +
+          '<div class="match-card__team match-card__team--home">' + jh + '</div>' +
           '<div class="match-card__score" style="font-size:.9rem;min-width:50px">' + sc + '</div>' +
-          '<div class="match-card__team match-card__team--away">' + jogo.a + '</div>' +
+          '<div class="match-card__team match-card__team--away">' + ja + '</div>' +
           '<div class="match-card__info"><div class="mst ' + (done ? "done" : "") + '">' +
-          (done ? "✅ Encerrado" : "A definir") + '</div></div></div>';
+          (done ? getTranslation("pred_ended") : getTranslation("tournament_tbd")) + '</div></div></div>';
       }
       html += '</div>';
     });
     el.innerHTML = html;
-  }).catch(() => { el.innerHTML = '<div style="color:var(--muted);padding:24px;text-align:center">Mata-mata ainda não disponível.</div>'; });
+  }).catch(() => { el.innerHTML = '<div style="color:var(--muted);padding:24px;text-align:center">' + getTranslation("tournament_not_available") + '</div>'; });
 }
 
 export function renderTorneio() {

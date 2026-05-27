@@ -1,8 +1,9 @@
 import { signOut, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { ADMINS } from "./admins.js";
 import { $ } from "./helpers.js";
 import { state } from "./state.js";
+import { getTranslation } from "./i18n.js";
 
 let auth, db;
 
@@ -42,9 +43,9 @@ window.doSSOLogin = async () => {
   } catch (err) {
     console.error(err);
     if (err.code === "auth/popup-closed-by-user") {
-      SA("Login cancelado 🧭", "ae");
+      SA(getTranslation("auth_login_cancelled"), "ae");
     } else {
-      SA("Erro no SSO: " + err.message, "ae");
+      SA(getTranslation("auth_sso_error") + err.message, "ae");
     }
   } finally {
     if (btn) { btn.classList.remove("btn--loading"); btn.disabled = false; }
@@ -57,7 +58,7 @@ window.doCompleteProfile = async () => {
   const em = $("cp-emoji")?.value;
   SA("", "");
   if (!n || !un) {
-    SA("Preencha o nome e selecione a unidade!", "ae");
+    SA(getTranslation("auth_complete_profile_validation"), "ae");
     return;
   }
   const btn = document.querySelector("#cc button.btn");
