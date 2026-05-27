@@ -102,7 +102,7 @@ onAuthStateChanged(auth, async u => {
 // ── Navigation ────────────────────────────────────────────────────────────────
 window.GT = function (name) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("tab--active"));
-  document.querySelectorAll("#nav .nav__btn").forEach(b => b.classList.remove("is-active"));
+  document.querySelectorAll(".nav__btn, .bottom-nav__btn").forEach(b => b.classList.remove("is-active"));
   const tab = $("tab-" + name); if (tab) tab.classList.add("tab--active");
   
   const mapClass = {
@@ -115,14 +115,17 @@ window.GT = function (name) {
   };
   const cls = mapClass[name];
   if (cls) {
-    const btn = document.querySelector(`#nav .nav__btn--${cls}`);
-    if (btn) btn.classList.add("is-active");
+    document.querySelectorAll(`.nav__btn--${cls}`).forEach(btn => btn.classList.add("is-active"));
   }
   
   const inDropdown = ["conta", "duvidas", "historico", "admin"].includes(name);
+  const mobMenuBtn = document.getElementById("mobile-menu-btn");
+  if (mobMenuBtn) mobMenuBtn.classList.remove("is-active");
+  
   if (inDropdown) {
     const moreBtn = document.getElementById("nav-more-btn");
     if (moreBtn) moreBtn.classList.add("is-active");
+    if (mobMenuBtn) mobMenuBtn.classList.add("is-active");
   }
 
   if (name === "jogos") renderMatches();
@@ -130,6 +133,24 @@ window.GT = function (name) {
   if (name === "admin" && state.ME && isAdm(state.ME.email)) { renderAR(); renderAL(); renderAS(); loadMM(); }
   if (name === "historico") renderHistorico();
 };
+
+window.toggleMobileDrawer = function (open) {
+  const drawer = document.getElementById("mobile-drawer");
+  if (!drawer) return;
+  if (open === undefined) {
+    drawer.classList.toggle("is-open");
+  } else if (open) {
+    drawer.classList.add("is-open");
+  } else {
+    drawer.classList.remove("is-open");
+  }
+};
+
+window.selectDrawerOption = function (name) {
+  window.toggleMobileDrawer(false);
+  window.GT(name);
+};
+
 window.UH = UH;
 
 // ── Init ──────────────────────────────────────────────────────────────────────

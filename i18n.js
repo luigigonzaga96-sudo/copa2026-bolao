@@ -7,6 +7,13 @@ export const translations = {
     "nav_history": "📅 Histórico",
     "nav_admin": "⚙️ Admin",
     "nav_more": "Mais",
+    "nav_ranking_label": "Ranking",
+    "nav_games_label": "Jogos",
+    "nav_account_label": "Conta",
+    "nav_faq_label": "Dúvidas",
+    "nav_history_label": "Histórico",
+    "nav_admin_label": "Admin",
+    "nav_menu_label": "Mais",
     "filter_all": "Todos",
     "filter_r1": "Rodada 1",
     "filter_r2": "Rodada 2",
@@ -236,6 +243,13 @@ export const translations = {
     "nav_history": "📅 Historial",
     "nav_admin": "⚙️ Admin",
     "nav_more": "Más",
+    "nav_ranking_label": "Ranking",
+    "nav_games_label": "Partidos",
+    "nav_account_label": "Cuenta",
+    "nav_faq_label": "Dudas",
+    "nav_history_label": "Historial",
+    "nav_admin_label": "Admin",
+    "nav_menu_label": "Más",
     "filter_all": "Todos",
     "filter_r1": "Jornada 1",
     "filter_r2": "Jornada 2",
@@ -470,14 +484,9 @@ export function setLanguage(lang) {
     localStorage.setItem("app_lang", lang);
     applyTranslations();
     if (window.GT) {
-      const activeBtn = document.querySelector("#nav .nav__btn.is-active:not(.nav__btn--more)");
-      if (activeBtn) {
-        let tabName = "ranking";
-        if (activeBtn.classList.contains("nav__btn--games")) tabName = "jogos";
-        else if (activeBtn.classList.contains("nav__btn--account")) tabName = "conta";
-        else if (activeBtn.classList.contains("nav__btn--faq")) tabName = "duvidas";
-        else if (activeBtn.classList.contains("nav__btn--history")) tabName = "historico";
-        else if (activeBtn.classList.contains("nav__btn--admin")) tabName = "admin";
+      const activeTab = document.querySelector(".tab.tab--active");
+      if (activeTab) {
+        const tabName = activeTab.id.replace("tab-", "");
         window.GT(tabName);
       } else {
         window.GT("ranking");
@@ -498,6 +507,39 @@ export function applyTranslations() {
   const switcher = document.getElementById("lang-switcher");
   if (switcher) {
     switcher.value = currentLang;
+
+    const expand = () => {
+      const optPt = switcher.querySelector('option[value="pt-BR"]');
+      const optEs = switcher.querySelector('option[value="es"]');
+      if (optPt) optPt.textContent = "🇧🇷 PT";
+      if (optEs) optEs.textContent = "🇪🇸 ES";
+    };
+
+    const collapse = () => {
+      const optPt = switcher.querySelector('option[value="pt-BR"]');
+      const optEs = switcher.querySelector('option[value="es"]');
+      if (optPt) optPt.textContent = "🇧🇷";
+      if (optEs) optEs.textContent = "🇪🇸";
+    };
+
+    // Revert initially to flags only
+    collapse();
+
+    if (!switcher.dataset.bound) {
+      switcher.dataset.bound = "true";
+      switcher.addEventListener("focus", expand);
+      switcher.addEventListener("mousedown", expand);
+      switcher.addEventListener("change", () => {
+        collapse();
+        switcher.blur();
+      });
+      switcher.addEventListener("blur", collapse);
+      switcher.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" || e.key === "Enter") {
+          switcher.blur();
+        }
+      });
+    }
   }
 }
 

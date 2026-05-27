@@ -7,9 +7,10 @@ import { getTranslation } from "./i18n.js";
 
 // HEADER
 export function UH() {
-  const el = $("us"), btn = $("nav-adm");
+  const el = $("us"), btn = $("nav-adm"), dBtn = $("drawer-nav-adm");
   const adm = state.ME && isAdm(state.ME.email);
   if (btn) { btn.classList.toggle("is-visible", adm); }
+  if (dBtn) { dBtn.classList.toggle("is-visible", adm); }
   if (state.ME) {
     const p = pts(state.PRD, state.RES);
     const pill = adm ? `<span class="admin-pill">ADMIN</span>` : "";

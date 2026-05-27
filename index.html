@@ -38,8 +38,8 @@
       </nav>
       <div id="us"></div>
       <select id="lang-switcher" onchange="setLanguage(this.value)">
-        <option value="pt-BR">🇧🇷 PT</option>
-        <option value="es">🇪🇸 ES</option>
+        <option value="pt-BR">🇧🇷</option>
+        <option value="es">🇪🇸</option>
       </select>
     </div>
   </header>
@@ -369,6 +369,51 @@
       <div id="mm" class="modal__message"></div>
       <div class="modal__actions"><button id="mok" class="btn" data-i18n="btn_confirm">Confirmar</button><button
           class="btn btn--outline btn--sm" onclick="CM()" data-i18n="btn_cancel">Cancelar</button></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION FOR MOBILE -->
+  <nav class="bottom-nav">
+    <button class="bottom-nav__btn nav__btn nav__btn--ranking is-active" onclick="GT('ranking')">
+      <span class="bottom-nav__icon">🏆</span>
+      <span class="bottom-nav__label" data-i18n="nav_ranking_label">Ranking</span>
+    </button>
+    <button class="bottom-nav__btn nav__btn nav__btn--games" onclick="GT('jogos')">
+      <span class="bottom-nav__icon">⚽</span>
+      <span class="bottom-nav__label" data-i18n="nav_games_label">Jogos</span>
+    </button>
+    <button class="bottom-nav__btn nav__btn nav__btn--account" onclick="GT('conta')">
+      <span class="bottom-nav__icon">👤</span>
+      <span class="bottom-nav__label" data-i18n="nav_account_label">Conta</span>
+    </button>
+    <button class="bottom-nav__btn" id="mobile-menu-btn" onclick="toggleMobileDrawer()">
+      <span class="bottom-nav__icon">☰</span>
+      <span class="bottom-nav__label" data-i18n="nav_menu_label">Mais</span>
+    </button>
+  </nav>
+
+  <!-- MOBILE DRAWER MENU (SANDWICH) -->
+  <div id="mobile-drawer" class="drawer">
+    <div class="drawer__overlay" onclick="toggleMobileDrawer(false)"></div>
+    <div class="drawer__content">
+      <div class="drawer__header">
+        <div class="drawer__title" data-i18n="nav_menu_label">Mais</div>
+        <button class="drawer__close" onclick="toggleMobileDrawer(false)">×</button>
+      </div>
+      <div class="drawer__body">
+        <button class="drawer__btn nav__btn nav__btn--faq" onclick="selectDrawerOption('duvidas')">
+          <span class="drawer__btn-icon">❓</span>
+          <span class="drawer__btn-text" data-i18n="nav_faq_label">Dúvidas</span>
+        </button>
+        <button class="drawer__btn nav__btn nav__btn--history" onclick="selectDrawerOption('historico')">
+          <span class="drawer__btn-icon">📅</span>
+          <span class="drawer__btn-text" data-i18n="nav_history_label">Histórico</span>
+        </button>
+        <button class="drawer__btn nav__btn nav__btn--admin drawer__btn--admin" id="drawer-nav-adm" onclick="selectDrawerOption('admin')">
+          <span class="drawer__btn-icon">⚙️</span>
+          <span class="drawer__btn-text" data-i18n="nav_admin_label">Admin</span>
+        </button>
+      </div>
     </div>
   </div>
 
