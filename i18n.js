@@ -1,14 +1,17 @@
 export const translations = {
   "pt-BR": {
     "nav_ranking": "🏆 Ranking",
-    "nav_games": "⚽ Jogos",
-    "nav_predictions": "🎯 Palpites",
-    "nav_tournament": "🏆 Torneio",
+    "nav_games": "⚽ Jogos & Palpites",
     "nav_account": "👤 Conta",
     "nav_faq": "❓ Dúvidas",
     "nav_history": "📅 Histórico",
     "nav_admin": "⚙️ Admin",
     "nav_more": "Mais",
+    "filter_all": "Todos",
+    "filter_r1": "Rodada 1",
+    "filter_r2": "Rodada 2",
+    "filter_r3": "Rodada 3",
+    "filter_test": "Testes",
     "hero_title": "🏆 BOLÃO<br><span>COPA 2026</span>",
     "hero_subtitle": "USA · Canada · México · 48 seleções · 104 jogos",
     "hero_opening": "Abertura",
@@ -227,14 +230,17 @@ export const translations = {
   },
   "es": {
     "nav_ranking": "🏆 Ranking",
-    "nav_games": "⚽ Partidos",
-    "nav_predictions": "🎯 Pronósticos",
-    "nav_tournament": "🏆 Torneo",
+    "nav_games": "⚽ Partidos y Pronósticos",
     "nav_account": "👤 Cuenta",
     "nav_faq": "❓ Dudas",
     "nav_history": "📅 Historial",
     "nav_admin": "⚙️ Admin",
     "nav_more": "Más",
+    "filter_all": "Todos",
+    "filter_r1": "Jornada 1",
+    "filter_r2": "Jornada 2",
+    "filter_r3": "Jornada 3",
+    "filter_test": "Pruebas",
     "hero_title": "🏆 PORRA<br><span>COPA 2026</span>",
     "hero_subtitle": "USA · Canadá · México · 48 selecciones · 104 partidos",
     "hero_opening": "Apertura",
@@ -468,7 +474,6 @@ export function setLanguage(lang) {
       if (activeBtn) {
         let tabName = "ranking";
         if (activeBtn.classList.contains("nav__btn--games")) tabName = "jogos";
-        else if (activeBtn.classList.contains("nav__btn--predictions")) tabName = "palpites";
         else if (activeBtn.classList.contains("nav__btn--account")) tabName = "conta";
         else if (activeBtn.classList.contains("nav__btn--faq")) tabName = "duvidas";
         else if (activeBtn.classList.contains("nav__btn--history")) tabName = "historico";
