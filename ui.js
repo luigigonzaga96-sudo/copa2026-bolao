@@ -97,9 +97,9 @@ window.SM = SM;
 
 // FAQ
 window.SF = function (id, btn) {
-  document.querySelectorAll(".fs").forEach(s => s.classList.remove("is-active"));
+  document.querySelectorAll(".faq-section").forEach(s => s.classList.remove("faq-section--active"));
   document.querySelectorAll(".faq-categories__btn").forEach(b => b.classList.remove("is-active"));
-  $("f" + id)?.classList.add("is-active"); btn.classList.add("is-active");
+  $("f" + id)?.classList.add("faq-section--active"); btn.classList.add("is-active");
 };
 window.TF = function (el) {
   const a = el.nextElementSibling, op = a.style.display === "block";
