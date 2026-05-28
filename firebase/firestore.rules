@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if the authenticated user is an admin
+    function isAdmin() {
+      return request.auth != null && 
+        request.auth.token.email.lower() in [
+          'luigigonzaga96@gmail.com', 
+          'bruno.rossmann@db1.com.br', 
+          'jocimar.huss@db1.com.br'
+        ];
+    }
+
+    // Rules for Users collection
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+      
+      // Subcollection for Predictions/Bets
+      match /predictions/{matchId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Rules for Matches collection (everyone can read, only admin can write)
+    match /matches/{matchId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Rules for Official Match Results (everyone can read, only admin can write)
+    match /results/{matchId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Rules for Invites (everyone can read, only admin can write)
+    match /invites/{email} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Rules for API Lock system
+    match /system/apifetch {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+
+    // Rules for Tournament/Knockout stage
+    match /torneio/matamata {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}
