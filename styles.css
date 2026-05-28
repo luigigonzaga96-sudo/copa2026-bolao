@@ -547,11 +547,15 @@ main {
 
 .leaderboard__info {
   flex: 1;
+  min-width: 0;
 }
 
 .leaderboard__name {
   font-weight: 600;
   font-size: .85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .leaderboard__unit-tag {
@@ -561,6 +565,16 @@ main {
   padding: 1px 7px;
   border-radius: 99px;
   margin-top: 3px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard__points-col {
+  text-align: right;
+  flex-shrink: 0;
+  min-width: 55px;
 }
 
 .leaderboard__points {
@@ -1873,5 +1887,9 @@ select option {
 
   .header__inner {
     padding: 8px 10px;
+  }
+
+  .leaderboard__name {
+    font-size: .76rem;
   }
 }

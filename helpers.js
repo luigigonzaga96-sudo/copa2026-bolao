@@ -51,6 +51,11 @@ export function pSt(mid, PRD, RES) {
 
 export const RI = i => i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
 export const RC = i => i === 0 ? "leaderboard__rank--gold" : i === 1 ? "leaderboard__rank--silver" : i === 2 ? "leaderboard__rank--bronze" : "";
+export function fmtName(name) {
+  if (!name) return "";
+  const parts = name.trim().split(/\s+/);
+  return parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1]}` : name;
+}
 
 // FLAG MAP
 export function TN(key) {

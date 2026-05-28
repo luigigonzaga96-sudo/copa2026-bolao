@@ -1,5 +1,5 @@
 import { UNITS } from "./units.js";
-import { $, RI, RC } from "./helpers.js";
+import { $, RI, RC, fmtName } from "./helpers.js";
 import { state } from "./state.js";
 import { getTranslation } from "./i18n.js";
 
@@ -12,7 +12,7 @@ export function renderLBG() {
   el.innerHTML = s.map((u, i) => {
     const me = state.ME && u.uid === state.ME.uid; const u2 = UNITS[u.unit];
     const youText = getTranslation("user_you").toLowerCase();
-    return `<div class="leaderboard__row${me ? " leaderboard__row--me" : ""}"><div class="leaderboard__rank ${RC(i)}">${RI(i)}</div><div class="leaderboard__avatar">${u.emoji || "⚽"}</div><div class="leaderboard__info"><div class="leaderboard__name">${u.name}${me ? ` <span style="color:var(--gold);font-size:.68rem">(${youText})</span>` : ""}</div>${u2 ? `<div class="leaderboard__unit-tag" style="background:${u2.bg};color:${u2.text}">${u2.label}</div>` : ""}</div><div style="text-align:right"><div class="leaderboard__points">${u.pts || 0}</div><div class="leaderboard__points-label">${getTranslation("pts_label")}</div></div></div>`;
+    return `<div class="leaderboard__row${me ? " leaderboard__row--me" : ""}"><div class="leaderboard__rank ${RC(i)}">${RI(i)}</div><div class="leaderboard__avatar">${u.emoji || "⚽"}</div><div class="leaderboard__info"><div class="leaderboard__name" title="${u.name}">${fmtName(u.name)}${me ? ` <span style="color:var(--gold);font-size:.68rem">(${youText})</span>` : ""}</div>${u2 ? `<div class="leaderboard__unit-tag" style="background:${u2.bg};color:${u2.text}">${u2.label}</div>` : ""}</div><div class="leaderboard__points-col"><div class="leaderboard__points">${u.pts || 0}</div><div class="leaderboard__points-label">${getTranslation("pts_label")}</div></div></div>`;
   }).join("");
 }
 
@@ -26,7 +26,7 @@ export function renderLBU() {
   el.innerHTML = arr.map((x, i) => {
     const bw = Math.round((x.avg / mx) * 100);
     const personWord = x.count === 1 ? getTranslation("lb_person") : getTranslation("lb_people");
-    return `<div class="leaderboard__row" style="border-left:3px solid ${x.u?.color || "#888"}"><div class="leaderboard__rank ${RC(i)}">${RI(i)}</div><div style="flex:1"><div style="font-weight:700;font-size:.88rem;margin-bottom:4px">${x.u?.label || x.k} <span style="font-size:.65rem;color:var(--muted)">${x.count} ${personWord}</span></div><div class="leaderboard__bar-bg"><div class="leaderboard__bar" style="width:${bw}%;background:${x.u?.color || "#888"}"></div></div></div><div style="text-align:right;margin-left:11px"><div class="leaderboard__points" style="font-size:1.3rem">${Math.round(x.avg)}</div><div class="leaderboard__points-label">${getTranslation("lb_avg")}</div><div style="font-size:.6rem;color:var(--muted);margin-top:1px">${x.total} ${getTranslation("lb_total_pts")}</div></div></div>`;
+    return `<div class="leaderboard__row" style="border-left:3px solid ${x.u?.color || "#888"}"><div class="leaderboard__rank ${RC(i)}">${RI(i)}</div><div class="leaderboard__info"><div style="font-weight:700;font-size:.88rem;margin-bottom:4px">${x.u?.label || x.k} <span style="font-size:.65rem;color:var(--muted)">${x.count} ${personWord}</span></div><div class="leaderboard__bar-bg"><div class="leaderboard__bar" style="width:${bw}%;background:${x.u?.color || "#888"}"></div></div></div><div class="leaderboard__points-col"><div class="leaderboard__points" style="font-size:1.3rem">${Math.round(x.avg)}</div><div class="leaderboard__points-label">${getTranslation("lb_avg")}</div><div style="font-size:.6rem;color:var(--muted);margin-top:1px">${x.total} ${getTranslation("lb_total_pts")}</div></div></div>`;
   }).join("");
 }
 
@@ -39,7 +39,7 @@ window.showUR = function (k, btn) {
   el.innerHTML = pl.map((u2, i) => {
     const me = state.ME && u2.uid === state.ME.uid;
     const youText = getTranslation("user_you").toLowerCase();
-    return `<div class="leaderboard__row${me ? " leaderboard__row--me" : ""}"><div class="leaderboard__rank ${RC(i)}">${RI(i)}</div><div class="leaderboard__avatar">${u2.emoji || "⚽"}</div><div class="leaderboard__info"><div class="leaderboard__name">${u2.name}${me ? ` <span style="color:var(--gold);font-size:.68rem">(${youText})</span>` : ""}</div></div><div style="text-align:right"><div class="leaderboard__points">${u2.pts || 0}</div><div class="leaderboard__points-label">${getTranslation("pts_label")}</div></div></div>`;
+    return `<div class="leaderboard__row${me ? " leaderboard__row--me" : ""}"><div class="leaderboard__rank ${RC(i)}">${RI(i)}</div><div class="leaderboard__avatar">${u2.emoji || "⚽"}</div><div class="leaderboard__info"><div class="leaderboard__name" title="${u2.name}">${fmtName(u2.name)}${me ? ` <span style="color:var(--gold);font-size:.68rem">(${youText})</span>` : ""}</div></div><div class="leaderboard__points-col"><div class="leaderboard__points">${u2.pts || 0}</div><div class="leaderboard__points-label">${getTranslation("pts_label")}</div></div></div>`;
   }).join("");
 };
 
