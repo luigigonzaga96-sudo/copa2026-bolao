@@ -20,7 +20,7 @@ export function renderAL() {
   el.innerHTML = `
     <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
       <input class="score-input" style="flex:1;text-align:left;padding:8px;font-size:0.75rem" id="new-admin-email" placeholder="novo.admin@db1.com.br">
-      <button class="btn btn--sm" style="padding:8px 12px" onclick="addAdmin()">Adicionar</button>
+      <button class="btn btn--sm" style="padding:8px 12px" data-onclick="addAdmin">Adicionar</button>
     </div>
     <div style="display:flex;flex-direction:column;gap:6px">
       ${allAdmins.map(e => {
@@ -28,7 +28,7 @@ export function renderAL() {
         const escapedE = escapeHTML(e);
         const deleteBtn = isBootstrap 
           ? `<span class="admin-pill" style="background:var(--border);color:var(--muted);font-size:0.55rem;padding:3px 6px">BOOTSTRAP</span>`
-          : `<button class="btn--danger" style="width:26px;height:26px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;border-radius:4px" onclick="deleteAdmin('${escapedE}')" title="Remover Admin">✕</button>`;
+          : `<button class="btn--danger" style="width:26px;height:26px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;border-radius:4px" data-onclick="deleteAdmin" data-args='["${escapedE}"]' title="Remover Admin">✕</button>`;
         return `
           <div class="card" style="padding:10px;margin-bottom:2px;background:rgba(255,255,255,0.01);max-width:100%">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
@@ -220,11 +220,11 @@ export function renderAM() {
           <!-- Right: Action Buttons -->
           <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;width:110px;flex-shrink:0">
             ${scoreDefined ? `
-              <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="AC(${m.id})" title="${getTranslation("adm_clear_score")}">✕</button>
+              <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" data-onclick="AC" data-args='[${m.id}]' title="${getTranslation("adm_clear_score")}">✕</button>
             ` : `
-              <button class="btn btn--sm" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="AS(${m.id})" title="${getTranslation("btn_save")}">💾</button>
-              <button class="btn btn--sm btn--outline" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px;border-color:var(--border)" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">✏️</button>
-              <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="deleteMatch(${m.id})" title="Remover Partida">🗑</button>
+              <button class="btn btn--sm" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" data-onclick="AS" data-args='[${m.id}]' title="${getTranslation("btn_save")}">💾</button>
+              <button class="btn btn--sm btn--outline" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px;border-color:var(--border)" data-onclick="showMatchForm" data-args='[${m.id}]' title="${getTranslation("profile_btn_edit")}">✏️</button>
+              <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" data-onclick="deleteMatch" data-args='[${m.id}]' title="Remover Partida">🗑</button>
             `}
           </div>
         </div>
@@ -389,7 +389,7 @@ window.importMatchesFromAPI = async () => {
 
   window.SM(confirmMsg, async () => {
     try {
-      const btn = document.querySelector('button[onclick="importMatchesFromAPI()"]');
+      const btn = document.querySelector('button[data-onclick="importMatchesFromAPI"]');
       let originalText = "";
       if (btn) {
         originalText = btn.innerHTML;
@@ -431,7 +431,7 @@ window.importMatchesFromAPI = async () => {
         window.location.reload();
       });
     } catch (e) {
-      const btn = document.querySelector('button[onclick="importMatchesFromAPI()"]');
+      const btn = document.querySelector('button[data-onclick="importMatchesFromAPI"]');
       if (btn) {
         btn.disabled = false;
         btn.innerHTML = "🌐 Importar da API";
@@ -454,8 +454,8 @@ export function renderBusinessUnitsList() {
             <span style="font-size:0.7rem;color:var(--muted)">ID: ${id}</span>
           </div>
           <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;width:80px;flex-shrink:0">
-            <button class="btn btn--sm btn--outline" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px;border-color:var(--border)" onclick="showBUForm('${id}')" title="Editar">✏️</button>
-            <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="deleteBU('${id}')" title="Remover">🗑</button>
+            <button class="btn btn--sm btn--outline" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px;border-color:var(--border)" data-onclick="showBUForm" data-args='["${id}"]' title="Editar">✏️</button>
+            <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" data-onclick="deleteBU" data-args='["${id}"]' title="Remover">🗑</button>
           </div>
         </div>
       </div>

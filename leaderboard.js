@@ -98,7 +98,7 @@ export function renderLBU() {
 
     return `<div class="leaderboard__unit-accordion" style="border-left:3px solid ${x.u?.color || "#888"};border-radius:6px;margin-bottom:2px;overflow:hidden">
       <button class="leaderboard__row leaderboard__unit-header" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;padding:0"
-        onclick="toggleUnitAccordion('${accordionId}')" aria-expanded="false" aria-controls="${accordionId}">
+        data-onclick="toggleUnitAccordion" data-args='["${accordionId}"]' aria-expanded="false" aria-controls="${accordionId}">
         <div class="leaderboard__rank ${RC(i)}">${RI(i)}</div>
         <div class="leaderboard__info" style="flex:1">
           <div style="font-weight:700;font-size:.88rem;margin-bottom:3px;display:flex;align-items:center;flex-wrap:wrap;gap:2px">

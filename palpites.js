@@ -107,7 +107,7 @@ export function cardUnifiedMatch(m) {
       `</div>`;
   } else if (!state.ME) {
     if (op) {
-      predHtml = `<div style="font-size:0.75rem;color:var(--muted)">🔒 <a onclick="GT('conta')" style="color:var(--gold);cursor:pointer;text-decoration:underline">${getTranslation("pred_login_link")}</a>${getTranslation("pred_login_text")}</div>`;
+      predHtml = `<div style="font-size:0.75rem;color:var(--muted)">🔒 <a data-onclick="GT" data-args='["conta"]' style="color:var(--gold);cursor:pointer;text-decoration:underline">${getTranslation("pred_login_link")}</a>${getTranslation("pred_login_text")}</div>`;
     } else {
       predHtml = `<div style="font-size:0.75rem;color:var(--red);font-weight:600">${getTranslation("pred_closed")}</div>`;
     }
@@ -120,7 +120,7 @@ export function cardUnifiedMatch(m) {
       `<input class="score-input" type="number" min="0" max="20" id="ph${m.id}" value="${pv}" placeholder="0"> ` + 
       `<span style="color:var(--muted)">×</span> ` + 
       `<input class="score-input" type="number" min="0" max="20" id="pa${m.id}" value="${pa2}" placeholder="0"> ` + 
-      `<button class="btn btn--sm" onclick="SP(${m.id})">${btnText}</button>` + 
+      `<button class="btn btn--sm" data-onclick="SP" data-args='[${m.id}]'>${btnText}</button>` + 
       `</div>`;
   } else {
     const userPred = pred 
@@ -194,7 +194,7 @@ export function renderUnifiedMatches(filter = "todos") {
     const p = pts(state.PRD, state.RES);
     html += '<div class="alert alert--info alert--full-width" style="margin-bottom:16px">' + getTranslation("pred_your_pts") + '<strong style="color:var(--gold);font-size:1rem"> ' + p + ' pts</strong>' + getTranslation("pred_your_pts_end") + '</div>';
   } else {
-    html += '<div class="alert alert--info alert--full-width" style="margin-bottom:16px">' + getTranslation("pred_not_logged") + '<a onclick="GT(\'conta\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">' + getTranslation("pred_login_account_link") + '</a>' + getTranslation("pred_not_logged_text") + '</div>';
+    html += '<div class="alert alert--info alert--full-width" style="margin-bottom:16px">' + getTranslation("pred_not_logged") + '<a data-onclick="GT" data-args=\'["conta"]\' style="color:var(--gold);cursor:pointer;text-decoration:underline">' + getTranslation("pred_login_account_link") + '</a>' + getTranslation("pred_not_logged_text") + '</div>';
   }
 
   if (list.length === 0) {
@@ -232,7 +232,7 @@ window.SP = async (mid) => {
   const h = parseInt($(`ph${mid}`)?.value), a = parseInt($(`pa${mid}`)?.value);
   if (isNaN(h) || isNaN(a) || h < 0 || a < 0) { alert(getTranslation("alert_invalid_score")); return; }
   
-  const btn = document.querySelector(`button[onclick="SP(${mid})"]`);
+  const btn = document.querySelector(`button[data-onclick="SP"][data-args='[${mid}]']`);
   if (btn) { btn.classList.add("btn--loading"); btn.disabled = true; }
   
   try {

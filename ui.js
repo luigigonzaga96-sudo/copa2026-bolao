@@ -31,11 +31,11 @@ export function UH() {
     el.classList.add("is-logged-in");
     const initials = getInitials(state.ME.displayName, state.ME.email);
     const escapedInitials = escapeHTML(initials);
-    el.innerHTML = `<div class="header__avatar" onclick="GT('conta')">${escapedInitials}</div>`;
+    el.innerHTML = `<div class="header__avatar" data-onclick="GT" data-args='["conta"]'>${escapedInitials}</div>`;
     if (adm) { renderAR(); renderAL(); renderAS(); }
   } else {
     el.classList.remove("is-logged-in");
-    el.innerHTML = `<button class="btn btn--sm" onclick="GT('conta')">${getTranslation("btn_login")}</button>`;
+    el.innerHTML = `<button class="btn btn--sm" data-onclick="GT" data-args='["conta"]'>${getTranslation("btn_login")}</button>`;
   }
 }
 
@@ -45,14 +45,14 @@ export function renderConta() {
   if (state.ME) {
     if (!state.MU) {
       const escapedDisplayName = escapeHTML(state.ME.displayName || "");
-      el.innerHTML = `<div class="section-title">${getTranslation("profile_complete_title")}</div><div class="card" style="max-width:460px"><div id="aa"></div><div class="alert alert--info" style="margin-bottom:12px;font-size:.76rem">${getTranslation("profile_complete_info")}</div><div class="form-group"><label>${getTranslation("profile_display_name")}</label><input id="cp-name" type="text" placeholder="${getTranslation("profile_name_placeholder")}" value="${escapedDisplayName}"></div><div style="display:flex;gap:12px;margin-bottom:12px"><div class="form-group" style="flex:1;margin-bottom:0"><label>${getTranslation("profile_unit")}</label><select id="cp-unit"><option value="">${getTranslation("profile_select_unit")}</option>${Object.entries(UNITS).sort((a, b) => a[1].label.localeCompare(b[1].label)).map(([k, u]) => `<option value="${k}">${u.label}</option>`).join("")}</select></div><div class="form-group" style="width:125px;margin-bottom:0"><label>${getTranslation("profile_avatar")}</label><select id="cp-emoji"><option>⚽</option><option>🏆</option><option>🎯</option><option>🔥</option><option>💪</option><option>🦁</option><option>🦅</option><option>🐉</option><option>⚡</option><option>🌟</option><option>🐺</option><option>🦊</option><option>🇧🇷</option><option>🇦🇷</option><option>🏴󠁧󠁢󠁥󠁮󠁧󠁿</option><option>🇫🇷</option></select></div></div><button class="btn" style="width:100%" onclick="doCompleteProfile()">${getTranslation("profile_save_start")}</button><div style="text-align:center;margin-top:11px"><button class="btn--danger" style="width:100%" onclick="doLogout()">${getTranslation("profile_cancel_exit")}</button></div></div>`;
+      el.innerHTML = `<div class="section-title">${getTranslation("profile_complete_title")}</div><div class="card" style="max-width:460px"><div id="aa"></div><div class="alert alert--info" style="margin-bottom:12px;font-size:.76rem">${getTranslation("profile_complete_info")}</div><div class="form-group"><label>${getTranslation("profile_display_name")}</label><input id="cp-name" type="text" placeholder="${getTranslation("profile_name_placeholder")}" value="${escapedDisplayName}"></div><div style="display:flex;gap:12px;margin-bottom:12px"><div class="form-group" style="flex:1;margin-bottom:0"><label>${getTranslation("profile_unit")}</label><select id="cp-unit"><option value="">${getTranslation("profile_select_unit")}</option>${Object.entries(UNITS).sort((a, b) => a[1].label.localeCompare(b[1].label)).map(([k, u]) => `<option value="${k}">${u.label}</option>`).join("")}</select></div><div class="form-group" style="width:125px;margin-bottom:0"><label>${getTranslation("profile_avatar")}</label><select id="cp-emoji"><option>⚽</option><option>🏆</option><option>🎯</option><option>🔥</option><option>💪</option><option>🦁</option><option>🦅</option><option>🐉</option><option>⚡</option><option>🌟</option><option>🐺</option><option>🦊</option><option>🇧🇷</option><option>🇦🇷</option><option>🏴󠁧󠁢󠁥󠁮󠁧󠁿</option><option>🇫🇷</option></select></div></div><button class="btn" style="width:100%" data-onclick="doCompleteProfile">${getTranslation("profile_save_start")}</button><div style="text-align:center;margin-top:11px"><button class="btn--danger" style="width:100%" data-onclick="doLogout">${getTranslation("profile_cancel_exit")}</button></div></div>`;
       return;
     }
     const p = pts(state.PRD, state.RES), u = UNITS[state.MU];
     const escapedPhotoURL = escapeHTML(state.ME.photoURL || "⚽");
     const escapedDisplayName = escapeHTML(state.ME.displayName || getTranslation("user_you"));
     const escapedEmail = escapeHTML(state.ME.email || "");
-    el.innerHTML = `<div class="section-title">${getTranslation("profile_my_title")}</div><div class="card" style="max-width:460px"><div style="display:flex;align-items:center;gap:13px;margin-bottom:16px"><div class="leaderboard__avatar" style="width:52px;height:52px;font-size:1.7rem">${escapedPhotoURL}</div><div><div style="font-size:1.1rem;font-weight:700">${escapedDisplayName}</div><div style="color:var(--muted);font-size:.76rem">${escapedEmail}</div>${u ? `<div style="margin-top:4px">${UB(state.MU)}</div>` : ""}</div><div style="margin-left:auto;text-align:right"><div class="leaderboard__points">${p}</div><div class="leaderboard__points-label">${getTranslation("pts_label")}</div></div></div><div class="divider"></div><div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:13px"><button class="btn btn--outline btn--sm" onclick="showEditProfile()">${getTranslation("profile_btn_edit")}</button><button class="btn btn--outline btn--sm" onclick="GT('palpites')">${getTranslation("profile_btn_predictions")}</button><button class="btn--danger" onclick="doLogout()">${getTranslation("profile_btn_logout")}</button></div></div>`;
+    el.innerHTML = `<div class="section-title">${getTranslation("profile_my_title")}</div><div class="card" style="max-width:460px"><div style="display:flex;align-items:center;gap:13px;margin-bottom:16px"><div class="leaderboard__avatar" style="width:52px;height:52px;font-size:1.7rem">${escapedPhotoURL}</div><div><div style="font-size:1.1rem;font-weight:700">${escapedDisplayName}</div><div style="color:var(--muted);font-size:.76rem">${escapedEmail}</div>${u ? `<div style="margin-top:4px">${UB(state.MU)}</div>` : ""}</div><div style="margin-left:auto;text-align:right"><div class="leaderboard__points">${p}</div><div class="leaderboard__points-label">${getTranslation("pts_label")}</div></div></div><div class="divider"></div><div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:13px"><button class="btn btn--outline btn--sm" data-onclick="showEditProfile">${getTranslation("profile_btn_edit")}</button><button class="btn btn--outline btn--sm" data-onclick="GT" data-args='["palpites"]'>${getTranslation("profile_btn_predictions")}</button><button class="btn--danger" data-onclick="doLogout">${getTranslation("profile_btn_logout")}</button></div></div>`;
   } else { renderLogin(); }
 }
 
@@ -66,7 +66,7 @@ window.showEditProfile = () => {
   const escapedEmoji = escapeHTML(currentEmoji);
   const escapedUnit = escapeHTML(currentUnit);
 
-  el.innerHTML = `<div class="section-title">${getTranslation("profile_edit_title")}</div><div class="card" style="max-width:460px"><div id="aa"></div><div class="form-group"><label>${getTranslation("profile_display_name")}</label><input id="cp-name" type="text" placeholder="${getTranslation("profile_name_placeholder")}" value="${escapedName}"></div><div style="display:flex;gap:12px;margin-bottom:12px"><div class="form-group" style="flex:1;margin-bottom:0"><label>${getTranslation("profile_unit")}</label><select id="cp-unit"><option value="">${getTranslation("profile_select_unit")}</option>${Object.entries(UNITS).sort((a, b) => a[1].label.localeCompare(b[1].label)).map(([k, u]) => `<option value="${k}" ${escapedUnit === k ? "selected" : ""}>${u.label}</option>`).join("")}</select></div><div class="form-group" style="width:125px;margin-bottom:0"><label>${getTranslation("profile_avatar")}</label><select id="cp-emoji">${["⚽", "🏆", "🎯", "🔥", "💪", "🦁", "🦅", "🐉", "⚡", "🌟", "🐺", "🦊", "🇧🇷", "🇦🇷", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "🇫🇷"].map(emoji => `<option ${escapedEmoji === emoji ? "selected" : ""}>${emoji}</option>`).join("")}</select></div></div><button class="btn" style="width:100%" onclick="doCompleteProfile()">${getTranslation("profile_save_changes")}</button><div style="text-align:center;margin-top:11px"><button class="btn--danger" style="width:100%" onclick="renderConta()">${getTranslation("profile_cancel")}</button></div></div>`;
+  el.innerHTML = `<div class="section-title">${getTranslation("profile_edit_title")}</div><div class="card" style="max-width:460px"><div id="aa"></div><div class="form-group"><label>${getTranslation("profile_display_name")}</label><input id="cp-name" type="text" placeholder="${getTranslation("profile_name_placeholder")}" value="${escapedName}"></div><div style="display:flex;gap:12px;margin-bottom:12px"><div class="form-group" style="flex:1;margin-bottom:0"><label>${getTranslation("profile_unit")}</label><select id="cp-unit"><option value="">${getTranslation("profile_select_unit")}</option>${Object.entries(UNITS).sort((a, b) => a[1].label.localeCompare(b[1].label)).map(([k, u]) => `<option value="${k}" ${escapedUnit === k ? "selected" : ""}>${u.label}</option>`).join("")}</select></div><div class="form-group" style="width:125px;margin-bottom:0"><label>${getTranslation("profile_avatar")}</label><select id="cp-emoji">${["⚽", "🏆", "🎯", "🔥", "💪", "🦁", "🦅", "🐉", "⚡", "🌟", "🐺", "🦊", "🇧🇷", "🇦🇷", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "🇫🇷"].map(emoji => `<option ${escapedEmoji === emoji ? "selected" : ""}>${emoji}</option>`).join("")}</select></div></div><button class="btn" style="width:100%" data-onclick="doCompleteProfile">${getTranslation("profile_save_changes")}</button><div style="text-align:center;margin-top:11px"><button class="btn--danger" style="width:100%" data-onclick="renderConta">${getTranslation("profile_cancel")}</button></div></div>`;
 };
 
 export function renderLogin() {
@@ -78,7 +78,7 @@ export function renderLogin() {
       <div class="alert alert--info" style="margin-bottom:20px;font-size:.76rem;text-align:center">
         ${getTranslation("login_info")}
       </div>
-      <button class="btn btn--microsoft" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="doSSOLogin()">
+      <button class="btn btn--microsoft" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" data-onclick="doSSOLogin">
         <svg width="16" height="16" viewBox="0 0 23 23">
           <path fill="#f35325" d="M0 0h11v11H0z"/>
           <path fill="#81bc06" d="M12 0h11v11H12z"/>
@@ -92,6 +92,7 @@ export function renderLogin() {
 </div>`;
 }
 window.renderLogin = renderLogin;
+window.renderConta = renderConta;
 
 // MODAL
 export function SM(msg, onOk) {

@@ -294,3 +294,40 @@ if (moreBtn && moreDropdown) {
     moreDropdown.classList.remove("is-open");
   });
 }
+
+// ── Event Delegation Engine (OWASP CSP Compliant) ─────────────────────────────
+document.body.addEventListener("click", (e) => {
+  const target = e.target.closest("[data-onclick]");
+  if (!target) return;
+  
+  const action = target.getAttribute("data-onclick");
+  const argsStr = target.getAttribute("data-args");
+  
+  let args = [];
+  if (argsStr) {
+    try {
+      args = JSON.parse(argsStr);
+    } catch (err) {
+      args = [argsStr];
+    }
+  }
+  
+  if (typeof window[action] === "function") {
+    window[action](...args, target);
+  } else {
+    console.warn(`Action ${action} is not a function on window.`);
+  }
+});
+
+document.body.addEventListener("change", (e) => {
+  const target = e.target.closest("[data-onchange]");
+  if (!target) return;
+  
+  const action = target.getAttribute("data-onchange");
+  if (typeof window[action] === "function") {
+    window[action](e.target.value, target);
+  } else {
+    console.warn(`Action ${action} is not a function on window.`);
+  }
+});
+
