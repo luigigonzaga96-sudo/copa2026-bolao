@@ -1,6 +1,5 @@
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { MX } from "./matches.js";
-import { $, FL, TN, isOpen, lockLbl, pSt, pts, fmtDT } from "./helpers.js";
+import { $, FL, TN, isOpen, lockLbl, pSt, pts, fmtDT, parseKoDate } from "./helpers.js";
 import { state } from "./state.js";
 import { getTranslation } from "./i18n.js";
 
@@ -179,15 +178,15 @@ export function cardUnifiedMatch(m) {
 export function renderUnifiedMatches(filter = "todos") {
   const el = $("ml"); if (!el) return;
   
-  let list = [...MX];
+  let list = [...state.MX];
   if (filter === "teste") {
-    list = list.filter(m => m.test).sort((a, b) => new Date(a.ko) - new Date(b.ko));
+    list = list.filter(m => m.test).sort((a, b) => parseKoDate(a.ko) - parseKoDate(b.ko));
   } else {
     list = list.filter(m => !m.test);
     if (filter !== "todos") {
       list = list.filter(m => m.rod === filter);
     }
-    list.sort((a, b) => new Date(a.ko) - new Date(b.ko));
+    list.sort((a, b) => parseKoDate(a.ko) - parseKoDate(b.ko));
   }
 
   let html = "";
@@ -229,7 +228,7 @@ window.filterUnifiedMatches = function (filter, btn) {
 // Save Prediction Action
 window.SP = async (mid) => {
   if (!state.ME) { alert(getTranslation("alert_need_login")); return; }
-  const m = MX.find(x => x.id === mid); if (m && !isOpen(m)) { alert(getTranslation("alert_pred_closed")); return; }
+  const m = state.MX.find(x => x.id === mid); if (m && !isOpen(m)) { alert(getTranslation("alert_pred_closed")); return; }
   const h = parseInt($(`ph${mid}`)?.value), a = parseInt($(`pa${mid}`)?.value);
   if (isNaN(h) || isNaN(a) || h < 0 || a < 0) { alert(getTranslation("alert_invalid_score")); return; }
   
@@ -244,7 +243,11 @@ window.SP = async (mid) => {
     window.UH();
     renderUnifiedMatches(currentFilter);
   } catch (err) {
-    alert(getTranslation("alert_error_save") + err.message);
+    if (err.code === "permission-denied") {
+      alert(getTranslation("alert_pred_closed") || "Palpite encerrado no servidor! Tempo limite esgotado.");
+    } else {
+      alert(getTranslation("alert_error_save") + err.message);
+    }
   } finally {
     if (btn) { btn.classList.remove("btn--loading"); btn.disabled = false; }
   }

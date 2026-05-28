@@ -547,11 +547,15 @@ main {
 
 .leaderboard__info {
   flex: 1;
+  min-width: 0;
 }
 
 .leaderboard__name {
   font-weight: 600;
   font-size: .85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .leaderboard__unit-tag {
@@ -561,6 +565,16 @@ main {
   padding: 1px 7px;
   border-radius: 99px;
   margin-top: 3px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard__points-col {
+  text-align: right;
+  flex-shrink: 0;
+  min-width: 55px;
 }
 
 .leaderboard__points {
@@ -588,6 +602,28 @@ main {
 .leaderboard__bar {
   height: 5px;
   border-radius: 3px;
+}
+
+/* Accordion de Unidades */
+.leaderboard__unit-accordion {
+  overflow: hidden;
+}
+
+.leaderboard__unit-header {
+  color: var(--text);
+  transition: background .15s;
+}
+
+.leaderboard__unit-header:hover {
+  background: rgba(255,255,255,.03);
+}
+
+.leaderboard__row--member {
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 6px;
+  margin-bottom: 3px;
+  padding: 8px 12px;
 }
 
 /* ══════════════ UNIT FILTERS ══════════════ */
@@ -1019,69 +1055,7 @@ select option {
   flex-shrink: 0;
 }
 
-/* ══════════════ SECURITY GRID ══════════════ */
-.security-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 8px;
-  margin-bottom: 6px;
-}
 
-.security-card {
-  border-radius: 8px;
-  padding: 13px;
-  border: 1px solid;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.security-card--ok {
-  background: #0a1a0d;
-  border-color: #1d4a25;
-}
-
-.security-card--warning {
-  background: #1a1200;
-  border-color: #4a3500;
-}
-
-.security-card__icon {
-  font-size: 1.25rem;
-}
-
-.security-card__title {
-  font-weight: 700;
-  font-size: .82rem;
-}
-
-.security-card__description {
-  font-size: .72rem;
-  color: var(--muted);
-  line-height: 1.5;
-  flex: 1;
-}
-
-.security-card__tag {
-  font-size: .6rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 99px;
-  display: inline-block;
-  align-self: flex-start;
-  margin-top: 2px;
-}
-
-.security-card__tag--ok {
-  background: #0d2818;
-  color: #4ade80;
-}
-
-.security-card__tag--warning {
-  background: #2a1e00;
-  color: var(--gold);
-  border: 1px solid var(--gold);
-}
 
 /* ══════════════ ADMIN STATS ══════════════ */
 .admin-stats {
@@ -1873,5 +1847,9 @@ select option {
 
   .header__inner {
     padding: 8px 10px;
+  }
+
+  .leaderboard__name {
+    font-size: .76rem;
   }
 }

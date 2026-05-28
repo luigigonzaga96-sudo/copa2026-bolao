@@ -1,5 +1,4 @@
-import { MX } from "./matches.js";
-import { UNITS } from "./units.js";
+import { state, UNITS } from "./state.js";
 
 import { getTranslation } from "./i18n.js";
 
@@ -10,7 +9,7 @@ export function pts(preds, RES, includeTest = false) {
   let p = 0;
   for (const [mid, pred] of Object.entries(preds || {})) {
     const r = RES[mid]; if (!r || r.home === null) continue;
-    const m = MX.find(x => String(x.id) === String(mid));
+    const m = state.MX.find(x => String(x.id) === String(mid));
     if (m?.test && !includeTest) continue;
     if (pred.home === r.home && pred.away === r.away) { p += 5; continue; }
     if (sgn(pred.home - pred.away) === sgn(r.home - r.away)) p += 3;
@@ -20,7 +19,7 @@ export function pts(preds, RES, includeTest = false) {
 
 export function ptsRound(preds, roundName, RES) {
   let p = 0;
-  const mids = MX.filter(x => x.round === roundName).map(x => String(x.id));
+  const mids = state.MX.filter(x => x.round === roundName).map(x => String(x.id));
   for (const mid of mids) {
     const pred = preds[mid], r = RES[mid]; if (!pred || !r || r.home === null) continue;
     if (pred.home === r.home && pred.away === r.away) { p += 5; continue; }
@@ -28,11 +27,22 @@ export function ptsRound(preds, roundName, RES) {
   }
   return p;
 }
+export function parseKoDate(ko) {
+  if (!ko) return new Date(NaN);
+  if (ko instanceof Date) return ko;
+  if (ko && typeof ko.toDate === "function") return ko.toDate();
+  if (typeof ko === "string") {
+    const sliceStart = ko.includes("T") ? ko.indexOf("T") : 10;
+    const hasTz = /[Z+-]/.test(ko.slice(sliceStart));
+    return new Date(hasTz ? ko : ko + "Z");
+  }
+  return new Date(ko);
+}
 
-export const isOpen = m => Date.now() < new Date(m.ko).getTime() - 300000;
+export const isOpen = m => Date.now() < parseKoDate(m.ko).getTime() - 1800000;
 
 export function lockLbl(m) {
-  const d = new Date(m.ko).getTime() - 300000 - Date.now();
+  const d = parseKoDate(m.ko).getTime() - 1800000 - Date.now();
   if (d <= 0) return null;
   const h = Math.floor(d / 3600000), mn = Math.floor((d % 3600000) / 60000);
   if (h > 24) return `${getTranslation("helper_closes_in")}${Math.floor(d / 86400000)}d`;
@@ -51,6 +61,11 @@ export function pSt(mid, PRD, RES) {
 
 export const RI = i => i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
 export const RC = i => i === 0 ? "leaderboard__rank--gold" : i === 1 ? "leaderboard__rank--silver" : i === 2 ? "leaderboard__rank--bronze" : "";
+export function fmtName(name) {
+  if (!name) return "";
+  const parts = name.trim().split(/\s+/);
+  return parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1]}` : name;
+}
 
 // FLAG MAP
 export function TN(key) {
@@ -69,7 +84,13 @@ const _FM = {
   "france":"fr","senegal":"sn","iraq":"iq","norway":"no",
   "argentina":"ar","algeria":"dz","austria":"at","jordan":"jo",
   "portugal":"pt","dr_congo":"cd","uzbekistan":"uz","colombia":"co",
-  "england":"gb-eng","croatia":"hr","ghana":"gh","panama":"pa"
+  "england":"gb-eng","croatia":"hr","ghana":"gh","panama":"pa",
+  // Mapas adicionais para compatibilidade com nomes normalizados diretamente da API
+  "united_states_of_america":"us","united_states":"us","czech_republic":"cz","czechia":"cz",
+  "bosnia_and_herzegovina":"ba","bosnia_herzegovina":"ba","korea_republic":"kr","cabo_verde":"cv","cape_verde_islands":"cv",
+  "democratic_republic_of_the_congo":"cd","congo_dr":"cd",
+  "cote_d_ivoire":"ci","cote_divoire":"ci","cote_d'ivoire":"ci",
+  "turkiye":"tr","ir_iran":"ir"
 };
 
 export function FL(key) {
@@ -84,7 +105,7 @@ export function UB(k) {
 }
 
 export function fmtDT(ko) {
-  const d = new Date(ko);
+  const d = parseKoDate(ko);
   if (isNaN(d.getTime())) return { d: "", t: "" };
 
   const locale = navigator.language || "pt-BR";
@@ -104,4 +125,55 @@ export function fmtDT(ko) {
 }
 
 export const $ = id => document.getElementById(id);
+
+export function getEcosystemStyles(eco) {
+  const e = (eco || "").toUpperCase().trim();
+  if (e.includes("CHRISTIAN TECH")) {
+    return {
+      color: "#a855f7",
+      bg: "rgba(168,85,247,.15)",
+      text: "#c084fc",
+    };
+  }
+  if (e.includes("TECHFIN")) {
+    return {
+      color: "#10b981",
+      bg: "rgba(16,185,129,.15)",
+      text: "#34d399",
+    };
+  }
+  if (e.includes("DIGITAL TRANSFORMATION")) {
+    return {
+      color: "#3b82f6",
+      bg: "rgba(59,130,246,.15)",
+      text: "#60a5fa",
+    };
+  }
+  if (e.includes("E-COMMERCE")) {
+    return {
+      color: "#f47c20",
+      bg: "rgba(244,124,32,.15)",
+      text: "#f9a55c",
+    };
+  }
+  if (e.includes("HOLDING")) {
+    return {
+      color: "#06b6d4",
+      bg: "rgba(6,182,212,.15)",
+      text: "#67e8f9",
+    };
+  }
+  if (e.includes("DB1 LABS")) {
+    return {
+      color: "#ec4899",
+      bg: "rgba(236,72,153,.15)",
+      text: "#f472b6",
+    };
+  }
+  return {
+    color: "#94a3b8",
+    bg: "rgba(148,163,184,.15)",
+    text: "#cbd5e1",
+  };
+}
 

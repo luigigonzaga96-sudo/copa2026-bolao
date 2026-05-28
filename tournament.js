@@ -1,5 +1,4 @@
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { MX } from "./matches.js";
 import { $, TN, FL } from "./helpers.js";
 import { state } from "./state.js";
 import { getTranslation } from "./i18n.js";
@@ -9,7 +8,7 @@ export function initTournament(dbInstance) { db = dbInstance; }
 
 export function calcGrupo(g) {
   const times = {};
-  const jogos = MX.filter(m => m.g === g && !m.test);
+  const jogos = state.MX.filter(m => m.g === g && !m.test);
   jogos.forEach(m => {
     [m.h, m.a].forEach(t => { if (!times[t]) times[t] = { t, j: 0, v: 0, e: 0, d: 0, gp: 0, gc: 0, sg: 0, pts: 0 }; });
   });
