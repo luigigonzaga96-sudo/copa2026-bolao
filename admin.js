@@ -158,12 +158,12 @@ export function renderAM() {
           <!-- Right: Action Buttons -->
           <div style="display:flex;align-items:center;gap:6px">
             ${scoreDefined ? `
-              <button class="btn--danger" style="padding:4px 8px;font-size:0.75rem" onclick="AC(${m.id})" title="${getTranslation("adm_clear_score")}">${getTranslation("adm_clear_score")}</button>
-              <button class="btn btn--sm" style="padding:4px 8px;font-size:0.75rem" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">${getTranslation("profile_btn_edit")}</button>
+              <button class="btn--danger" style="padding:4px 8px;font-size:0.75rem" onclick="AC(${m.id})" title="${getTranslation("adm_clear_score")}">✕</button>
+              <button class="btn btn--sm" style="padding:4px 8px;font-size:0.75rem" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">✏️</button>
             ` : `
               <button class="btn btn--sm" style="padding:4px 8px;font-size:0.75rem" onclick="AS(${m.id})">${getTranslation("btn_save")}</button>
-              <button class="btn btn--sm btn--outline" style="padding:4px 8px;font-size:0.75rem;border-color:var(--border)" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">${getTranslation("profile_btn_edit")}</button>
-              <button class="btn--danger" style="padding:4px 8px;font-size:0.75rem" onclick="deleteMatch(${m.id})" title="Remover Partida">Remover</button>
+              <button class="btn btn--sm btn--outline" style="padding:4px 8px;font-size:0.75rem;border-color:var(--border)" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">✏️</button>
+              <button class="btn--danger" style="padding:4px 8px;font-size:0.75rem" onclick="deleteMatch(${m.id})" title="Remover Partida">🗑</button>
             `}
           </div>
         </div>
