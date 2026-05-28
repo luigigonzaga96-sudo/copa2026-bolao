@@ -156,14 +156,14 @@ export function renderAM() {
           </div>
           
           <!-- Right: Action Buttons -->
-          <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;width:140px;flex-shrink:0">
+          <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;width:110px;flex-shrink:0">
             ${scoreDefined ? `
-              <button class="btn--danger" style="padding:4px 8px;font-size:0.75rem" onclick="AC(${m.id})" title="${getTranslation("adm_clear_score")}">✕</button>
-              <button class="btn btn--sm" style="padding:4px 8px;font-size:0.75rem" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">✏️</button>
+              <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="AC(${m.id})" title="${getTranslation("adm_clear_score")}">✕</button>
+              <button class="btn btn--sm" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">✏️</button>
             ` : `
-              <button class="btn btn--sm" style="padding:4px 8px;font-size:0.75rem" onclick="AS(${m.id})" title="${getTranslation("btn_save")}">💾</button>
-              <button class="btn btn--sm btn--outline" style="padding:4px 8px;font-size:0.75rem;border-color:var(--border)" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">✏️</button>
-              <button class="btn--danger" style="padding:4px 8px;font-size:0.75rem" onclick="deleteMatch(${m.id})" title="Remover Partida">🗑</button>
+              <button class="btn btn--sm" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="AS(${m.id})" title="${getTranslation("btn_save")}">💾</button>
+              <button class="btn btn--sm btn--outline" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px;border-color:var(--border)" onclick="showMatchForm(${m.id})" title="${getTranslation("profile_btn_edit")}">✏️</button>
+              <button class="btn--danger" style="width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;border-radius:4px" onclick="deleteMatch(${m.id})" title="Remover Partida">🗑</button>
             `}
           </div>
         </div>
