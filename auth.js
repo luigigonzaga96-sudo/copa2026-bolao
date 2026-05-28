@@ -1,6 +1,5 @@
 import { signOut, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { ADMINS } from "./admins.js";
 import { $ } from "./helpers.js";
 import { state } from "./state.js";
 import { getTranslation } from "./i18n.js";
@@ -12,7 +11,11 @@ export function initAuth(authInstance, dbInstance) {
   db = dbInstance;
 }
 
-export const isAdm = e => ADMINS.includes((e || "").toLowerCase());
+export const isAdm = e => {
+  const email = (e || "").toLowerCase();
+  const bootstrapAdmins = ['luigi.gonzaga@db1.com.br', 'bruno.rossmann@db1.com.br', 'jocimar.huss@db1.com.br'];
+  return bootstrapAdmins.includes(email) || (state.ADMINS && state.ADMINS.includes(email));
+};
 
 function SA(msg, cls = "") {
   const el = $("aa");
