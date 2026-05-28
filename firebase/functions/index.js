@@ -3,10 +3,32 @@ const {onRequest} = require("firebase-functions/v2/https");
 const {onDocumentWritten} = require("firebase-functions/v2/firestore");
 const {initializeApp} = require("firebase-admin/app");
 const {getFirestore} = require("firebase-admin/firestore");
+const {getAuth} = require("firebase-admin/auth");
 
 // Inicializa o Firebase Admin SDK
 initializeApp();
 const db = getFirestore();
+const auth = getAuth();
+
+const bootstrapAdmins = [
+  "luigi.gonzaga@db1.com.br",
+  "bruno.rossmann@db1.com.br",
+  "jocimar.huss@db1.com.br",
+];
+
+/**
+ * Checks if email is in bootstrap list or admins collection.
+ * @param {string} email User email.
+ * @return {Promise<boolean>} Resolves to true if admin.
+ */
+async function isEmailAdmin(email) {
+  if (!email) return false;
+  const e = email.toLowerCase();
+  if (bootstrapAdmins.includes(e)) return true;
+  const docRef = db.collection("admins").doc(e);
+  const docSnap = await docRef.get();
+  return docSnap.exists;
+}
 
 // ID da Competição na API (Ex: WC para World Cup.
 // Confirme o ID atualizado na API)
@@ -209,6 +231,26 @@ exports.atualizarResultadosBolao = onSchedule("*/15 * * * *", async (event) => {
  * Firestore.
  */
 exports.popularMatchesManual = onRequest({cors: true}, async (req, res) => {
+  // Autenticação e Autorização (apenas admins)
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    res.status(401).json({error: "Unauthorized: Missing or invalid token"});
+    return;
+  }
+  const idToken = authHeader.split("Bearer ")[1];
+  try {
+    const decodedToken = await auth.verifyIdToken(idToken);
+    const email = decodedToken.email || decodedToken.upn;
+    const admin = await isEmailAdmin(email);
+    if (!admin) {
+      res.status(403).json({error: "Forbidden: Admin privileges required"});
+      return;
+    }
+  } catch (error) {
+    res.status(401).json({error: "Unauthorized: Invalid token"});
+    return;
+  }
+
   const apiKey = process.env.FOOTBALL_DATA_API_KEY;
 
   if (!apiKey) {

@@ -126,6 +126,20 @@ export function fmtDT(ko) {
 
 export const $ = id => document.getElementById(id);
 
+export function escapeHTML(str) {
+  if (!str) return "";
+  return String(str).replace(/[&<>"']/g, m => {
+    switch (m) {
+      case '&': return '&amp;';
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '"': return '&quot;';
+      case "'": return '&#39;';
+      default: return m;
+    }
+  });
+}
+
 export function getEcosystemStyles(eco) {
   const e = (eco || "").toUpperCase().trim();
   if (e.includes("CHRISTIAN TECH")) {

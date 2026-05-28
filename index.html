@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://flagcdn.com; connect-src 'self' https://*.googleapis.com https://*.firebaseapp.com https://*.cloudfunctions.net https://*.firebase.com https://*.googleapis.com/v1/projects/* https://www.gstatic.com;">
   <title data-i18n="app_title">WE ARE DB1 GROUP — Bolão Copa 2026</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Inter:wght@400;500;600;700&display=swap"
@@ -21,23 +22,23 @@
     <div class="header__inner">
       <div class="header__logo">WE ARE <span>DB1</span><small data-i18n="logo_sub">Bolão Copa 2026 · USA · CAN · MEX</small></div>
       <nav id="nav">
-        <button class="nav__btn nav__btn--ranking is-active" onclick="GT('ranking')" data-i18n="nav_ranking">🏆
+        <button class="nav__btn nav__btn--ranking is-active" data-onclick="GT" data-args='["ranking"]' data-i18n="nav_ranking">🏆
           Ranking</button>
-        <button class="nav__btn nav__btn--games" onclick="GT('jogos')" data-i18n="nav_games">⚽ Jogos</button>
+        <button class="nav__btn nav__btn--games" data-onclick="GT" data-args='["jogos"]' data-i18n="nav_games">⚽ Jogos</button>
         <div class="nav__dropdown">
           <button class="nav__btn nav__btn--more" id="nav-more-btn" data-i18n="nav_more">Mais</button>
           <div class="nav__dropdown-content" id="nav-more-dropdown">
-            <button class="nav__btn nav__btn--account" onclick="GT('conta')" data-i18n="nav_account">👤 Conta</button>
-            <button class="nav__btn nav__btn--faq" onclick="GT('duvidas')" data-i18n="nav_faq">❓ Dúvidas</button>
-            <button class="nav__btn nav__btn--history" onclick="GT('historico')" data-i18n="nav_history">📅
+            <button class="nav__btn nav__btn--account" data-onclick="GT" data-args='["conta"]' data-i18n="nav_account">👤 Conta</button>
+            <button class="nav__btn nav__btn--faq" data-onclick="GT" data-args='["duvidas"]' data-i18n="nav_faq">❓ Dúvidas</button>
+            <button class="nav__btn nav__btn--history" data-onclick="GT" data-args='["historico"]' data-i18n="nav_history">📅
               Histórico</button>
-            <button class="nav__btn nav__btn--admin" id="nav-adm" onclick="GT('admin')" data-i18n="nav_admin">⚙️
+            <button class="nav__btn nav__btn--admin" id="nav-adm" data-onclick="GT" data-args='["admin"]' data-i18n="nav_admin">⚙️
               Admin</button>
           </div>
         </div>
       </nav>
       <div id="us"></div>
-      <select id="lang-switcher" onchange="setLanguage(this.value)">
+      <select id="lang-switcher" data-onchange="setLanguage">
         <option value="pt-BR">🇧🇷</option>
         <option value="es">🇪🇸</option>
         <option value="en">🇺🇸</option>
@@ -106,11 +107,11 @@
       
       <!-- Barra de Filtros (Pills) -->
       <div class="filter-bar" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
-        <button class="filter-btn is-active" onclick="filterUnifiedMatches('todos', this)" data-i18n="filter_all">Todos</button>
-        <button class="filter-btn" onclick="filterUnifiedMatches('R1', this)" data-i18n="filter_r1">Rodada 1</button>
-        <button class="filter-btn" onclick="filterUnifiedMatches('R2', this)" data-i18n="filter_r2">Rodada 2</button>
-        <button class="filter-btn" onclick="filterUnifiedMatches('R3', this)" data-i18n="filter_r3">Rodada 3</button>
-        <button class="filter-btn" onclick="filterUnifiedMatches('teste', this)" data-i18n="filter_test">Testes</button>
+        <button class="filter-btn is-active" data-onclick="filterUnifiedMatches" data-args='["todos"]' data-i18n="filter_all">Todos</button>
+        <button class="filter-btn" data-onclick="filterUnifiedMatches" data-args='["R1"]' data-i18n="filter_r1">Rodada 1</button>
+        <button class="filter-btn" data-onclick="filterUnifiedMatches" data-args='["R2"]' data-i18n="filter_r2">Rodada 2</button>
+        <button class="filter-btn" data-onclick="filterUnifiedMatches" data-args='["R3"]' data-i18n="filter_r3">Rodada 3</button>
+        <button class="filter-btn" data-onclick="filterUnifiedMatches" data-args='["teste"]' data-i18n="filter_test">Testes</button>
       </div>
 
       <div id="ml" class="match-list-grid"></div>
@@ -135,39 +136,39 @@
     <div id="tab-duvidas" class="tab">
       <div class="section-title" data-i18n="faq_title">❓ Dúvidas Frequentes</div>
       <div class="faq-categories">
-        <button class="faq-categories__btn is-active" onclick="SF('p',this)" data-i18n="faq_btn_predictions">🎯
+        <button class="faq-categories__btn is-active" data-onclick="SF" data-args='["p"]' data-i18n="faq_btn_predictions">🎯
           Palpites</button>
-        <button class="faq-categories__btn" onclick="SF('r',this)" data-i18n="faq_btn_rules">📋 Regras</button>
-        <button class="faq-categories__btn" onclick="SF('s',this)" data-i18n="faq_btn_security">🔐 Segurança</button>
+        <button class="faq-categories__btn" data-onclick="SF" data-args='["r"]' data-i18n="faq_btn_rules">📋 Regras</button>
+        <button class="faq-categories__btn" data-onclick="SF" data-args='["s"]' data-i18n="faq_btn_security">🔐 Segurança</button>
       </div>
       <div id="fp" class="faq-section faq-section--active">
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_p_q1">Posso palpitar depois do jogo
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_p_q1">Posso palpitar depois do jogo
               começar?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_p_a1">Não. O sistema bloqueia automaticamente <strong>30 minutos
               antes do kickoff</strong>. Faça seu palpite com antecedência!</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_p_q2">Posso mudar meu palpite depois
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_p_q2">Posso mudar meu palpite depois
               de salvar?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_p_a2">Sim! Quantas vezes quiser, até 30 min antes do jogo. O
             <strong>último palpite salvo</strong> é o que vale.
           </div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_p_q3">Posso usar IA para escolher meu
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_p_q3">Posso usar IA para escolher meu
               palpite?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_p_a3">Pode! Mas IA não prevê o futuro — só analisa probabilidades
             históricas. Faz parte da estratégia 😄</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_p_q4">Usei celular e PC — qual palpite
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_p_q4">Usei celular e PC — qual palpite
               vale?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_p_a4">O <strong>último salvo</strong>, em qualquer dispositivo.
             Não é possível ter dois palpites diferentes por jogo.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_p_q5">Qual o horário para
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_p_q5">Qual o horário para
               palpitar?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_p_a5">A janela de palpites é das <strong>05:00h às
               12:30h</strong> todos os dias. Fora desse horário os palpites ficam bloqueados.<br><br>💡 <strong>Dica de
@@ -175,7 +176,7 @@
             — você pode alterar à vontade até às 12:30h. Assim nunca perde um jogo por falta de tempo!</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_p_q6">Posso alterar meu palpite depois
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_p_q6">Posso alterar meu palpite depois
               de salvar?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_p_a6">Sim! Quantas vezes quiser, <strong>desde que a janela
               esteja aberta</strong> (05:00h–12:30h). O último palpite salvo dentro da janela é o que vale.</div>
@@ -183,24 +184,24 @@
       </div>
       <div id="fr" class="faq-section">
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_r_q1">Como funciona a pontuação?</span> <span
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_r_q1">Como funciona a pontuação?</span> <span
               class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_r_a1"><strong>5 pontos</strong> — Placar exato 🎯<br><br><strong>3 pontos</strong> —
             Resultado certo (V/E/D) mas errou o placar<br><br><strong>0 pontos</strong> — Errou</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_r_q2">Como funciona o Ranking DB1 Group?</span> <span
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_r_q2">Como funciona o Ranking DB1 Group?</span> <span
               class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_r_a2">Compara unidades pela <strong>média de pontos por participante</strong>. Unidade
             com menos pessoas não leva desvantagem.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_r_q3">Como os resultados são atualizados?</span> <span
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_r_q3">Como os resultados são atualizados?</span> <span
               class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_r_a3">Automaticamente via API: <strong>de 1 em 1 hora</strong>. O admin pode corrigir manualmente no painel caso necessário.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_r_q4">Quem pode participar?</span> <span class="faq-item__icon">+</span>
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_r_q4">Quem pode participar?</span> <span class="faq-item__icon">+</span>
           </div>
           <div class="faq-item__answer" data-i18n="faq_r_a4">Acesso <strong>exclusivo para colaboradores DB1</strong>. Apenas contas com e-mail corporativo DB1 conseguem acessar o sistema.</div>
         </div>
@@ -208,19 +209,19 @@
       <div id="fs" class="faq-section">
 
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_s_q1">Meus dados estão seguros?</span>
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_s_q1">Meus dados estão seguros?</span>
             <span class="faq-item__icon">+</span>
           </div>
           <div class="faq-item__answer" data-i18n="faq_s_a1">Sim. Dados ficam no Firebase (Google). Só você vê seus
             palpites antes do jogo. Nenhum dado financeiro é coletado.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_s_q2">Alguém de fora pode ver os
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_s_q2">Alguém de fora pode ver os
               dados?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_s_a2">Somente a classificação geral e os dados básicos (como nome e unidade) são visíveis para os participantes do bolão, mas nenhum dado sensível é exposto ou visível de fora.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-item__question" onclick="TF(this)"><span data-i18n="faq_s_q4">Preciso me preocupar com
+          <div class="faq-item__question" data-onclick="TF"><span data-i18n="faq_s_q4">Preciso me preocupar com
               LGPD?</span> <span class="faq-item__icon">+</span></div>
           <div class="faq-item__answer" data-i18n="faq_s_a4">Como o login da empresa é utilizado, nenhuma informação sensível é gravada ou armazenada no aplicativo.</div>
         </div>
@@ -244,9 +245,9 @@
       <div class="card" style="max-width:100%">
         <div class="alert alert--info" style="margin-bottom:12px;font-size:.76rem" data-i18n="adm_matches_info">Adicione, edite ou remova partidas diretamente no banco de dados.</div>
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-          <button class="btn btn--sm" onclick="showMatchForm()"><span data-i18n="adm_btn_new_match">➕ Nova Partida</span></button>
-          <button class="btn btn--outline btn--sm" onclick="confirmResetMatches()"><span data-i18n="adm_btn_reset_matches">🔄 Restaurar Padrão</span></button>
-          <button class="btn btn--outline btn--sm" onclick="importMatchesFromAPI()"><span data-i18n="adm_btn_import_api">🌐 Importar da API</span></button>
+          <button class="btn btn--sm" data-onclick="showMatchForm"><span data-i18n="adm_btn_new_match">➕ Nova Partida</span></button>
+          <button class="btn btn--outline btn--sm" data-onclick="confirmResetMatches"><span data-i18n="adm_btn_reset_matches">🔄 Restaurar Padrão</span></button>
+          <button class="btn btn--outline btn--sm" data-onclick="importMatchesFromAPI"><span data-i18n="adm_btn_import_api">🌐 Importar da API</span></button>
         </div>
 
         <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;background:rgba(255,255,255,0.01);padding:10px;border-radius:6px;border:1px solid var(--border)">
@@ -254,7 +255,7 @@
             <label style="font-size:0.7rem;color:var(--muted);display:block;margin-bottom:4px">URL de Importação (Cloud Function)</label>
             <input class="score-input" style="width:100%;text-align:left;padding:6px;font-size:0.75rem" id="mf-api-url" placeholder="https://...">
           </div>
-          <button class="btn btn--sm" style="margin-top:16px;padding:6px 12px" onclick="saveApiUrl()">Salvar URL</button>
+          <button class="btn btn--sm" style="margin-top:16px;padding:6px 12px" data-onclick="saveApiUrl">Salvar URL</button>
         </div>
         <!-- Formulário de Partida (oculto por padrão) -->
         <div id="match-form-container" class="card" style="display:none;margin-bottom:14px;background:rgba(255,255,255,0.02);border:1px solid var(--border)">
@@ -295,8 +296,8 @@
             </div>
           </div>
           <div style="display:flex;gap:8px;margin-top:12px">
-            <button class="btn btn--sm" onclick="saveMatch()">Salvar</button>
-            <button class="btn btn--outline btn--sm" onclick="hideMatchForm()">Cancelar</button>
+            <button class="btn btn--sm" data-onclick="saveMatch">Salvar</button>
+            <button class="btn btn--outline btn--sm" data-onclick="hideMatchForm">Cancelar</button>
           </div>
         </div>
         
@@ -310,14 +311,14 @@
       <div class="card" style="max-width:100%">
         <div class="alert alert--info" style="margin-bottom:12px;font-size:.76rem" data-i18n="adm_knockout_info">Preencha os confrontos quando a fase de grupos terminar. Salve fase por fase.</div>
         <div id="mm-admin"></div>
-        <button class="btn btn--sm" style="margin-top:10px" onclick="saveMM()" data-i18n="btn_save_knockout">💾 Salvar Mata-Mata</button>
+        <button class="btn btn--sm" style="margin-top:10px" data-onclick="saveMM" data-i18n="btn_save_knockout">💾 Salvar Mata-Mata</button>
       </div>
       <div class="section-title" style="margin-top:26px">👥 Unidades de Negócio</div>
       <div class="card" style="max-width:100%">
         <div class="alert alert--info" style="margin-bottom:12px;font-size:.76rem">Adicione, edite ou remova unidades de negócio da organização. Os ecossistemas definem as cores dos crachás de forma automática.</div>
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-          <button class="btn btn--sm" onclick="showBUForm()">➕ Nova Unidade</button>
-          <button class="btn btn--outline btn--sm" onclick="seedDefaultBusinessUnits()">🌱 Popular Dados Padrão</button>
+          <button class="btn btn--sm" data-onclick="showBUForm">➕ Nova Unidade</button>
+          <button class="btn btn--outline btn--sm" data-onclick="seedDefaultBusinessUnits">🌱 Popular Dados Padrão</button>
         </div>
 
         <!-- Formulário de Unidade de Negócio (oculto por padrão) -->
@@ -343,8 +344,8 @@
             </div>
           </div>
           <div style="display:flex;gap:8px;margin-top:12px">
-            <button class="btn btn--sm" onclick="saveBU()">Salvar</button>
-            <button class="btn btn--outline btn--sm" onclick="hideBUForm()">Cancelar</button>
+            <button class="btn btn--sm" data-onclick="saveBU">Salvar</button>
+            <button class="btn btn--outline btn--sm" data-onclick="hideBUForm">Cancelar</button>
           </div>
         </div>
 
@@ -368,25 +369,25 @@
       <div style="font-size:1.7rem;margin-bottom:9px">⚠️</div>
       <div id="mm" class="modal__message"></div>
       <div class="modal__actions"><button id="mok" class="btn" data-i18n="btn_confirm">Confirmar</button><button
-          class="btn btn--outline btn--sm" onclick="CM()" data-i18n="btn_cancel">Cancelar</button></div>
+          class="btn btn--outline btn--sm" data-onclick="CM" data-i18n="btn_cancel">Cancelar</button></div>
     </div>
   </div>
 
   <!-- BOTTOM NAVIGATION FOR MOBILE -->
   <nav class="bottom-nav">
-    <button class="bottom-nav__btn nav__btn nav__btn--ranking is-active" onclick="GT('ranking')">
+    <button class="bottom-nav__btn nav__btn nav__btn--ranking is-active" data-onclick="GT" data-args='["ranking"]'>
       <span class="bottom-nav__icon">🏆</span>
       <span class="bottom-nav__label" data-i18n="nav_ranking_label">Ranking</span>
     </button>
-    <button class="bottom-nav__btn nav__btn nav__btn--games" onclick="GT('jogos')">
+    <button class="bottom-nav__btn nav__btn nav__btn--games" data-onclick="GT" data-args='["jogos"]'>
       <span class="bottom-nav__icon">⚽</span>
       <span class="bottom-nav__label" data-i18n="nav_games_label">Jogos</span>
     </button>
-    <button class="bottom-nav__btn nav__btn nav__btn--account" onclick="GT('conta')">
+    <button class="bottom-nav__btn nav__btn nav__btn--account" data-onclick="GT" data-args='["conta"]'>
       <span class="bottom-nav__icon">👤</span>
       <span class="bottom-nav__label" data-i18n="nav_account_label">Conta</span>
     </button>
-    <button class="bottom-nav__btn" id="mobile-menu-btn" onclick="toggleMobileDrawer()">
+    <button class="bottom-nav__btn" id="mobile-menu-btn" data-onclick="toggleMobileDrawer">
       <span class="bottom-nav__icon">☰</span>
       <span class="bottom-nav__label" data-i18n="nav_menu_label">Mais</span>
     </button>
@@ -394,22 +395,22 @@
 
   <!-- MOBILE DRAWER MENU (SANDWICH) -->
   <div id="mobile-drawer" class="drawer">
-    <div class="drawer__overlay" onclick="toggleMobileDrawer(false)"></div>
+    <div class="drawer__overlay" data-onclick="toggleMobileDrawer" data-args='[false]'></div>
     <div class="drawer__content">
       <div class="drawer__header">
         <div class="drawer__title" data-i18n="nav_menu_label">Mais</div>
-        <button class="drawer__close" onclick="toggleMobileDrawer(false)">×</button>
+        <button class="drawer__close" data-onclick="toggleMobileDrawer" data-args='[false]'>×</button>
       </div>
       <div class="drawer__body">
-        <button class="drawer__btn nav__btn nav__btn--faq" onclick="selectDrawerOption('duvidas')">
+        <button class="drawer__btn nav__btn nav__btn--faq" data-onclick="selectDrawerOption" data-args='["duvidas"]'>
           <span class="drawer__btn-icon">❓</span>
           <span class="drawer__btn-text" data-i18n="nav_faq_label">Dúvidas</span>
         </button>
-        <button class="drawer__btn nav__btn nav__btn--history" onclick="selectDrawerOption('historico')">
+        <button class="drawer__btn nav__btn nav__btn--history" data-onclick="selectDrawerOption" data-args='["historico"]'>
           <span class="drawer__btn-icon">📅</span>
           <span class="drawer__btn-text" data-i18n="nav_history_label">Histórico</span>
         </button>
-        <button class="drawer__btn nav__btn nav__btn--admin drawer__btn--admin" id="drawer-nav-adm" onclick="selectDrawerOption('admin')">
+        <button class="drawer__btn nav__btn nav__btn--admin drawer__btn--admin" id="drawer-nav-adm" data-onclick="selectDrawerOption" data-args='["admin"]'>
           <span class="drawer__btn-icon">⚙️</span>
           <span class="drawer__btn-text" data-i18n="nav_admin_label">Admin</span>
         </button>

@@ -1,5 +1,5 @@
 import { UNITS } from "./state.js";
-import { $, RI, RC, fmtName } from "./helpers.js";
+import { $, RI, RC, fmtName, escapeHTML } from "./helpers.js";
 import { state } from "./state.js";
 import { getTranslation } from "./i18n.js";
 
@@ -17,11 +17,14 @@ export function renderLBG() {
     const me = state.ME && u.uid === state.ME.uid;
     const u2 = UNITS[u.unit];
     const youText = getTranslation("user_you").toLowerCase();
+    const escapedName = escapeHTML(u.name);
+    const escapedDisplayName = escapeHTML(fmtName(u.name));
+    const escapedEmoji = escapeHTML(u.emoji || "⚽");
     return `<div class="leaderboard__row${me ? " leaderboard__row--me" : ""}">
       <div class="leaderboard__rank ${RC(i)}">${RI(i)}</div>
-      <div class="leaderboard__avatar">${u.emoji || "⚽"}</div>
+      <div class="leaderboard__avatar">${escapedEmoji}</div>
       <div class="leaderboard__info">
-        <div class="leaderboard__name" title="${u.name}">${fmtName(u.name)}${me ? ` <span style="color:var(--gold);font-size:.68rem">(${youText})</span>` : ""}</div>
+        <div class="leaderboard__name" title="${escapedName}">${escapedDisplayName}${me ? ` <span style="color:var(--gold);font-size:.68rem">(${youText})</span>` : ""}</div>
         ${u2 ? `<div class="leaderboard__unit-tag" style="background:${u2.bg};color:${u2.text}">${u2.label}</div>` : ""}
       </div>
       <div class="leaderboard__points-col">
@@ -77,11 +80,14 @@ export function renderLBU() {
     const membersHtml = x.users.map((u2, j) => {
       const me = state.ME && u2.uid === state.ME.uid;
       const youText = getTranslation("user_you").toLowerCase();
+      const escapedName = escapeHTML(u2.name);
+      const escapedDisplayName = escapeHTML(fmtName(u2.name));
+      const escapedEmoji = escapeHTML(u2.emoji || "⚽");
       return `<div class="leaderboard__row leaderboard__row--member${me ? " leaderboard__row--me" : ""}">
         <div class="leaderboard__rank ${RC(j)}">${RI(j)}</div>
-        <div class="leaderboard__avatar" style="font-size:1rem">${u2.emoji || "⚽"}</div>
+        <div class="leaderboard__avatar" style="font-size:1rem">${escapedEmoji}</div>
         <div class="leaderboard__info">
-          <div class="leaderboard__name" title="${u2.name}" style="font-size:.82rem">${fmtName(u2.name)}${me ? ` <span style="color:var(--gold);font-size:.65rem">(${youText})</span>` : ""}</div>
+          <div class="leaderboard__name" title="${escapedName}" style="font-size:.82rem">${escapedDisplayName}${me ? ` <span style="color:var(--gold);font-size:.65rem">(${youText})</span>` : ""}</div>
         </div>
         <div class="leaderboard__points-col">
           <div class="leaderboard__points" style="font-size:1rem">${u2.pts || 0}</div>
@@ -92,7 +98,7 @@ export function renderLBU() {
 
     return `<div class="leaderboard__unit-accordion" style="border-left:3px solid ${x.u?.color || "#888"};border-radius:6px;margin-bottom:2px;overflow:hidden">
       <button class="leaderboard__row leaderboard__unit-header" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;padding:0"
-        onclick="toggleUnitAccordion('${accordionId}')" aria-expanded="false" aria-controls="${accordionId}">
+        data-onclick="toggleUnitAccordion" data-args='["${accordionId}"]' aria-expanded="false" aria-controls="${accordionId}">
         <div class="leaderboard__rank ${RC(i)}">${RI(i)}</div>
         <div class="leaderboard__info" style="flex:1">
           <div style="font-weight:700;font-size:.88rem;margin-bottom:3px;display:flex;align-items:center;flex-wrap:wrap;gap:2px">

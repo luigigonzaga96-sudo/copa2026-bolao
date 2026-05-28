@@ -83,3 +83,7 @@ window.doCompleteProfile = async () => {
   }
 };
 
+export async function getAuthToken() {
+  return auth && auth.currentUser ? await auth.currentUser.getIdToken() : null;
+}
+
