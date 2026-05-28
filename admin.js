@@ -1,5 +1,4 @@
 import { doc, setDoc, getDoc, getDocs, collection, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { ADMINS } from "./admins.js";
 import { $, TN, FL, isOpen, lockLbl, pts, fmtDT, parseKoDate } from "./helpers.js";
 import { state, UNITS } from "./state.js";
 import { getTranslation } from "./i18n.js";
@@ -14,8 +13,69 @@ export function renderAR() {
 
 export function renderAL() {
   const el = $("al"); if (!el) return;
-  el.innerHTML = ADMINS.map(e => `<div class="leaderboard__row" style="margin-bottom:5px"><div class="leaderboard__avatar" style="font-size:.9rem">⚙️</div><div class="leaderboard__info"><div class="leaderboard__name">${e}</div></div><span class="admin-pill">ADMIN</span></div>`).join("");
+  const bootstrapAdmins = ['luigi.gonzaga@db1.com.br', 'bruno.rossmann@db1.com.br', 'jocimar.huss@db1.com.br'];
+  const allAdmins = [...new Set([...bootstrapAdmins, ...state.ADMINS])];
+
+  el.innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+      <input class="score-input" style="flex:1;text-align:left;padding:8px;font-size:0.75rem" id="new-admin-email" placeholder="novo.admin@db1.com.br">
+      <button class="btn btn--sm" style="padding:8px 12px" onclick="addAdmin()">Adicionar</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      ${allAdmins.map(e => {
+        const isBootstrap = bootstrapAdmins.includes(e);
+        const deleteBtn = isBootstrap 
+          ? `<span class="admin-pill" style="background:var(--border);color:var(--muted);font-size:0.55rem;padding:3px 6px">BOOTSTRAP</span>`
+          : `<button class="btn--danger" style="width:26px;height:26px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;border-radius:4px" onclick="deleteAdmin('${e}')" title="Remover Admin">✕</button>`;
+        return `
+          <div class="card" style="padding:10px;margin-bottom:2px;background:rgba(255,255,255,0.01);max-width:100%">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+                <div class="leaderboard__avatar" style="font-size:.9rem;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0">⚙️</div>
+                <div class="leaderboard__name" style="font-size:0.8rem;text-overflow:ellipsis;overflow:hidden;white-space:nowrap" title="${e}">${e}</div>
+              </div>
+              <div style="flex-shrink:0">
+                ${deleteBtn}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
 }
+
+window.addAdmin = async () => {
+  const email = $("new-admin-email")?.value.trim().toLowerCase();
+  if (!email) { alert("Preencha o e-mail!"); return; }
+  if (!email.includes("@")) { alert("E-mail inválido!"); return; }
+  try {
+    await setDoc(doc(db, "admins", email), {
+      addedAt: serverTimestamp()
+    });
+    if ($("new-admin-email")) $("new-admin-email").value = "";
+    window.SM("Administrador adicionado com sucesso!", null);
+  } catch (e) {
+    alert("Erro ao adicionar admin: " + e.message);
+  }
+};
+
+window.deleteAdmin = async (email) => {
+  const bootstrapAdmins = ['luigi.gonzaga@db1.com.br', 'bruno.rossmann@db1.com.br', 'jocimar.huss@db1.com.br'];
+  if (bootstrapAdmins.includes(email.toLowerCase())) {
+    window.SM("Este administrador faz parte do bootstrap do sistema e não pode ser removido pelo painel.", null);
+    return;
+  }
+  
+  window.SM(`Deseja realmente remover o administrador "${email}"?`, async () => {
+    try {
+      await deleteDoc(doc(db, "admins", email));
+      window.SM("Administrador removido com sucesso!", null);
+    } catch (e) {
+      alert("Erro ao remover admin: " + e.message);
+    }
+  });
+};
 
 export function renderAS() {
   const el = $("as"); if (!el) return;

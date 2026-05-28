@@ -10,6 +10,7 @@ export const state = {
   USERS: [],
   INVS: [],
   MX: [], // Coleção de partidas dinâmica vinda do Firestore
+  ADMINS: [], // Lista de administradores dinâmica vinda do Firestore
 };
 
 /**

@@ -36,13 +36,30 @@ initTournament(db);
 initAdmin(db);
 
 // ── Firestore Listeners ───────────────────────────────────────────────────────
-let unsubResults = null, unsubUsers = null, unsubMatches = null, unsubBusinessUnits = null;
+let unsubResults = null, unsubUsers = null, unsubMatches = null, unsubBusinessUnits = null, unsubAdmins = null;
 
 function startListeners() {
   if (unsubResults) unsubResults();
   if (unsubUsers) unsubUsers();
   if (unsubMatches) unsubMatches();
   if (unsubBusinessUnits) unsubBusinessUnits();
+  if (unsubAdmins) unsubAdmins();
+
+  if (state.ME) {
+    unsubAdmins = onSnapshot(collection(db, "admins"), snap => {
+      state.ADMINS = [];
+      snap.forEach(d => {
+        state.ADMINS.push(d.id.toLowerCase());
+      });
+      UH();
+      if (isAdm(state.ME?.email)) {
+        renderAL();
+      }
+    }, err => console.warn("Erro listener admins:", err));
+  } else {
+    state.ADMINS = [];
+    UH();
+  }
 
   unsubMatches = onSnapshot(collection(db, "matches"), snap => {
     const loadedMatches = [];
@@ -158,8 +175,10 @@ function stopListeners() {
   if (unsubUsers) { unsubUsers(); unsubUsers = null; }
   if (unsubMatches) { unsubMatches(); unsubMatches = null; }
   if (unsubBusinessUnits) { unsubBusinessUnits(); unsubBusinessUnits = null; }
+  if (unsubAdmins) { unsubAdmins(); unsubAdmins = null; }
   state.RES = {};
   state.USERS = [];
+  state.ADMINS = [];
   renderMatches();
   renderLB();
 }
