@@ -1033,69 +1033,7 @@ select option {
   flex-shrink: 0;
 }
 
-/* ══════════════ SECURITY GRID ══════════════ */
-.security-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 8px;
-  margin-bottom: 6px;
-}
 
-.security-card {
-  border-radius: 8px;
-  padding: 13px;
-  border: 1px solid;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.security-card--ok {
-  background: #0a1a0d;
-  border-color: #1d4a25;
-}
-
-.security-card--warning {
-  background: #1a1200;
-  border-color: #4a3500;
-}
-
-.security-card__icon {
-  font-size: 1.25rem;
-}
-
-.security-card__title {
-  font-weight: 700;
-  font-size: .82rem;
-}
-
-.security-card__description {
-  font-size: .72rem;
-  color: var(--muted);
-  line-height: 1.5;
-  flex: 1;
-}
-
-.security-card__tag {
-  font-size: .6rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 99px;
-  display: inline-block;
-  align-self: flex-start;
-  margin-top: 2px;
-}
-
-.security-card__tag--ok {
-  background: #0d2818;
-  color: #4ade80;
-}
-
-.security-card__tag--warning {
-  background: #2a1e00;
-  color: var(--gold);
-  border: 1px solid var(--gold);
-}
 
 /* ══════════════ ADMIN STATS ══════════════ */
 .admin-stats {
