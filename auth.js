@@ -44,11 +44,25 @@ window.doSSOLogin = async () => {
     await signInWithPopup(auth, provider);
     window.GT("ranking");
   } catch (err) {
-    console.error(err);
+    console.error("Erro completo do Auth:", err);
+    let errorMsg = err.message;
+    if (err.customData) {
+      console.error("customData do erro:", err.customData);
+      if (err.customData.serverResponse) {
+        try {
+          const serverResp = typeof err.customData.serverResponse === 'string'
+            ? JSON.parse(err.customData.serverResponse)
+            : err.customData.serverResponse;
+          errorMsg += " | Detalhes: " + JSON.stringify(serverResp);
+        } catch (e) {
+          errorMsg += " | Detalhes: " + err.customData.serverResponse;
+        }
+      }
+    }
     if (err.code === "auth/popup-closed-by-user") {
       SA(getTranslation("auth_login_cancelled"), "ae");
     } else {
-      SA(getTranslation("auth_sso_error") + err.message, "ae");
+      SA(getTranslation("auth_sso_error") + errorMsg, "ae");
     }
   } finally {
     if (btn) { btn.classList.remove("btn--loading"); btn.disabled = false; }

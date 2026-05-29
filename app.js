@@ -187,20 +187,24 @@ function stopListeners() {
 onAuthStateChanged(auth, async u => {
   state.ME = u;
   if (u) {
-    const email = u.email ? u.email.toLowerCase() : "";
-    const s = await getDoc(doc(db, "users", u.uid));
-    
-    state.MU = s.exists() ? (s.data().unit || "") : "";
-    const sn = await getDocs(collection(db, "users", u.uid, "predictions"));
-    state.PRD = {};
-    sn.forEach(d => { state.PRD[d.id] = d.data(); });
-    
-    // Set initial user doc in Firestore (merging name/email/emoji, but NOT overwriting unit or pts)
-    await setDoc(doc(db, "users", u.uid), {
-      name: u.displayName || u.email,
-      email: email,
-      emoji: u.photoURL || "⚽"
-    }, { merge: true });
+    try {
+      const email = u.email ? u.email.toLowerCase() : "";
+      const s = await getDoc(doc(db, "users", u.uid));
+      
+      state.MU = s.exists() ? (s.data().unit || "") : "";
+      const sn = await getDocs(collection(db, "users", u.uid, "predictions"));
+      state.PRD = {};
+      sn.forEach(d => { state.PRD[d.id] = d.data(); });
+      
+      // Set initial user doc in Firestore (merging name/email/emoji, but NOT overwriting unit or pts)
+      await setDoc(doc(db, "users", u.uid), {
+        name: u.displayName || u.email,
+        email: email,
+        emoji: u.photoURL || "⚽"
+      }, { merge: true });
+    } catch (err) {
+      console.error("Erro ao carregar dados do usuário no Firestore:", err);
+    }
   } else {
     state.MU = "";
     state.PRD = {};
